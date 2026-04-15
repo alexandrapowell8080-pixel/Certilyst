@@ -524,3 +524,61 @@ a {
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: 150ms;
 }
+
+/* =========================================================================
+   MOBILE RESPONSIVE STYLES 
+   ========================================================================= */
+/* --- 1. Wrist Watches & Foldable Phones --- */
+@media (max-width: 380px) {
+    html {
+        font-size: 90%;
+    }
+    .flashcard-wrapper,
+    .flashcard-inner {
+        min-height: 250px;
+    }
+    .flashcard-face {
+        padding: 1.25rem;
+    }
+    .flashcard-back {
+        padding: 1.5rem;
+    }
+}
+
+/* --- 2. Fluidity for DevTools Inspection --- */
+
+img,
+video,
+canvas {
+    max-width: 100%;
+    height: auto;
+}
+.flashcard-face {
+    overflow-y: auto;
+}
+
+/* --- 3. Ultra-Wide Monitors & Small TVs --- */
+@media (min-width: 1536px) {
+    html {
+        font-size: 115%;
+    }
+    .max-w-3xl {
+        max-width: 54rem;
+    }
+}
+
+/* --- 4. 4K TVs, Billboards & Huge Displays --- */
+@media (min-width: 2560px) {
+    html {
+        font-size: 150%;
+    }
+    .max-w-3xl {
+        max-width: 65rem;
+    }
+}
+
+@media (min-width: 3840px) {
+    html {
+        font-size: 200%;
+    }
+}

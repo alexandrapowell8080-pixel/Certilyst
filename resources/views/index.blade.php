@@ -18,188 +18,156 @@
     @include('partials.nav-bar')
     
     {{-- Hero Section --}}
-    <section class="hero-section relative min-h-screen flex items-center overflow-hidden">
+    <section class="hero-section">
+  <div class="hero-background">
+    <video autoplay loop playsinline class="hero-video" poster="https://images.pexels.com/videos/7683392/pexels-photo-7683392.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=1920">
+      <source src="https://videos.pexels.com/video-files/7683392/7683392-hd_1920_1080_30fps.mp4" type="video/mp4">
+    </video>
+    <div class="hero-overlay-dark"></div>
+    <div class="hero-overlay-color"></div>
+  </div>
+
+  <div class="hero-container">
+    <div class="hero-grid">
+      
+      <div class="hero-content">
+        <div class="badge">
+          <div class="badge-dot"></div>
+          <span class="badge-text">Certification Success Starts Here</span>
+        </div>
         
-        {{-- Video Background --}}
-        <div class="absolute inset-0 z-0">
-            <video autoplay loop playsinline muted class="video-element w-full h-full object-cover"
-                   poster="https://images.pexels.com/videos/7683392/pexels-photo-7683392.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=1920">
-                <source src="https://videos.pexels.com/video-files/7683392/7683392-hd_1920_1080_30fps.mp4" type="video/mp4">
-            </video>
-            <div class="video-overlay absolute inset-0 bg-gradient-to-r from-[#581c87]/85 via-[#581c87]/70 to-[#0f172a]/75"></div>
+        <h1 class="hero-title">
+          Pass Your Next <span class="text-gradient">Certification Exam</span> with Confidence
+        </h1>
+        
+        <p class="hero-description">
+          Certilyst gives learners realistic exam simulations, detailed rationales, performance analytics, adaptive study paths, and expertly curated certification prep systems.
+        </p>
+        
+        <div class="button-group">
+          <button class="btn btn-primary shadow-lg">
+            Start Practicing
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+          </button>
+          <button class="btn btn-glass">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-mr"><path d="M12 7v14"></path><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"></path></svg> 
+            Explore Exam Library
+          </button>
         </div>
+        
+        <div class="stats-group">
+          <div class="stat-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon text-purple"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+            <span><strong>50,000+</strong> learners</span>
+          </div>
+          <div class="stat-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon text-amber fill-amber"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"></path></svg>
+            <span><strong>4.9/5</strong> rating</span>
+          </div>
+          <div class="stat-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon text-purple"><circle cx="6" cy="19" r="3"></circle><path d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15"></path><circle cx="18" cy="5" r="3"></circle></svg>
+            <span><strong>200+</strong> cert paths</span>
+          </div>
+        </div>
+      </div>
 
-        <div class="hero-container relative z-10 max-w-7xl mx-auto px-6 lg:px-8 py-28 lg:py-32">
-            <div class="hero-grid grid grid-cols-1 lg:grid-cols-[1.1fr_1fr] gap-12 lg:gap-16 items-center">
-                
-                {{-- Left Content --}}
-                <div class="hero-content text-white">
-                    
-                    {{-- Badge --}}
-                    <div class="badge inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/15 rounded-full px-5 py-2 mb-6">
-                        <span class="badge-dot w-1.5 h-1.5 bg-white rounded-full"></span>
-                        <span class="text-xs font-semibold uppercase tracking-wide">Certification Success Starts Here</span>
-                    </div>
-
-                    {{-- Title --}}
-                    <h1 class="hero-title text-4xl md:text-5xl lg:text-6xl font-extrabold leading-[1.15] mb-6 tracking-tight">
-                        Pass Your Next<br>
-                        <span class="highlight bg-gradient-to-r from-[#c084fc] to-[#e879f9] bg-clip-text text-transparent">Certification Exam</span><br>
-                        with Confidence
-                    </h1>
-
-                    {{-- Description --}}
-                    <p class="hero-description text-base md:text-lg text-white/85 max-w-xl leading-relaxed mb-8">
-                        Certilyst gives learners realistic exam simulations, detailed rationales, performance analytics, adaptive study paths, and expertly curated certification prep systems.
-                    </p>
-
-                    {{-- Buttons --}}
-                    <div class="hero-buttons flex flex-col sm:flex-row gap-3 mb-12">
-                        <a href="#" class="btn btn-primary inline-flex items-center justify-center gap-2 bg-[#7c3aed] hover:bg-[#6d28d9] text-white font-semibold px-7 py-3.5 rounded-full transition-all duration-300 shadow-lg hover:shadow-[#7c3aed]/40 hover:-translate-y-0.5">
-                            Start Practicing
-                            <svg class="btn-icon w-4 h-4" viewBox="0 0 16 16" fill="none">
-                                <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                        </a>
-                        <a href="#" class="btn btn-secondary inline-flex items-center justify-center gap-2 bg-white/8 hover:bg-white/15 text-white font-semibold px-7 py-3.5 rounded-full border border-white/25 backdrop-blur-sm transition-all duration-300">
-                            <svg class="w-4 h-4" viewBox="0 0 16 16" fill="none">
-                                <path d="M2 3H14V13H2V3Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M2 7L6.5 10L11 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                            Explore Exam Library
-                        </a>
-                    </div>
-
-                    {{-- Stats --}}
-                    <div class="hero-stats flex flex-wrap items-center gap-8 pt-8 border-t border-white/10">
-                        <div class="stat-item flex items-center gap-2 text-sm text-white/85">
-                            <svg class="stat-icon w-4 h-4 text-white/70" viewBox="0 0 16 16" fill="none">
-                                <path d="M8 8C9.65685 8 11 6.65685 11 5C11 3.34315 9.65685 2 8 2C6.34315 2 5 3.34315 5 5C5 6.65685 6.34315 8 8 8Z" stroke="currentColor" stroke-width="1.5"/>
-                                <path d="M2 14C2 11.5 5 10 8 10C11 10 14 11.5 14 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                            </svg>
-                            <span><strong class="text-white font-bold">50,000+</strong> learners</span>
-                        </div>
-                        <div class="stat-item flex items-center gap-2 text-sm text-white/85">
-                            <svg class="stat-icon w-4 h-4 text-[#fbbf24]" viewBox="0 0 16 16" fill="currentColor">
-                                <path d="M8 1L10.09 5.26L14.5 6L11.25 9.24L12 13.5L8 11.5L4 13.5L4.75 9.24L1.5 6L5.91 5.26L8 1Z"/>
-                            </svg>
-                            <span><strong class="text-white font-bold">4.9/5</strong> rating</span>
-                        </div>
-                        <div class="stat-item flex items-center gap-2 text-sm text-white/85">
-                            <svg class="stat-icon w-4 h-4 text-white/70" viewBox="0 0 16 16" fill="none">
-                                <path d="M3 13V8H5V13H3Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M6 13V5H8V13H6Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M9 13V10H11V13H9Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M12 13V3H14V13H12Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                            <span><strong class="text-white font-bold">200+</strong> cert paths</span>
-                        </div>
-                    </div>
-                </div>
-
-                {{-- Right Floating Cards --}}
-                <div class="floating-cards relative h-[600px] hidden lg:block">
-                    
-                    {{-- Card 1: Exam Readiness --}}
-                    <div class="glass-card card-readiness absolute w-60 top-4 right-60 p-5 rounded-2xl bg-white/85 backdrop-blur-xl border border-white/60 shadow-lg animate-float-slow" style="animation-delay: 0s;">
-                        <div class="card-icon w-10 h-10 rounded-xl bg-gradient-to-br from-[#a78bfa] to-[#c084fc] flex items-center justify-center text-white mb-3">
-                            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none">
-                                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
-                                <path d="M12 6V12L16 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                            </svg>
-                        </div>
-                        <div class="card-label text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Exam Readiness</div>
-                        <div class="card-big-text text-3xl font-extrabold text-gray-900 mb-2">87%</div>
-                        <div class="progress-bar w-full h-1.5 bg-black/8 rounded-full overflow-hidden">
-                            <div class="progress-fill h-full bg-gradient-to-r from-[#8b5cf6] to-[#c084fc] rounded-full" style="width: 87%"></div>
-                        </div>
-                        <div class="card-subtext text-xs text-gray-500 mt-2">You're almost ready to pass!</div>
-                    </div>
-
-                    {{-- Card 2: Score Trend --}}
-                    <div class="glass-card card-trend absolute w-56 top-5 right-0 p-5 rounded-2xl bg-white/85 backdrop-blur-xl border border-white/60 shadow-lg animate-float-slow" style="animation-delay: 1s;">
-                        <div class="card-icon w-8 h-8 rounded-lg bg-gradient-to-br from-[#a78bfa] to-[#c084fc] flex items-center justify-center text-white mb-2">
-                            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none">
-                                <path d="M3 3V21H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M7 14L11 10L15 14L21 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                        </div>
-                        <div class="card-label text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Score Trend</div>
-                        <div class="chart-bars flex items-end gap-1 h-14 mb-2">
-                            <div class="bar flex-1 bg-gradient-to-t from-[#a78bfa] to-[#c084fc] rounded-t min-w-2" style="height: 40%"></div>
-                            <div class="bar flex-1 bg-gradient-to-t from-[#a78bfa] to-[#c084fc] rounded-t min-w-2" style="height: 50%"></div>
-                            <div class="bar flex-1 bg-gradient-to-t from-[#a78bfa] to-[#c084fc] rounded-t min-w-2" style="height: 45%"></div>
-                            <div class="bar flex-1 bg-gradient-to-t from-[#a78bfa] to-[#c084fc] rounded-t min-w-2" style="height: 60%"></div>
-                            <div class="bar flex-1 bg-gradient-to-t from-[#a78bfa] to-[#c084fc] rounded-t min-w-2" style="height: 70%"></div>
-                            <div class="bar flex-1 bg-gradient-to-t from-[#a78bfa] to-[#c084fc] rounded-t min-w-2" style="height: 65%"></div>
-                            <div class="bar flex-1 bg-gradient-to-t from-[#a78bfa] to-[#c084fc] rounded-t min-w-2" style="height: 80%"></div>
-                            <div class="bar flex-1 bg-gradient-to-t from-[#a78bfa] to-[#c084fc] rounded-t min-w-2" style="height: 90%"></div>
-                        </div>
-                        <div class="card-subtext text-xs text-[#10b981] font-semibold">+12% this week</div>
-                    </div>
-
-                    {{-- Card 3: Weak Areas --}}
-                    <div class="glass-card card-weak absolute w-52 top-1/2 -translate-y-1/2 right-22 p-5 rounded-2xl bg-white/85 backdrop-blur-xl border border-white/60 shadow-lg animate-float-slow" style="animation-delay: 2s;">
-                        <div class="card-label-bold text-sm font-bold text-gray-900 mb-3">Weak Areas</div>
-                        <div class="weak-list space-y-3">
-                            <div class="weak-item flex items-center gap-2 text-sm">
-                                <span class="weak-dot w-2 h-2 rounded-full bg-[#f59e0b]"></span>
-                                <span class="text-gray-600">Pharmacology</span>
-                            </div>
-                            <div class="weak-item flex items-center gap-2 text-sm">
-                                <span class="weak-dot w-2 h-2 rounded-full bg-[#f97316]"></span>
-                                <span class="text-gray-600">Network Security</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    {{-- Card 4: Recent Sessions --}}
-                    <div class="glass-card card-recent absolute w-60 bottom-36 right-90 p-5 rounded-2xl bg-white/85 backdrop-blur-xl border border-white/60 shadow-lg animate-float-slow" style="animation-delay: 3s;">
-                        <div class="card-label-bold text-sm font-bold text-gray-900 mb-3">Recent Sessions</div>
-                        <div class="recent-list space-y-3">
-                            <div class="recent-item flex justify-between items-center text-sm">
-                                <span class="text-gray-600">NCLEX Practice #4</span>
-                                <span class="recent-score font-bold text-[#10b981]">82%</span>
-                            </div>
-                            <div class="recent-item flex justify-between items-center text-sm">
-                                <span class="text-gray-600">Pharmacology Quiz</span>
-                                <span class="recent-score font-bold text-[#f59e0b]">74%</span>
-                            </div>
-                            <div class="recent-item flex justify-between items-center text-sm">
-                                <span class="text-gray-600">CompTIA Sec+ Mock</span>
-                                <span class="recent-score font-bold text-[#10b981]">91%</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    {{-- Card 5: Pass Prediction --}}
-                    <div class="glass-card card-prediction absolute w-44 bottom-8 right-80 p-5 rounded-2xl bg-white/85 backdrop-blur-xl border border-white/60 shadow-lg animate-float-slow" style="animation-delay: 4s;">
-                        <div class="card-label-bold text-sm font-bold text-gray-900 mb-3 text-center">Pass Prediction</div>
-                        <div class="circular-progress relative w-28 h-28 mx-auto">
-                            <svg class="progress-ring transform -rotate-90 w-full h-full">
-                                <circle class="progress-ring-bg" cx="56" cy="56" r="48" fill="none" stroke="rgba(0,0,0,0.08)" stroke-width="7"/>
-                                <circle class="progress-ring-circle" cx="56" cy="56" r="48" fill="none" stroke="url(#gradient)" stroke-width="7" stroke-linecap="round" stroke-dasharray="301.59" stroke-dashoffset="24.13"/>
-                            </svg>
-                            <div class="progress-content absolute inset-0 flex flex-col items-center justify-center">
-                                <div class="progress-percent text-3xl font-extrabold text-[#7c3aed]">92%</div>
-                                <div class="progress-subtext text-[10px] text-gray-500 mt-0.5">Likely to pass</div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    {{-- SVG Gradient Definition (hidden) --}}
-                    <svg class="absolute w-0 h-0">
-                        <defs>
-                            <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                                <stop offset="0%" stop-color="#8b5cf6"/>
-                                <stop offset="100%" stop-color="#c084fc"/>
-                            </linearGradient>
-                        </defs>
-                    </svg>
-                </div>
+      <div class="hero-visuals">
+        <div class="visuals-wrapper">
+          <div class="visuals-glow"></div>
+          
+          <div class="glass-card card-readiness animate-float">
+            <div class="card-header">
+              <div class="icon-box gradient-primary">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon text-white"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>
+              </div>
+              <div>
+                <p class="text-sm text-muted">Exam Readiness</p>
+                <p class="text-xl text-bold">87%</p>
+              </div>
             </div>
+            <div class="progress-bar-bg">
+              <div class="progress-bar-fill gradient-primary" style="width: 87%;"></div>
+            </div>
+            <p class="text-xs text-muted mt-2">You're almost ready to pass!</p>
+          </div>
+
+          <div class="glass-card card-trend animate-float-slow" style="animation-delay: 1s;">
+            <div class="card-header-small">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon text-primary"><path d="M3 3v16a2 2 0 0 0 2 2h16"></path><path d="M18 17V9"></path><path d="M13 17V5"></path><path d="M8 17v-3"></path></svg>
+              <p class="text-sm-bold">Score Trend</p>
+            </div>
+            <div class="chart-bars">
+              <div class="bar gradient-primary" style="height: 40%; opacity: 0.4;"></div>
+              <div class="bar gradient-primary" style="height: 55%; opacity: 0.46;"></div>
+              <div class="bar gradient-primary" style="height: 48%; opacity: 0.52;"></div>
+              <div class="bar gradient-primary" style="height: 62%; opacity: 0.58;"></div>
+              <div class="bar gradient-primary" style="height: 58%; opacity: 0.64;"></div>
+              <div class="bar gradient-primary" style="height: 72%; opacity: 0.7;"></div>
+              <div class="bar gradient-primary" style="height: 68%; opacity: 0.76;"></div>
+              <div class="bar gradient-primary" style="height: 78%; opacity: 0.82;"></div>
+              <div class="bar gradient-primary" style="height: 85%; opacity: 0.88;"></div>
+              <div class="bar gradient-primary" style="height: 87%; opacity: 0.94;"></div>
+            </div>
+            <p class="text-xs text-green mt-2 flex-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-sm"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline><polyline points="16 7 22 7 22 13"></polyline></svg> +12% this week</p>
+          </div>
+
+          <div class="glass-card card-sessions animate-float" style="animation-delay: 2s;">
+            <p class="text-sm-bold mb-3">Recent Sessions</p>
+            <div class="list-item">
+              <span class="text-xs text-muted">NCLEX Practice #4</span>
+              <span class="text-xs text-bold text-green">82%</span>
+            </div>
+            <div class="list-item">
+              <span class="text-xs text-muted">Pharmacology Quiz</span>
+              <span class="text-xs text-bold text-amber">74%</span>
+            </div>
+            <div class="list-item">
+              <span class="text-xs text-muted">CompTIA Sec+ Mock</span>
+              <span class="text-xs text-bold text-green">91%</span>
+            </div>
+          </div>
+
+          <div class="glass-card card-prediction animate-float-slow" style="animation-delay: 0.5s;">
+            <div class="card-header-small mb-2">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon text-accent"><path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"></path><path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"></path><path d="M15 13a4.5 4.5 0 0 1-3-4 4.5 4.5 0 0 1-3 4"></path><path d="M17.599 6.5a3 3 0 0 0 .399-1.375"></path><path d="M6.003 5.125A3 3 0 0 0 6.401 6.5"></path><path d="M3.477 10.896a4 4 0 0 1 .585-.396"></path><path d="M19.938 10.5a4 4 0 0 1 .585.396"></path><path d="M6 18a4 4 0 0 1-1.967-.516"></path><path d="M19.967 17.484A4 4 0 0 1 18 18"></path></svg>
+              <p class="text-sm-bold">Pass Prediction</p>
+            </div>
+            <div class="circular-progress">
+              <svg viewBox="0 0 36 36">
+                <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="hsl(260, 30%, 92%)" stroke-width="3"></path>
+                <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="url(#grad)" stroke-width="3" stroke-dasharray="92, 100" stroke-linecap="round"></path>
+                <defs>
+                  <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="hsl(263, 70%, 50%)"></stop>
+                    <stop offset="100%" stop-color="hsl(290, 60%, 55%)"></stop>
+                  </linearGradient>
+                </defs>
+              </svg>
+              <div class="circular-progress-text">
+                <span>92%</span>
+              </div>
+            </div>
+            <p class="text-xs text-muted text-center mt-1">Likely to pass</p>
+          </div>
+
+          <div class="glass-card card-weak-areas">
+            <p class="text-micro-bold mb-1">Weak Areas</p>
+            <div class="list-item-micro">
+              <div class="dot bg-amber"></div>
+              <span>Pharmacology</span>
+            </div>
+            <div class="list-item-micro">
+              <div class="dot bg-amber"></div>
+              <span>Network Security</span>
+            </div>
+          </div>
+
         </div>
-    </section>
+      </div>
+
+    </div>
+  </div>
+</section>
 {{-- STATS BANNER --}}
 <section class="stats-banner">
     <div class="stats-grid">

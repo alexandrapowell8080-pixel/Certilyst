@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\school;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -248,6 +249,8 @@ class LibraryController extends Controller
             ],
         ];
 
+        $schools = school::with('course.subject.exam')->get();
+        // dd($schools);
         return view('library.index', compact('data'));
     }
 

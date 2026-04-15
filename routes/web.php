@@ -7,6 +7,10 @@ Route::get('/', function () {
     return view('index');
 });
 
+Route::get('/flashcards', function () {
+    return view('flashcards.view');
+});
+
 
 Route::get('/library',[LibraryController::class,'index'])->name('library');
 Route::get('/real-estate/sales-person/illinois/version',[LibraryController::class,'questions'])->name('exam-questions');

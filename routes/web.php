@@ -9,7 +9,7 @@ Route::get('/', function () {
 
 Route::get('/flashcards', function () {
     return view('flashcards.view');
-});
+})->name('flashcards');
 
 
 Route::get('/library',[LibraryController::class,'index'])->name('library');

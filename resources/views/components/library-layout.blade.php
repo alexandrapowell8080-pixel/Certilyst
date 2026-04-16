@@ -56,7 +56,7 @@
 <body>
 
    
-    @if (!request()->routeIs('exam-questions'))
+    @if (!Route::is('exam-questions'))
        <x-nav-bar />
     @endif
     <main class="min-h-screen" style="background: rgb(248, 249, 250);">

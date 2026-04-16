@@ -147,114 +147,11 @@ class LibraryController extends Controller
      */
     public function index(): View
     {
-        $data = [
-            'math' => [
-                'chapters' => [
-                    [
-                        'title' => 'Chapter 1',
-                        'topics' => [
-                            ['title' => 'Topic 1', 'subtopics' => [
-                                ['title' => 'Subtopic 1'],
-                                ['title' => 'Subtopic 2'],
-                            ]],
-                            ['title' => 'Topic 2', 'subtopics' => [
-                                ['title' => 'Subtopic 1'],
-                                ['title' => 'Subtopic 2'],
-                            ]],
-                            ['title' => 'Topic 3', 'subtopics' => [
-                                ['title' => 'Subtopic 1'],
-                                ['title' => 'Subtopic 2'],
-                            ]],
-                        ],
-                    ],
-                    [
-                        'title' => 'Chapter 2',
-                        'topics' => [
-                            ['title' => 'Topic 1', 'subtopics' => [
-                                ['title' => 'Subtopic 1'],
-                                ['title' => 'Subtopic 2'],
-                            ]],
-                            ['title' => 'Topic 2', 'subtopics' => [
-                                ['title' => 'Subtopic 1'],
-                                ['title' => 'Subtopic 2'],
-                            ]],
-                            ['title' => 'Topic 3', 'subtopics' => [
-                                ['title' => 'Subtopic 1'],
-                                ['title' => 'Subtopic 2'],
-                            ]],
-                        ],
-                    ],
-                    [
-                        'title' => 'Chapter 3',
-                        'topics' => [
-                            ['title' => 'Topic 1', 'subtopics' => [
-                                ['title' => 'Subtopic 1'],
-                                ['title' => 'Subtopic 2'],
-                            ]],
-                            ['title' => 'Topic 2', 'subtopics' => [
-                                ['title' => 'Subtopic 1'],
-                                ['title' => 'Subtopic 2'],
-                            ]],
-                            ['title' => 'Topic 3', 'subtopics' => [
-                                ['title' => 'Subtopic 1'],
-                                ['title' => 'Subtopic 2'],
-                            ]],
-                        ],
-                    ],
-                ],
-            ],
-
-            'english' => [
-                'chapters' => [
-                    [
-                        'title' => 'Chapter 1',
-                        'topics' => [
-                            ['title' => 'Grammar', 'subtopics' => [
-                                ['title' => 'Subtopic 1'],
-                                ['title' => 'Subtopic 2'],
-                            ]],
-                            ['title' => 'Comprehension', 'subtopics' => [
-                                ['title' => 'Subtopic 1'],
-                                ['title' => 'Subtopic 2'],
-                            ]],
-                            ['title' => 'Writing', 'subtopics' => [
-                                ['title' => 'Subtopic 1'],
-                                ['title' => 'Subtopic 2'],
-                            ]],
-                        ],
-                    ],
-                ],
-            ],
-
-            'science' => [
-                'chapters' => [
-                    [
-                        'title' => 'Chapter 1',
-                        'topics' => [
-                            ['title' => 'Biology Basics', 'subtopics' => [
-                                ['title' => 'Subtopic 1'],
-                                ['title' => 'Subtopic 2'],
-                            ]],
-                            ['title' => 'Chemistry Intro', 'subtopics' => [
-                                ['title' => 'Subtopic 1'],
-                                ['title' => 'Subtopic 2'],
-                            ]],
-                            ['title' => 'Physics Intro', 'subtopics' => [
-                                ['title' => 'Subtopic 1'],
-                                ['title' => 'Subtopic 2'],
-                            ]],
-                        ],
-                    ],
-                ],
-            ],
-        ];
-
         $schools = school::with('course.subject.exam')->get();
-        // dd($schools);
-        return view('library.index', compact('data'));
+        return view('library.index', compact('schools'));
     }
 
-    public function questions($slug): View
+    public function questions(string $school,string $course,string $exam): View
     {
 
         $questions = $this->questions;

@@ -4,7 +4,6 @@
   <meta charset="utf-8">
   <link href="{{ asset('images/logo-1.png') }}" rel="icon" type="image/png">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <link href="{{ asset('manifest.json') }}" rel="manifest">
   <title>Certilyst - Flashcards</title>
   
   <link href="{{ asset('css/flashcards.css') }}" rel="stylesheet">

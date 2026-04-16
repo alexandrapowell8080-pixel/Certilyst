@@ -8,6 +8,9 @@ use App\Models\Flashcard;
 
 class Subject extends Model
 {
+    protected $fillable = [
+        'course_id','name','slug'
+    ];
     public function exam():HasMany
     {
         return $this->hasMany(Exam::class,'subject_id');

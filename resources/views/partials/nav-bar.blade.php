@@ -1,3 +1,6 @@
+@push('component-style') 
+  <link href="{{ asset('css/component.css') }}" rel="stylesheet">
+ @endpush
 <nav class="sticky top-0 z-50 bg-background/95 backdrop-blur-md border-b border-border">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-16"><a class="flex items-center gap-2" href="/">

@@ -148,7 +148,7 @@ class LibraryController extends Controller
     public function index(): View
     {
         $schools = school::with('course.subject.exam')->get();
-        return view('library.index', compact('data','schools'));
+        return view('library.index', compact('schools'));
     }
 
     public function questions(string $school,string $course,string $exam): View

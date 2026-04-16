@@ -1,44 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // Dummy Data - To be replaced by backend array
-    const allCards = [
-        {
-            id: 1,
-            q: "What is the SAFE Act?",
-            hint: "Focus on residential mortgage loans.",
-            a: "A federal law establishing minimum standards for licensing and registering mortgage loan originators.",
-            status: "new",
-        },
-        {
-            id: 2,
-            q: "Define Fiduciary Duty.",
-            hint: "Think about trust.",
-            a: "Fiduciary duty includes several key responsibilities such as obedience (following lawful instructions of the client), loyalty (avoiding conflicts of interest), full disclosure (sharing all relevant information), confidentiality (protecting the client’s private information), accounting (properly handling and reporting finances), and exercising reasonable care and diligence in all actions. Failure to uphold these responsibilities can result in legal consequences and loss of trust.",
-            status: "new",
-        },
-        {
-            id: 3,
-            q: "What is a Dual Agency?",
-            hint: "Representing both sides.",
-            a: "When a real estate broker represents both the buyer and the seller in the same transaction.",
-            status: "new",
-        },
-        {
-            id: 4,
-            q: "Explain the concept of 'Escrow'.",
-            hint: "Third-party holding.",
-            a: "A financial arrangement where a third party holds and regulates payment of the funds required for two parties involved in a given transaction.",
-            status: "new",
-        },
-        {
-            id: 5,
-            q: "What is an Appraisal?",
-            hint: "Determining value.",
-            a: "A professional estimate of a property's market value, based on recent sales of similar properties, condition, and location.",
-            status: "new",
-        },
-    ];
-
-    let flashcards = [...allCards]; // The active deck being viewed
+    // Flashcard Data & State
+    const allCards = window.appFlashcards || [];
+    let flashcards = [...allCards];
     let currentIndex = 0;
     let currentMode = "linear";
 

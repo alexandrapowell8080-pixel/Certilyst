@@ -9,6 +9,12 @@ class Subject extends Model
 {
     public function exam():HasMany
     {
-        return $this->hasMany(Exam::class,'course_id');
+        return $this->hasMany(Exam::class,'subject_id');
+    }
+
+    // New relationship added safely below your existing code
+    public function flashcards():HasMany
+    {
+        return $this->hasMany(Flashcard::class);
     }
 }

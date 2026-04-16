@@ -254,7 +254,7 @@ class LibraryController extends Controller
         return view('library.index', compact('data'));
     }
 
-    public function questions(): View
+    public function questions($slug): View
     {
 
         $questions = $this->questions;
@@ -262,7 +262,9 @@ class LibraryController extends Controller
         $questions_count = count($questions);
         $question = $questions[0];
 
-        return view('library.exam.questions', compact('question', 'questions_count'));
+        $subject_slug = $slug;
+
+        return view('library.exam.questions', compact('question', 'questions_count', 'subject_slug'));
     }
 
     public function examAnswers(Request $request): JsonResponse

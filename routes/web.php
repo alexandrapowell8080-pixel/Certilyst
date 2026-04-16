@@ -17,7 +17,7 @@ Route::post('/exam-question', [LibraryController::class, 'examAnswers']);
 Route::get('/next-question/{question_id}', [LibraryController::class, 'nextQuestion']);
 
 // Flash Card Routes 
-Route::get('/{school}/{slug}/flashcards', [FlashcardsController::class, 'index'])->name('flashcards');
+Route::get('/{school}/{subject}/flashcards', [FlashcardsController::class, 'index'])->name('flashcards');
 
 // Exam Route
 Route::get('/{school}/{course}/{exam}', [LibraryController::class, 'questions'])->name('exam-questions');

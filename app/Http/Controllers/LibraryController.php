@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Exam;
 use App\Models\school;
+use App\Models\Subject;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -148,23 +150,29 @@ class LibraryController extends Controller
     public function index(): View
     {
         $schools = school::with('course.subject.exam')->get();
+
         return view('library.index', compact('schools'));
     }
 
+
+    /**
+     * Question with the related flashcard
+     *
+     * @param string $school
+     * @param string $course
+     * @param string $exam
+     * @return View
+     */
     public function questions(string $school, string $course, string $exam): View
     {
         $questions = $this->questions;
         $questions_count = count($questions);
         $question = $questions[0];
 
-        // 1. Safely fetch the exam without relying on undefined model relationships
-        $currentExam = \App\Models\Exam::where('slug', $exam)->firstOrFail();
-        
-        // 2. Manually fetch the parent subject using the foreign key
-        $subject = \App\Models\Subject::findOrFail($currentExam->subject_id);
-
-        // 3. Extract the slug
-        $subject_slug = $subject->slug;
+        // Flashcard by exam
+        $currentExam = Exam::with('subject')->where('slug', $exam)->firstOrFail();
+     
+        $subject_slug = $currentExam->subject->slug;
 
         return view('library.exam.questions', compact('question', 'questions_count', 'subject_slug', 'school'));
     }
@@ -197,8 +205,9 @@ class LibraryController extends Controller
         ]);
     }
 
-    public function nextQuestion(int $questionId){
-        
+    public function nextQuestion(int $questionId)
+    {
+
         $nextId = $questionId + 1;
 
         foreach ($this->questions as $question) {

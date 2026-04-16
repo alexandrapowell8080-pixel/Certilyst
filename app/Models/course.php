@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class course extends Model
 {
+    protected $fillable = [
+        'school_id','name','slug'
+    ];
     public function subject():HasMany
     {
         return $this->hasMany(Subject::class,'course_id');

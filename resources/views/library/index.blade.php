@@ -130,6 +130,32 @@
 
                                                 {{-- EXAMS --}}
                                                 <div class="pl-4 mt-2 space-y-1">
+                                                    <div
+                                                        class="flex items-center justify-between rounded-xl px-4 py-3 bg-emerald-50 border-emerald-200 border">
+                                                        <div class="flex items-center gap-2.5">
+                                                            <div
+                                                                class="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center flex-shrink-0">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                                                    height="24" viewBox="0 0 24 24" fill="none"
+                                                                    stroke="currentColor" stroke-width="2"
+                                                                    stroke-linecap="round" stroke-linejoin="round"
+                                                                    class="lucide lucide-zap w-4 h-4 text-white">
+                                                                    <path
+                                                                        d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z">
+                                                                    </path>
+                                                                </svg>
+                                                            </div>
+                                                            <div>
+                                                                <p class="text-xs font-bold text-emerald-700">Flashcards
+                                                                </p>
+                                                                <p class="text-[11px] text-muted-foreground">Study <span
+                                                                        class="font-semibold">{{ $subject->name }}
+                                                                    </span> with smart flashcards</p>
+                                                            </div>
+                                                        </div>
+                                                        <a href="{{ route('flashcards',['school' => $school->slug,'subject' => $subject->slug]) }}"
+                                                            class="text-xs font-semibold px-4 py-1.5 rounded-full bg-gradient-to-r from-emerald-500 to-teal-600 text-white shadow-sm hover:opacity-90 transition-opacity">Start</a>
+                                                    </div>
                                                     @foreach ($subject->exam as $exam)
                                                         <a href="{{ route('exam-questions', ['school' => $school->slug, 'course' => $course->slug, 'exam' => $exam->slug]) }}"
                                                             class="block text-xs text-muted-foreground hover:text-primary">

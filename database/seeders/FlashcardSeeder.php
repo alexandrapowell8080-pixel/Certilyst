@@ -66,7 +66,6 @@ class FlashcardSeeder extends Seeder
         $flashcardsToInsert = [];
 
         foreach ($subjects as $subject) {
-            // Dynamically assign the correct pool of cards based on the Subject ID range
             if ($subject->id <= 18) {
                 $pool = $teachingCards;
             } elseif ($subject->id <= 31) {

@@ -12,7 +12,7 @@ Route::get('/about', function () {
 });
 
 // Flash Card Routes
-Route::get('/flashcards',[FlashcardsController::class,'index'])->name('flashcards');
+Route::get('/subject/{slug}/flashcards', [FlashcardsController::class, 'index'])->name('flashcards');
 
 
 // Library Routes

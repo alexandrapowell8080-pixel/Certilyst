@@ -11,4 +11,6 @@ class course extends Model
     {
         return $this->hasMany(Subject::class,'course_id');
     }
+
+    
 }

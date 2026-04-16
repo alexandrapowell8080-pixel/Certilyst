@@ -1,3 +1,6 @@
+@push('component-style') 
+  <link href="{{ asset('css/component.css') }}" rel="stylesheet">
+ @endpush
 <footer id="contact" class="bg-foreground text-background">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">

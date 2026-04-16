@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -576,6 +575,4 @@
     
 </body>
 </html>
-=======
-<html> <h1>first project</h1></html>
->>>>>>> ce3d4035915211e969de732026976563163dd08c
+

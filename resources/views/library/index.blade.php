@@ -38,7 +38,7 @@
         </div>
     </div>
 
-    <div x-data="{
+    <div class="w-10/12 mx-auto mt-4" x-data="{
         activeSchool: 'all',
         moveToFront(id) {
             this.activeSchool = id;

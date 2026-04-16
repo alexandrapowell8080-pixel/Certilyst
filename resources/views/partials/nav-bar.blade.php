@@ -7,7 +7,7 @@
                 <div
                     class="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
                     <span class="text-white font-poppins font-bold text-sm">C</span></div><span
-                    class="font-poppins font-bold text-xl text-foreground">Certlyst</span>
+                    class="font-poppins font-bold text-xl text-foreground">Certilyst</span>
             </a>
             <div class="hidden md:flex items-center gap-8"><a
                     class="text-sm font-medium transition-colors hover:text-primary text-primary"

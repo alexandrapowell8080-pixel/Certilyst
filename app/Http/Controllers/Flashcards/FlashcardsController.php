@@ -7,7 +7,7 @@ use App\Models\Subject;
 
 class FlashcardsController extends Controller
 {
-    public function index($slug)
+    public function index($school, $slug)
     {
         // 1. Find the subject by its slug
         $subject = Subject::where('slug', $slug)->firstOrFail();
@@ -23,7 +23,7 @@ class FlashcardsController extends Controller
             ];
         });
 
-        // 3. Pass both the subject and the formatted flashcards to the view
-        return view('flashcards.view', compact('subject', 'flashcards'));
+        // 3. Pass the subject, flashcards, and the school string to the view
+        return view('flashcards.view', compact('subject', 'flashcards', 'school'));
     }
 }

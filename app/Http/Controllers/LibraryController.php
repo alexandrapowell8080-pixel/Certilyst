@@ -151,17 +151,16 @@ class LibraryController extends Controller
         return view('library.index', compact('schools'));
     }
 
-    public function questions(string $school,string $course,string $exam): View
+    public function questions(string $school, string $course, string $exam): View
     {
-
         $questions = $this->questions;
-
         $questions_count = count($questions);
         $question = $questions[0];
 
-        $subject_slug = $slug;
+        // Map the course to the subject slug for the Flashcards button
+        $subject_slug = $course;
 
-        return view('library.exam.questions', compact('question', 'questions_count', 'subject_slug'));
+        return view('library.exam.questions', compact('question', 'questions_count', 'subject_slug', 'school'));
     }
 
     public function examAnswers(Request $request): JsonResponse

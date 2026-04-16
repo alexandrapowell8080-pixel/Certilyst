@@ -157,8 +157,14 @@ class LibraryController extends Controller
         $questions_count = count($questions);
         $question = $questions[0];
 
-        // Map the course to the subject slug for the Flashcards button
-        $subject_slug = $course;
+        // 1. Safely fetch the exam without relying on undefined model relationships
+        $currentExam = \App\Models\Exam::where('slug', $exam)->firstOrFail();
+        
+        // 2. Manually fetch the parent subject using the foreign key
+        $subject = \App\Models\Subject::findOrFail($currentExam->subject_id);
+
+        // 3. Extract the slug
+        $subject_slug = $subject->slug;
 
         return view('library.exam.questions', compact('question', 'questions_count', 'subject_slug', 'school'));
     }

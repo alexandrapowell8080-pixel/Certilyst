@@ -825,6 +825,7 @@ body { font-family: system-ui, -apple-system, sans-serif; background: #000; colo
     background: rgba(255, 255, 255, 0.2);
     border-color: rgba(255, 255, 255, 0.6);
 }
+<<<<<<< HEAD
 /* ========================================
    ABOUT PAGE - NEW STYLES ONLY
    (Append to your existing styles.css)
@@ -1204,3 +1205,5 @@ body { font-family: system-ui, -apple-system, sans-serif; background: #000; colo
 
 /* --- Smooth Scroll --- */
 html { scroll-behavior: smooth; }
+=======
+>>>>>>> ce3d4035915211e969de732026976563163dd08c

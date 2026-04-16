@@ -7,6 +7,9 @@ use App\Http\Controllers\Flashcards\FlashcardsController;
 Route::get('/', function () {
     return view('index');
 });
+Route::get('/about', function () {
+    return view('about');
+});
 
 // Flash Card Routes
 Route::get('/flashcards',[FlashcardsController::class,'index'])->name('flashcards');

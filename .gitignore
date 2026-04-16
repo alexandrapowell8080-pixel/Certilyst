@@ -23,7 +23,7 @@ _ide_helper.php
 Homestead.json
 Homestead.yaml
 Thumbs.db
-resources/views/index.blade.php
-resources/views/welcome.blade.php
-public/js/app.js
-public/css/app.css
+/resources/views/index.blade.php
+/resources/views/welcome.blade.php
+/public/js/app.js
+/public/css/app.css

@@ -20,7 +20,7 @@ class ExamDataSeeder extends Seeder
         // Disable foreign key checks temporarily for faster seeding
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
 
-        $csvPath = database_path('seeders/data/exam_details_2026-04-15_06-10-25.csv');
+        $csvPath = database_path('seeders/data/school_hierarchy.csv');
 
         if (!file_exists($csvPath)) {
             $this->command->error("CSV file not found at: {$csvPath}");

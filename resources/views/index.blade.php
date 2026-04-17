@@ -7,6 +7,7 @@
     <meta name="keywords" content="certification, exam prep, study guide, Certilyst">
     <title>Certilyst - Pass Certification Exams with Confidence</title>
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <link href="{{ asset('images/logo-1.png') }}" rel="icon" type="image/png">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

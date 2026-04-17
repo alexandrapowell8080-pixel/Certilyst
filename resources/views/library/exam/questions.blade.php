@@ -1,12 +1,16 @@
 <x-library-layout>
     @section('title', 'Cerilyst Learning Library')
     @section('description',
-        'Ace your {{ $course_name }} using  {{ $exam_name }} ')
-    @section('keywords', {{ $school_name }}.','.)
-    @section('canonical', {{ current() }})
+        'Ace your '.$course_name.' using '.  $exam_name )
+   
+
+    @section('keywords', $school_name . ', ' . $course_name . ', ' . $subject_name . ', ' . $exam_name)
+
+@section('canonical', url($school_slug . '/' . $course_slug . '/' . $exam_slug))
+
 
     @push('schema')
-        <script type="application/ld+json">
+         <script type="application/ld+json">
         {
         "@@context": "https://schema.org",
         "@@type": "BreadcrumbList",
@@ -15,11 +19,17 @@
                         "@@type": "ListItem",
                         "position": 1,
                         "name": "Exam name",
-                        "item": "{{ url('/current url') }}"
+                        "item": "{{ url($school_slug . '/' . $course_slug . '/' . $exam_slug) }}"
                     },
                     {
                         "@@type": "ListItem",
                         "position": 2,
+                        "name": "Library",
+                        "item": "{{ url('/library') }}"
+                    },
+                    {
+                        "@@type": "ListItem",
+                        "position": 3,
                         "name": "Home",
                         "item": "{{ url('/') }}"
                     }
@@ -27,7 +37,6 @@
         }
 </script>
     @endpush
-
 
 
 

@@ -1,4 +1,7 @@
-<footer id="contact" class="bg-foreground text-background">
+@push('component-style') 
+  <link href="{{ asset('css/component.css') }}" rel="stylesheet">
+ @endpush
+<footer id="contact" class="bg-foreground text-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
             <div class="lg:col-span-1">
@@ -6,9 +9,9 @@
                     <div
                         class="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
                         <span class="text-white font-poppins font-bold text-sm">C</span></div><span
-                        class="font-poppins font-bold text-xl">Cerilyst</span>
+                        class="font-poppins font-bold text-xl text-white">Cerilyst</span>
                 </div>
-                <p class="text-background/60 text-sm leading-relaxed mb-6">Expert-led certification prep across Real
+                <p class="text-white text-sm leading-relaxed mb-6">Expert-led certification prep across Real
                     Estate, Insurance, IT, Education, and more. Master your exams with confidence.</p>
                 <div class="flex gap-4"><a href="#"
                         class="w-9 h-9 rounded-full bg-background/10 hover:bg-primary/80 flex items-center justify-center transition-colors text-xs font-medium">T</a><a
@@ -21,43 +24,43 @@
                 </div>
             </div>
             <div>
-                <h4 class="font-poppins font-semibold text-sm mb-4 uppercase tracking-wider text-background/80">Quick
+                <h4 class="font-poppins font-semibold text-sm mb-4 uppercase tracking-wider text-primary">Quick
                     Links</h4>
                 <ul class="space-y-3">
-                    <li><a class="text-sm text-background/60 hover:text-background transition-colors"
+                    <li><a class="text-sm text-white transition-colors"
                             href="/">Home</a></li>
-                    <li><a class="text-sm text-background/60 hover:text-background transition-colors"
+                    <li><a class="text-sm text-white transition-colors"
                             href="/library">Library</a></li>
-                    <li><a class="text-sm text-background/60 hover:text-background transition-colors"
+                    <li><a class="text-sm text-white transition-colors"
                             href="/about">About</a></li>
-                    <li><a class="text-sm text-background/60 hover:text-background transition-colors"
+                    <li><a class="text-sm text-white transition-colors"
                             href="/">Pricing</a></li>
-                    <li><a class="text-sm text-background/60 hover:text-background transition-colors"
+                    <li><a class="text-sm text-white transition-colors"
                             href="/">Blog</a></li>
                 </ul>
             </div>
             <div>
-                <h4 class="font-poppins font-semibold text-sm mb-4 uppercase tracking-wider text-background/80">Schools
+                <h4 class="font-poppins font-semibold text-sm mb-4 uppercase tracking-wider text-primary">Schools
                 </h4>
                 <ul class="space-y-3">
-                    <li><a class="text-sm text-background/60 hover:text-background transition-colors"
+                    <li><a class="text-sm text-white transition-colors"
                             href="/library">Real Estate</a></li>
-                    <li><a class="text-sm text-background/60 hover:text-background transition-colors"
+                    <li><a class="text-sm text-white transition-colors"
                             href="/library">Insurance</a></li>
-                    <li><a class="text-sm text-background/60 hover:text-background transition-colors" href="/library">IT
+                    <li><a class="text-sm text-white transition-colors" href="/library">IT
                             &amp; Cybersecurity</a></li>
-                    <li><a class="text-sm text-background/60 hover:text-background transition-colors"
+                    <li><a class="text-sm text-white transition-colors"
                             href="/library">Teacher Licensure</a></li>
-                    <li><a class="text-sm text-background/60 hover:text-background transition-colors"
+                    <li><a class="text-sm text-white transition-colors"
                             href="/library">Project Management</a></li>
-                    <li><a class="text-sm text-background/60 hover:text-background transition-colors"
+                    <li><a class="text-sm text-white transition-colors"
                             href="/library">Nursing &amp; Health</a></li>
                 </ul>
             </div>
             <div>
-                <h4 class="font-poppins font-semibold text-sm mb-4 uppercase tracking-wider text-background/80">Stay
+                <h4 class="font-poppins font-semibold text-sm mb-4 uppercase tracking-wider text-primary">Stay
                     Updated</h4>
-                <p class="text-sm text-background/60 mb-4">Get study tips and new course alerts delivered to your inbox.
+                <p class="text-sm text-white mb-4">Get study tips and new course alerts delivered to your inbox.
                 </p>
                 <div class="flex gap-2">
                     <div class="relative flex-1"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -82,7 +85,7 @@
         </div>
         <div
             class="mt-12 pt-8 border-t border-background/10 flex flex-col sm:flex-row justify-between items-center gap-4">
-            <p class="text-sm text-background/50">© 2026 Cerilyst. All rights reserved.</p>
+            <p class="text-sm text-white">© 2026 Cerilyst. All rights reserved.</p>
             <div class="flex gap-6"><a href="#"
                     class="text-xs text-background/50 hover:text-background/80 transition-colors">Privacy Policy</a><a
                     href="#" class="text-xs text-background/50 hover:text-background/80 transition-colors">Terms

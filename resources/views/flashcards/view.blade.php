@@ -4,9 +4,9 @@
   <meta charset="utf-8">
   <link href="{{ asset('images/logo-1.png') }}" rel="icon" type="image/png">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <link href="{{ asset('manifest.json') }}" rel="manifest">
   <title>Certilyst - Flashcards</title>
   
+  <link href="{{ asset('css/component.css') }}" rel="stylesheet">
   <link href="{{ asset('css/flashcards.css') }}" rel="stylesheet">
   <meta content="An interactive professional certification platform offering expert-led exam prep and mastery-based learning tools for specialized career paths." name="description">
   
@@ -30,108 +30,103 @@
   <link href="{{ url()->current() }}" rel="canonical">
 </head>
 <body>
-  <div id="root">
-    <div>
-      <header class="app-header">
-        <div class="max-w-3xl px-4 py-3 flex items-center justify-between">
-          <a href="/subject/re-sales-broker-va">
-            <button class="btn btn-sm btn-outline text-xs font-medium">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-sm mr-1"><path d="m15 18-6-6 6-6"></path></svg> 
-              Back
-            </button>
-          </a>
-          <div class="text-center">
-            <h2 class="font-sn-pro font-semibold text-sm text-main">Virginia</h2>
-            <span id="nav-count" class="text-xs text-muted">1 / 12</span>
-          </div>
-          <a href="/subject/re-sales-broker-va/exam">
-            <button class="btn btn-sm btn-outline text-xs font-medium">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-sm mr-1"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path><path d="M14 2v4a2 2 0 0 0 2 2h4"></path><path d="M10 9H8"></path><path d="M16 13H8"></path><path d="M16 17H8"></path></svg> 
-              Exams
-            </button>
-          </a>
+  {{-- Header --}}
+  @include('partials.nav-bar')
+  <div id="root" class="main-wrapper">
+      
+    <main class="content-container">
+        
+      <header class="fc-header">
+        <div class="fc-title-group">
+          <h2 class="fc-title">{{ $subject->name }}</h2>
+          <div id="nav-count" class="fc-counter">1 / {{ count($flashcards) }}</div>
         </div>
       </header>
 
-      <main class="max-w-3xl px-4 py-8">
-        <div class="alert-banner flex items-center justify-between px-4 py-3 mb-6 text-sm">
-          <span id="trial-count">Trial: 1/10 free cards</span>
-          <button class="btn btn-pill btn-primary btn-unlock text-xs font-bold">Unlock All →</button>
-        </div>
+      <div class="mode-selectors" id="mode-selectors">
+        <button data-mode="linear" class="btn btn-mode active mode-btn">Linear</button>
+        <button data-mode="random" class="btn btn-mode mode-btn">Random</button>
+        <button data-mode="weak" class="btn btn-mode mode-btn">Weak Areas</button>
+      </div>
 
-        <div class="flex items-center justify-center gap-2 mb-6" id="mode-selectors">
-          <button data-mode="linear" class="btn btn-pill btn-primary text-sm font-medium gap-1-5 mode-btn">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-sm"><path d="M3 12h.01"></path><path d="M3 18h.01"></path><path d="M3 6h.01"></path><path d="M8 12h13"></path><path d="M8 18h13"></path><path d="M8 6h13"></path></svg>
-            Linear
-          </button>
-          <button data-mode="random" class="btn btn-pill btn-secondary text-sm font-medium gap-1-5 mode-btn">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-sm"><path d="m18 14 4 4-4 4"></path><path d="m18 2 4 4-4 4"></path><path d="M2 18h1.973a4 4 0 0 0 3.3-1.7l5.454-8.6a4 4 0 0 1 3.3-1.7H22"></path><path d="M2 6h1.972a4 4 0 0 1 3.6 2.2"></path><path d="M22 18h-6.041a4 4 0 0 1-3.3-1.8l-.359-.45"></path></svg>
-            Random
-          </button>
-          <button data-mode="weak" class="btn btn-pill btn-secondary text-sm font-medium gap-1-5 mode-btn">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-sm"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>
-            Weak Areas
-          </button>
-        </div>
+      <div class="progress-track">
+        <div id="progress-bar-fill" class="progress-fill"></div>
+      </div>
 
-        <div class="flex items-center justify-center gap-6 mb-8">
-          <span id="metric-mastered" class="text-xs font-semibold">🟢 0 Mastered</span>
-          <span id="metric-learning" class="text-xs font-semibold">🟡 0 Learning</span>
-          <span id="metric-new" class="text-xs font-semibold">🔴 0 New</span>
-        </div>
+      <div class="metrics-row">
+        <span id="metric-mastered" class="text-green">✓ 0 Mastered</span>
+        <span id="metric-learning" class="text-yellow">⟳ 0 Learning</span>
+        <span id="metric-new" class="text-red">! 0 New</span>
+      </div>
 
-        <div class="perspective-container mb-8">
-          <div class="flashcard-wrapper" aria-label="Flashcard front — click to flip" role="button" tabindex="0">
-            <div class="flashcard-inner" id="flashcard-inner">
-              <div class="flashcard-face flashcard-front">
-                <span id="card-badge" class="badge badge-red text-xs font-semibold mb-4">🔴 New</span>
-                <p id="card-question" class="font-sn-pro font-semibold text-xl text-center mb-4 text-main">What is the SAFE Act?</p>
+      <div class="card-scene">
+        <div class="card-inner" id="flashcard-inner">
+          
+          <div class="card-face card-front">
+            <span id="card-badge" class="card-label text-red">QUESTION</span>
+            <p id="card-question" class="card-question">Loading...</p>
+            
+            <div id="hint-text" class="card-hint hidden"></div>
+            <button id="btn-hint" class="btn btn-link">💡 Show Hint</button>
+            
+            <p class="card-tap-hint">Tap to reveal answer</p>
+          </div>
+          
+          <div class="card-face card-back">
+            <div class="card-back-header">
+              <span>Answer</span>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path></svg>
+            </div>
+            <div class="card-back-body">
+              <div class="answer-container">
                 
-                <div id="hint-text" class="text-sm text-muted hidden mb-4 px-4 text-center"></div>
-
-                <button id="btn-hint" class="btn btn-link text-primary text-sm font-medium gap-1">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-sm"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"></path><path d="M9 18h6"></path><path d="M10 22h4"></path></svg> 
-                  Show Hint
-                </button>
-                <p class="text-xs text-muted mt-6">Tap to flip</p>
-              </div>
-              
-              <div class="flashcard-face flashcard-back">
-                <div class="flex flex-col h-full w-full max-w-2xl mx-auto text-center">
-                  <div class="mb-6 flex justify-center">
-                    <span class="badge bg-white-20 text-white text-xs font-bold uppercase tracking-wider backdrop-blur">Back</span>
-                  </div>
-                  <div class="flex-1 flex items-center justify-center overflow-y-auto no-scrollbar max-h-250">
-                    <p id="card-answer" class="text-xl md:text-2xl font-medium leading-relaxed text-white">The legal obligation of an agent to act in the best interests of their client...</p>
-                  </div>
-                  <div class="mt-8 flex items-center justify-center gap-4 relative z-10">
-                    <button id="btn-practice" class="btn h-9 px-4 py-2 text-sm font-medium shadow-sm btn-red-outline gap-2 action-btn">🔴 Need Practice</button>
-                    <button id="btn-got-it" class="btn h-9 px-4 py-2 text-sm font-medium shadow-sm btn-green-solid gap-2 action-btn">🟢 Got It</button>
-                  </div>
+                {{-- <div class="answer-top-row">
+                  <span class="answer-icon-box"></span>
+                  <p class="answer-title-text"></p>
+                </div> --}}
+                
+                <div class="answer-why-box">
+                  <p class="answer-why-label">💡 Why this is correct</p>
+                  <p id="card-answer" class="answer-why-text"></p>
                 </div>
+                
               </div>
+              <p class="card-tap-back">Tap card to flip back</p>
             </div>
           </div>
+
         </div>
+      </div>
 
-        <div class="flex items-center justify-between mt-10">
-          <button id="btn-prev" class="btn btn-pill btn-outline px-6 py-3 text-sm font-semibold shadow-sm gap-2 text-muted">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><path d="m15 18-6-6 6-6"></path></svg> 
-            Previous
-          </button>
-          
-          <div class="flex items-center gap-1" id="progress-dots">
-            </div>
+      <div class="action-row">
+        <button id="btn-practice" class="btn btn-action btn-danger-outline action-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><circle cx="12" cy="12" r="10"></circle><path d="m15 9-6 6"></path><path d="m9 9 6 6"></path></svg> 
+          Still Learning
+        </button>
+        <button id="btn-got-it" class="btn btn-action btn-success-solid action-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path></svg> 
+          Know It
+        </button>
+      </div>
 
-          <button id="btn-next" class="btn btn-pill btn-gradient px-6 py-3 text-sm font-bold gap-2">
-            Next Card 
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><path d="m9 18 6-6-6-6"></path></svg>
-          </button>
-        </div>
+      <div class="nav-row">
+        <button id="btn-prev" class="btn btn-nav" disabled>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-sm"><path d="m15 18-6-6 6-6"></path></svg> 
+          Prev
+        </button>
+        <a class="btn-link" href="{{ route('library') }}">Back to Library</a>
+        <button id="btn-next" class="btn btn-nav">
+          Next 
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-sm"><path d="m9 18 6-6-6-6"></path></svg>
+        </button>
+      </div>
 
-      </main>
-    </div>
+    </main>
   </div>
+  
+  <script>
+      window.appFlashcards = {!! json_encode($flashcards) !!};
+  </script>
   <script src="{{ asset('js/flashcards.js') }}"></script>
 </body>
 </html>

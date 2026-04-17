@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Exam;
+use App\Models\school;
+use App\Models\Subject;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -146,120 +149,32 @@ class LibraryController extends Controller
      */
     public function index(): View
     {
-        $data = [
-            'math' => [
-                'chapters' => [
-                    [
-                        'title' => 'Chapter 1',
-                        'topics' => [
-                            ['title' => 'Topic 1', 'subtopics' => [
-                                ['title' => 'Subtopic 1'],
-                                ['title' => 'Subtopic 2'],
-                            ]],
-                            ['title' => 'Topic 2', 'subtopics' => [
-                                ['title' => 'Subtopic 1'],
-                                ['title' => 'Subtopic 2'],
-                            ]],
-                            ['title' => 'Topic 3', 'subtopics' => [
-                                ['title' => 'Subtopic 1'],
-                                ['title' => 'Subtopic 2'],
-                            ]],
-                        ],
-                    ],
-                    [
-                        'title' => 'Chapter 2',
-                        'topics' => [
-                            ['title' => 'Topic 1', 'subtopics' => [
-                                ['title' => 'Subtopic 1'],
-                                ['title' => 'Subtopic 2'],
-                            ]],
-                            ['title' => 'Topic 2', 'subtopics' => [
-                                ['title' => 'Subtopic 1'],
-                                ['title' => 'Subtopic 2'],
-                            ]],
-                            ['title' => 'Topic 3', 'subtopics' => [
-                                ['title' => 'Subtopic 1'],
-                                ['title' => 'Subtopic 2'],
-                            ]],
-                        ],
-                    ],
-                    [
-                        'title' => 'Chapter 3',
-                        'topics' => [
-                            ['title' => 'Topic 1', 'subtopics' => [
-                                ['title' => 'Subtopic 1'],
-                                ['title' => 'Subtopic 2'],
-                            ]],
-                            ['title' => 'Topic 2', 'subtopics' => [
-                                ['title' => 'Subtopic 1'],
-                                ['title' => 'Subtopic 2'],
-                            ]],
-                            ['title' => 'Topic 3', 'subtopics' => [
-                                ['title' => 'Subtopic 1'],
-                                ['title' => 'Subtopic 2'],
-                            ]],
-                        ],
-                    ],
-                ],
-            ],
+        $schools = school::with('course.subject.exam')->get();
 
-            'english' => [
-                'chapters' => [
-                    [
-                        'title' => 'Chapter 1',
-                        'topics' => [
-                            ['title' => 'Grammar', 'subtopics' => [
-                                ['title' => 'Subtopic 1'],
-                                ['title' => 'Subtopic 2'],
-                            ]],
-                            ['title' => 'Comprehension', 'subtopics' => [
-                                ['title' => 'Subtopic 1'],
-                                ['title' => 'Subtopic 2'],
-                            ]],
-                            ['title' => 'Writing', 'subtopics' => [
-                                ['title' => 'Subtopic 1'],
-                                ['title' => 'Subtopic 2'],
-                            ]],
-                        ],
-                    ],
-                ],
-            ],
-
-            'science' => [
-                'chapters' => [
-                    [
-                        'title' => 'Chapter 1',
-                        'topics' => [
-                            ['title' => 'Biology Basics', 'subtopics' => [
-                                ['title' => 'Subtopic 1'],
-                                ['title' => 'Subtopic 2'],
-                            ]],
-                            ['title' => 'Chemistry Intro', 'subtopics' => [
-                                ['title' => 'Subtopic 1'],
-                                ['title' => 'Subtopic 2'],
-                            ]],
-                            ['title' => 'Physics Intro', 'subtopics' => [
-                                ['title' => 'Subtopic 1'],
-                                ['title' => 'Subtopic 2'],
-                            ]],
-                        ],
-                    ],
-                ],
-            ],
-        ];
-
-        return view('library.index', compact('data'));
+        return view('library.index', compact('schools'));
     }
 
-    public function questions(): View
+
+    /**
+     * Question with the related flashcard
+     *
+     * @param string $school
+     * @param string $course
+     * @param string $exam
+     * @return View
+     */
+    public function questions(string $school, string $course, string $exam): View
     {
-
         $questions = $this->questions;
-
         $questions_count = count($questions);
         $question = $questions[0];
 
-        return view('library.exam.questions', compact('question', 'questions_count'));
+        // Flashcard by exam
+        $currentExam = Exam::with('subject')->where('slug', $exam)->firstOrFail();
+     
+        $subject_slug = $currentExam->subject->slug;
+
+        return view('library.exam.questions', compact('question', 'questions_count', 'subject_slug', 'school'));
     }
 
     public function examAnswers(Request $request): JsonResponse
@@ -290,8 +205,9 @@ class LibraryController extends Controller
         ]);
     }
 
-    public function nextQuestion(int $questionId){
-        
+    public function nextQuestion(int $questionId)
+    {
+
         $nextId = $questionId + 1;
 
         foreach ($this->questions as $question) {

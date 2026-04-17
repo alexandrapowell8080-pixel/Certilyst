@@ -1,10 +1,13 @@
-<nav class="sticky top-0 z-50 bg-background/95 backdrop-blur-md border-b border-border">
+@push('component-style') 
+  <link href="{{ asset('css/component.css') }}" rel="stylesheet">
+ @endpush
+<nav class="sticky top-0 z-50 bg-white backdrop-blur-md border-b border-border">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-16"><a class="flex items-center gap-2" href="/">
                 <div
                     class="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
                     <span class="text-white font-poppins font-bold text-sm">C</span></div><span
-                    class="font-poppins font-bold text-xl text-foreground">Cerilyst</span>
+                    class="font-poppins font-bold text-xl text-foreground">Certilyst</span>
             </a>
             <div class="hidden md:flex items-center gap-8"><a
                     class="text-sm font-medium transition-colors hover:text-primary text-primary"

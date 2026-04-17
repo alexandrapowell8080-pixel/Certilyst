@@ -15,12 +15,8 @@ class QuestionSeeder extends Seeder
     {
         //DB::table('questions')->truncate();
         $paths=[
-            'seeders/data/medical.csv',
-            'seeders/data/it.csv',
-            'seeders/data/pmp.csv',
-            'seeders/data/praxis.csv',
-            'seeders/data/insurance.csv',
-            'seeders/data/estate.csv'
+            'seeders/data/business.csv',
+            'seeders/data/nursing.csv'
         ];
         foreach ($paths as $key => $path) {
              $csvPath = database_path($path);

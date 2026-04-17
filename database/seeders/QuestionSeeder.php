@@ -15,8 +15,8 @@ class QuestionSeeder extends Seeder
     {
         DB::table('questions')->truncate();
 
-       // $csvPath = 'C:/Users/' . get_current_user() . '/Downloads/praxis.csv';
-        $csvPath = database_path('seeders/data/questions 17.csv');
+       //$csvPath = 'C:/Users/' . get_current_user() . '/Downloads/it.csv';
+        $csvPath = database_path('seeders/data/medical.csv');
         //$csvPath = database_path('seeders/data/praxis.csv');
 
         if (!file_exists($csvPath)) {

@@ -15,15 +15,15 @@ return new class extends Migration
         Schema::create('questions', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Exam::class, 'exam_id');
-            $table->string('extract');
-            $table->string('question');
+            $table->text('extract');
+            $table->text('question');
             $table->string('choiceA');
             $table->string('choiceB');
             $table->string('choiceC');
             $table->string('choiceD');
-            $table->string('choiceE');
-            $table->string('choiceF');
-            $table->string('choiceG');
+            $table->string('choiceE')->nullable();
+            $table->string('choiceF')->nullable();
+            $table->string('choiceG')->nullable();
             $table->string('correct_answer');
             $table->text('rationale');
             $table->string('question_type');

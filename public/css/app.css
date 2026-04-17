@@ -486,26 +486,159 @@ body { font-family: system-ui, -apple-system, sans-serif; background: #000; colo
 /* ========================================
    7. HOW IT WORKS (ROADMAP)
 ======================================== */
+/* ========================================
+   7. HOW IT WORKS (ROADMAP)
+======================================== */
 .how-it-works-roadmap {
     padding: 80px 40px;
     background: #fce7f3;
-}
-.roadmap-wrapper {
-    max-width: 900px;
-    margin: 0 auto;
-    border-radius: 16px;
     overflow: hidden;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
 }
+
+.roadmap-wrapper {
+    max-width: 1200px;
+    margin: 0 auto 60px;
+    border-radius: 20px;
+    overflow: visible;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+    background: #fce7f3;
+}
+
 .roadmap-svg {
     width: 100%;
     height: auto;
     display: block;
 }
-@media (max-width: 768px) {
-    .how-it-works-roadmap { padding: 60px 20px; }
+
+/* ========================================
+   STEP CARDS BELOW ROADMAP
+======================================== */
+.steps-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
+@media (max-width: 1024px) {
+    .steps-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .steps-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.step-card {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 32px 24px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    transition: all 0.3s ease;
+    position: relative;
+    border: 2px solid transparent;
+}
+
+.step-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+}
+
+.step-card[data-step="1"]:hover {
+    border-color: #8b5cf6;
+}
+
+.step-card[data-step="2"]:hover {
+    border-color: #22c55e;
+}
+
+.step-card[data-step="3"]:hover {
+    border-color: #3b82f6;
+}
+
+.step-card[data-step="4"]:hover {
+    border-color: #ec4899;
+}
+
+.step-badge {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    font-weight: 800;
+    font-size: 18px;
+    color: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.step-badge.purple {
+    background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+}
+
+.step-badge.green {
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+}
+
+.step-badge.blue {
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+}
+
+.step-badge.pink {
+    background: linear-gradient(135deg, #ec4899, #db2777);
+}
+
+.step-icon-wrapper {
+    width: 80px;
+    height: 80px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    background: #f8fafc;
+}
+
+.step-icon-wrapper.purple {
+    background: linear-gradient(135deg, #f3e8ff, #e9d5ff);
+    color: #7c3aed;
+}
+
+.step-icon-wrapper.green {
+    background: linear-gradient(135deg, #dcfce7, #bbf7d0);
+    color: #16a34a;
+}
+
+.step-icon-wrapper.blue {
+    background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+    color: #2563eb;
+}
+
+.step-icon-wrapper.pink {
+    background: linear-gradient(135deg, #fce7f3, #fbcfe8);
+    color: #db2777;
+}
+
+.step-card h3 {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 12px;
+}
+
+.step-card p {
+    font-size: 14px;
+    color: var(--text-gray);
+    line-height: 1.5;
+    margin: 0;
+}
 /* ========================================
    8. PLATFORM FEATURES
 ======================================== */

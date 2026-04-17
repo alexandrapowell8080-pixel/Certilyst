@@ -1,4 +1,26 @@
 <x-library-layout>
+    @if (session('message'))
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            Swal.fire({
+                icon: 'info',
+                title: 'Oops!',
+                text: "{{ session('message') }}",
+                confirmButtonColor: '#f0ad4e'
+            });
+        </script>
+    @endif
+    @if (session('exam_message'))
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Sorry!',
+                text: "{{ session('exam_message') }}",
+                confirmButtonColor: '#FF8080'
+            });
+        </script>
+    @endif
     <div class="bg-white border-b sn-pro-700" style="border-color: rgb(233, 236, 239); ">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10">
             <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 border-b border-border pb-8">
@@ -94,7 +116,18 @@
                             <div class="flex items-center gap-4">
                                 <div
                                     class="w-12 h-12 rounded-xl bg-secondary flex items-center justify-center text-xl shadow-inner">
-                                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-school-icon lucide-school"><path d="M14 21v-3a2 2 0 0 0-4 0v3"/><path d="M18 4.933V21"/><path d="m4 6 7.106-3.79a2 2 0 0 1 1.788 0L20 6"/><path d="m6 11-3.52 2.147a1 1 0 0 0-.48.854V19a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-5a1 1 0 0 0-.48-.853L18 11"/><path d="M6 4.933V21"/><circle cx="12" cy="9" r="2"/></svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                        viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round"
+                                        class="lucide lucide-school-icon lucide-school">
+                                        <path d="M14 21v-3a2 2 0 0 0-4 0v3" />
+                                        <path d="M18 4.933V21" />
+                                        <path d="m4 6 7.106-3.79a2 2 0 0 1 1.788 0L20 6" />
+                                        <path
+                                            d="m6 11-3.52 2.147a1 1 0 0 0-.48.854V19a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-5a1 1 0 0 0-.48-.853L18 11" />
+                                        <path d="M6 4.933V21" />
+                                        <circle cx="12" cy="9" r="2" />
+                                    </svg>
                                 </div>
                                 <div>
                                     <h3 class="font-bold text-lg tracking-tight text-foreground">
@@ -108,9 +141,9 @@
                                 </div>
                             </div>
                             {{-- Custom Chevron for the School Level --}}
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-                                stroke-linecap="round" stroke-linejoin="round"
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                                stroke-linejoin="round"
                                 class="text-muted-foreground transition-transform duration-300 group-open:rotate-180">
                                 <path d="m6 9 6 6 6-6" />
                             </svg>
@@ -144,7 +177,8 @@
                                             class="text-sm font-bold text-foreground flex-1 tracking-tight">{{ $course->name }}</span>
                                         <span
                                             class="text-[11px] font-semibold text-muted-foreground bg-muted px-2 py-0.5 rounded-md uppercase tracking-wider">
-                                            {{ count($course->subject) }} subject{{  count($course->subject) > 1?'s':'' }}
+                                            {{ count($course->subject) }}
+                                            subject{{ count($course->subject) > 1 ? 's' : '' }}
                                         </span>
                                     </summary>
 
@@ -213,7 +247,7 @@
                                                         {{-- Exam Tags --}}
                                                         <div class="flex flex-wrap gap-2">
                                                             @foreach ($subject->exam as $exam)
-                                                                <a href="{{ route('exam-questions', ['school' => $school->slug, 'course' => $course->slug, 'exam' => $exam->slug]) }}"
+                                                                {{-- <a href="{{ route('exam-questions', ['school' => $school->slug, 'course' => $course->slug, 'exam' => $exam->slug]) }}"
                                                                     class="group/item flex items-center gap-2 bg-white border border-border/80 rounded-lg px-3 py-2 text-xs font-medium text-foreground hover:border-emerald-500/50 hover:bg-emerald-50/50 transition-all shadow-sm">
                                                                     <svg xmlns="http://www.w3.org/2000/svg"
                                                                         width="12" height="12"
@@ -227,6 +261,7 @@
                                                                         <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
                                                                     </svg>
                                                                     <span>{{ $exam->name }}</span>
+                                                                    <span>{{ $exam->questions_count }}</span>
                                                                     <svg xmlns="http://www.w3.org/2000/svg"
                                                                         width="10" height="10"
                                                                         viewBox="0 0 24 24" fill="none"
@@ -235,6 +270,54 @@
                                                                         class="ml-1 opacity-0 -translate-x-1 group-hover/item:opacity-100 group-hover/item:translate-x-0 transition-all text-emerald-600">
                                                                         <path d="m9 18 6-6-6-6"></path>
                                                                     </svg>
+                                                                </a> --}}
+
+                                                                <a href="{{ route('exam-questions', ['school' => $school->slug, 'course' => $course->slug, 'exam' => $exam->slug]) }}"
+                                                                    class="group/item flex items-center justify-between gap-3 bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm font-medium text-gray-800 hover:border-emerald-400 hover:bg-emerald-50 transition-all duration-200 shadow-sm hover:shadow-md">
+
+                                                                    <!-- Left Section -->
+                                                                    <div class="flex items-center gap-3">
+                                                                        <div
+                                                                            class="p-2 rounded-lg bg-emerald-100 text-emerald-600 group-hover/item:bg-emerald-200 transition">
+                                                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                width="14" height="14"
+                                                                                viewBox="0 0 24 24" fill="none"
+                                                                                stroke="currentColor" stroke-width="2"
+                                                                                stroke-linecap="round"
+                                                                                stroke-linejoin="round">
+                                                                                <path
+                                                                                    d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z">
+                                                                                </path>
+                                                                                <path d="M14 2v4a2 2 0 0 0 2 2h4">
+                                                                                </path>
+                                                                            </svg>
+                                                                        </div>
+
+                                                                        <span
+                                                                            class="truncate">{{ $exam->name }}</span>
+                                                                    </div>
+
+                                                                    <!-- Right Section -->
+                                                                    <div class="flex items-center gap-2">
+
+                                                                        <!-- Question Count Badge -->
+                                                                        <span
+                                                                            class="text-xs font-semibold bg-emerald-100 text-emerald-700 px-2 py-1 rounded-full">
+                                                                            {{ $exam->questions_count }} Qs
+                                                                        </span>
+
+                                                                        <!-- Arrow -->
+                                                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                                                            width="12" height="12"
+                                                                            viewBox="0 0 24 24" fill="none"
+                                                                            stroke="currentColor" stroke-width="3"
+                                                                            stroke-linecap="round"
+                                                                            stroke-linejoin="round"
+                                                                            class="opacity-0 -translate-x-2 group-hover/item:opacity-100 group-hover/item:translate-x-0 transition-all text-emerald-600">
+                                                                            <path d="m9 18 6-6-6-6"></path>
+                                                                        </svg>
+
+                                                                    </div>
                                                                 </a>
                                                             @endforeach
                                                         </div>

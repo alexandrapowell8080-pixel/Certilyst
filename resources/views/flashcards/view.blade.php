@@ -67,6 +67,8 @@
     ]
   }
   </script>
+
+  
 </head>
 <body>
   {{-- Header --}}

@@ -152,11 +152,10 @@ document.addEventListener("DOMContentLoaded", () => {
             if (currentMode === "random") {
                 flashcards = [...allCards].sort(() => Math.random() - 0.5);
             } else if (currentMode === "weak") {
-                flashcards = allCards.filter(
-                    (card) =>
-                        card.status === "learning" || card.status === "new",
-                );
-                if (flashcards.length === 0) flashcards = [...allCards]; // Fallback
+                // Filter by the new is_hard property
+                flashcards = allCards.filter((card) => card.is_hard === true);
+
+                if (flashcards.length === 0) flashcards = [...allCards];
             } else {
                 flashcards = [...allCards];
             }

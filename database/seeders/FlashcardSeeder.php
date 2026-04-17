@@ -84,6 +84,7 @@ class FlashcardSeeder extends Seeder
                     'question'   => $card['q'],
                     'hint'       => $card['h'],
                     'answer'     => $card['a'],
+                    'is_hard'    => false,
                     'created_at' => now(),
                     'updated_at' => now(),
                 ];

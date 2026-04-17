@@ -141,3 +141,116 @@ document.querySelectorAll('.faq-question').forEach(button => {
     });
     
 })();
+/* ========================================
+   ROADMAP CAR ANIMATION
+   Paste at end of app.js - uses existing CSS classes
+======================================== */
+(function() {
+    const car = document.getElementById('animatedCar');
+    const roadPath = document.getElementById('roadPath');
+    if (!car || !roadPath) return;
+
+    const stepCards = [
+        document.getElementById('stepCard1'),
+        document.getElementById('stepCard2'),
+        document.getElementById('stepCard3'),
+        document.getElementById('stepCard4')
+    ];
+
+    const pinPositions = [280, 520, 780, 1050];
+    const pathLength = roadPath.getTotalLength();
+    
+    let currentPinIndex = 0;
+    let currentDistance = 0;
+    let isAnimating = true;
+    let isPaused = false;
+
+    function highlightCard(index) {
+        if (!stepCards[index]) return;
+        const card = stepCards[index];
+        
+        // Add glow effect using your existing transition
+        card.style.transform = 'scale(1.05)';
+        card.style.boxShadow = '0 0 30px rgba(124, 58, 237, 0.4), 0 12px 40px rgba(0, 0, 0, 0.12)';
+        
+        // Match card border to step color
+        const colors = {
+            0: '#8b5cf6',
+            1: '#22c55e',
+            2: '#3b82f6',
+            3: '#ec4899'
+        };
+        card.style.borderColor = colors[index];
+        
+        setTimeout(() => {
+            card.style.transform = '';
+            card.style.boxShadow = '';
+            card.style.borderColor = 'transparent';
+        }, 2500);
+    }
+
+    function animateCar() {
+        if (!isAnimating) return;
+
+        if (!isPaused) {
+            currentDistance += 2;
+
+            if (currentDistance >= pathLength) {
+                currentDistance = pathLength;
+                isAnimating = false;
+                stepCards.forEach((card, i) => setTimeout(() => highlightCard(i), i * 200));
+            }
+
+            if (currentPinIndex < pinPositions.length && currentDistance >= pinPositions[currentPinIndex]) {
+                isPaused = true;
+                highlightCard(currentPinIndex);
+                currentPinIndex++;
+                
+                setTimeout(() => {
+                    isPaused = false;
+                    if (currentDistance < pathLength && isAnimating) {
+                        requestAnimationFrame(animateCar);
+                    }
+                }, 2500);
+            }
+
+            const point = roadPath.getPointAtLength(currentDistance);
+            const nextPoint = roadPath.getPointAtLength(Math.min(currentDistance + 5, pathLength));
+            const angle = Math.atan2(nextPoint.y - point.y, nextPoint.x - point.x) * 180 / Math.PI;
+            
+            car.setAttribute('transform', `translate(${point.x}, ${point.y}) rotate(${angle})`);
+        }
+
+        if (isAnimating) requestAnimationFrame(animateCar);
+    }
+
+    setTimeout(() => requestAnimationFrame(animateCar), 800);
+
+    const roadmapWrapper = document.querySelector('.roadmap-wrapper');
+    if (roadmapWrapper) {
+        roadmapWrapper.addEventListener('mouseenter', () => {
+            if (!isAnimating) {
+                isAnimating = true;
+                currentDistance = 0;
+                currentPinIndex = 0;
+                isPaused = false;
+                car.setAttribute('transform', 'translate(80, 220)');
+                requestAnimationFrame(animateCar);
+            }
+        });
+    }
+
+    if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) {
+                    isAnimating = false;
+                } else if (currentDistance < pathLength && !isAnimating) {
+                    isAnimating = true;
+                    requestAnimationFrame(animateCar);
+                }
+            });
+        }, { threshold: 0.1 });
+        observer.observe(document.querySelector('.how-it-works-roadmap'));
+    }
+})();

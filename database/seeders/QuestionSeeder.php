@@ -15,7 +15,9 @@ class QuestionSeeder extends Seeder
     {
         DB::table('questions')->truncate();
 
-        $csvPath = 'C:/Users/' . get_current_user() . '/Downloads/praxis.csv';
+       // $csvPath = 'C:/Users/' . get_current_user() . '/Downloads/praxis.csv';
+        $csvPath = database_path('seeders/data/questions 17.csv');
+        //$csvPath = database_path('seeders/data/praxis.csv');
 
         if (!file_exists($csvPath)) {
             $this->command->error("❌ CSV file not found at: {$csvPath}");

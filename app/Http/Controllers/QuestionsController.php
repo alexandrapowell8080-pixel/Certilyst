@@ -35,11 +35,14 @@ class QuestionsController extends Controller
     
         $subject_slug = $currentExam->subject->slug;
         $school_name = $currentExam->subject->course->school->name;
+        $school_slug = $currentExam->subject->course->school->slug;
         $subject_name = $currentExam->subject->name;
         $course_name = $currentExam->subject->course->name;
+        $course_slug = $currentExam->subject->course->slug;
         $exam_name = $examRecord->name;
+        $exam_slug = $examRecord->slug;
      
-        return view('library.exam.questions', compact('question', 'questions_count', 'subject_slug', 'school','school_name','subject_name','course_name','exam_name'));
+        return view('library.exam.questions', compact('question', 'questions_count', 'subject_slug', 'school','school_name','subject_name','course_name','exam_name','school_slug','course_slug','exam_slug'));
     }
 
     public function examAnswers(Request $request): JsonResponse

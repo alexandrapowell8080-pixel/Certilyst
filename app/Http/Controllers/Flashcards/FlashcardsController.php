@@ -15,11 +15,12 @@ class FlashcardsController extends Controller
         // 2. Fetch the flashcards 
         $flashcards = $subject->flashcards->map(function ($card) {
             return [
-                'id'     => $card->id,
-                'q'      => $card->question,
-                'hint'   => $card->hint ?? 'No hint available',
-                'a'      => $card->answer,
-                'status' => 'new',
+                'id'      => $card->id,
+                'q'       => $card->question,
+                'hint'    => $card->hint ?? 'No hint available',
+                'a'       => $card->answer,
+                'status'  => 'new',
+                'is_hard' => $card->is_hard, 
             ];
         });
 

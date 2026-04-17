@@ -27,6 +27,7 @@
 /* Layout and Containers */
 .main-wrapper {
     font-family:
+        "SN Pro",
         system-ui,
         -apple-system,
         BlinkMacSystemFont,
@@ -273,7 +274,16 @@ svg.icon-sm {
 .card-tap-hint {
     font-size: 0.6875rem;
     color: var(--muted-fg);
-    margin-top: auto;
+    position: absolute;
+    bottom: 1.5rem;
+}
+#btn-hint {
+    text-decoration: none;
+}
+
+#btn-hint span {
+    text-decoration: underline;
+    text-underline-offset: 2px;
 }
 
 /* Back Face */

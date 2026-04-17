@@ -28,6 +28,7 @@
   <meta content="Certilyst" name="apple-mobile-web-app-title">
   
   <link href="{{ url()->current() }}" rel="canonical">
+  <link href="https://fonts.googleapis.com/css2?family=SN+Pro:ital,wght@0,200..900;1,200..900&family=Sniglet:wght@400;800&display=swap" rel="stylesheet">
 </head>
 <body>
   {{-- Header --}}
@@ -67,7 +68,7 @@
             <p id="card-question" class="card-question">Loading...</p>
             
             <div id="hint-text" class="card-hint hidden"></div>
-            <button id="btn-hint" class="btn btn-link">💡 Show Hint</button>
+            <button id="btn-hint" class="btn btn-link">💡 <span>Show Hint</span></button>
             
             <p class="card-tap-hint">Tap to reveal answer</p>
           </div>
@@ -86,7 +87,7 @@
                 </div> --}}
                 
                 <div class="answer-why-box">
-                  <p class="answer-why-label">💡 Why this is correct</p>
+                  {{-- <p class="answer-why-label">💡 Why this is correct</p> --}}
                   <p id="card-answer" class="answer-why-text"></p>
                 </div>
                 

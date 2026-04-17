@@ -10,7 +10,8 @@
                             <path d="m15 18-6-6 6-6"></path>
                         </svg> Exit</button></a>
                 <div class="hidden sm:block">
-                    <h2 class="font-poppins font-semibold text-sm" style="color: rgb(33, 37, 41);">Texas</h2>
+                    <h2 class="font-poppins font-semibold text-sm" style="color: rgb(33, 37, 41);"
+                        id="exam_id_{{ $question->exam_id }}">Texas</h2>
                 </div>
             </div>
             <div class="flex items-center gap-2"><span class="font-mono text-sm font-semibold px-3 py-1 rounded-full"
@@ -74,9 +75,9 @@
                         class="font-semibold remaining_questions">{{ $questions_count }}</span></div>
             </div>
             <div class="text-xs text-muted-foreground mb-2">Questions</div>
-            <div class="grid grid-cols-5 gap-1.5">
+            <div class="grid grid-cols-5 gap-1.5 max-h-[300px] overflow-y-scroll">
                 @for ($i = 0; $i < $questions_count; $i++)
-                    <button
+                    <button id="pill_{{ $i+1 }}"
                         class="w-full aspect-square rounded-lg text-xs font-semibold flex items-center justify-center transition-all border
                         {{ $i == 0 ? 'brand-gradient text-white border-transparent bg-primary' : 'bg-primary/30 text-muted-foreground border-border hover:border-primary/30' }}
                          ">{{ $i + 1 }}</button>
@@ -84,14 +85,17 @@
 
             </div>
         </div>
+
         {{-- question --}}
-        <div class="flex justify-center   w-full">
+        <div class="flex justify-center w-full">
 
             <div class="border p-6 sm:p-8  w-full "
                 style="background: rgb(255, 255, 255); border-color: rgb(233, 236, 239); box-shadow: rgba(0, 0, 0, 0.06) 0px 4px 12px;">
-                <div class="flex items-center justify-between mb-6"><span
-                        class="text-xs font-semibold px-3 py-1 rounded-full capitalize"
-                        style="background: rgb(245, 240, 255); color: rgb(106, 13, 173);">Single Choice</span><button
+                <div class="flex items-center justify-between mb-6">
+
+                    <span class="text-xs font-semibold px-3 py-1 rounded-full capitalize"
+                        style="background: rgb(245, 240, 255); color: rgb(106, 13, 173);">
+                        {{ $question->question_type == 'Regular' ? 'Single choice' : 'Single Choice' }}</span><button onclick="flaqQuestion"
                         class="flex items-center gap-1.5 text-xs font-medium transition-colors"
                         style="color: rgb(108, 117, 125);"><svg xmlns="http://www.w3.org/2000/svg" width="24"
                             height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -99,7 +103,9 @@
                             class="lucide lucide-flag w-4 h-4">
                             <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path>
                             <line x1="4" x2="4" y1="22" y2="15"></line>
-                        </svg>Flag</button></div>
+                        </svg>Flag</button>
+                </div>
+
                 <h3 id="q_id_{{ $question['id'] }}" class="question text-lg font-semibold mb-6 leading-relaxed"
                     style="color: rgb(33, 37, 41);">
                     {{ $question['question'] }}</h3>
@@ -143,73 +149,94 @@
                         class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground shadow hover:bg-primary/90 h-9 px-4 py-2"
                         disabled="" style="background: rgb(106, 13, 173); color: rgb(255, 255, 255);">Submit
                         Answer</button>
+                        <button id="nextButton" onclick="nextQuestion()"
+                        class="inline-flex items-center hidden justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground shadow hover:bg-primary/90 h-9 px-4 py-2"
+                          style="background: rgb(155, 47, 233); color: rgb(255, 255, 255);">Next Question
+                        </button>
 
 
                 </div>
             </div>
         </div>
 
+
         <div id="overlay"
             class="fixed hidden  inset-0 bg-black/50 bg-opacity-90 z-50 flex items-center justify-center">
-            <div class="bg-white rounded-lg p-6 sm:w-2/3 w-10/12 mx-auto overflow-y-scroll max-h-[80vh]">
-                <div class="flex flex-col space-y-1.5 text-center sm:text-left">
-                    <h2 id="wrong_icon"
-                        class="text-lg hidden font-semibold leading-none tracking-tight flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round" class="lucide lucide-circle-x w-6 h-6 text-destructive">
+            <div class="bg-white rounded-t-3xl  sm:rounded-2xl p-6 sm:p-8 w-full max-w-lg mx-auto relative shadow-2xl">
+                <button type="button" onclick="closeOverLay()"
+                    class="absolute right-4 top-4 rounded-full p-1.5 bg-muted/60 hover:bg-muted transition-colors"
+                    aria-label="Close"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round"
+                        class="lucide lucide-x h-4 w-4 text-foreground">
+                        <path d="M18 6 6 18"></path>
+                        <path d="m6 6 12 12"></path>
+                    </svg></button>
+                <div id="wrong_card" class="hidden">
+                    <div id="wrong_card" class="flex items-center gap-3 mb-5"><svg xmlns="http://www.w3.org/2000/svg"
+                            width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="lucide lucide-circle-x w-9 h-9 text-red-500 shrink-0">
                             <circle cx="12" cy="12" r="10"></circle>
                             <path d="m15 9-6 6"></path>
                             <path d="m9 9 6 6"></path>
-                        </svg><span class="text-destructive">Incorrect</span>
-                    </h2>
-
-                    <h2 id="correct_icon"
-                        class="text-lg hidden font-semibold leading-none tracking-tight flex items-center gap-2"><svg
-                            xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round" class="lucide lucide-circle-check-big w-6 h-6 text-green-500">
+                        </svg>
+                        <div>
+                            <p class="text-xl font-bold text-red-600">Incorrect</p>
+                            <p class="text-sm text-muted-foreground">Review the explanation below.</p>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-3 mb-4">
+                        <div class="rounded-xl p-3 bg-red-50 border border-red-200 text-center">
+                            <p class="text-[11px] font-semibold text-red-400 uppercase tracking-wide mb-1">Your Answer
+                            </p>
+                            <p class="text-2xl font-extrabold text-red-500" id="user_answer"></p>
+                            {{-- <p class="text-xs text-red-400 mt-1 line-clamp-2">Race</p> --}}
+                        </div>
+                        <div class="rounded-xl p-3 bg-green-50 border border-green-200 text-center">
+                            <p class="text-[11px] font-semibold text-green-500 uppercase tracking-wide mb-1">Correct
+                                Answer
+                            </p>
+                            <p class="text-2xl font-extrabold text-green-600" id="correct_answer"></p>
+                            {{-- <p class="text-xs text-green-500 mt-1 line-clamp-2">Age</p> --}}
+                        </div>
+                    </div>
+                </div>
+                <div class="hidden" id="correct_card">
+                    <div class="flex items-center gap-3 mb-5"><svg xmlns="http://www.w3.org/2000/svg" width="24"
+                            height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="lucide lucide-circle-check-big w-9 h-9 text-green-500 shrink-0">
                             <path d="M21.801 10A10 10 0 1 1 17 3.335"></path>
                             <path d="m9 11 3 3L22 4"></path>
-                        </svg><span class="text-green-700">Correct!</span></h2>
-                </div>
-                <div class="space-y-5">
-                    <div class="rounded-xl p-4 border"
-                        style="background: rgb(240, 253, 244); border-color: rgb(134, 239, 172);">
-                        <div class="flex items-start gap-2 mb-2">
-                            <p class="text-sm leading-relaxed" style="color: rgb(22, 101, 52);" id="rationale"> </p>
+                        </svg>
+                        <div>
+                            <p class="text-xl font-bold text-green-700">Correct!</p>
+                            <p class="text-sm text-muted-foreground">Great job, keep it up.</p>
                         </div>
-
-                        <div class="flex gap-3 pt-2"><a class="flex-1"
-                                href="{{ route('flashcards', ['school' => $school, 'subject' => $subject_slug]) }}"><button
-                                    class="inline-flex items-center justify-center gap-2 whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-transparent shadow-sm hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs w-full"><svg
-                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                        stroke-linecap="round" stroke-linejoin="round"
-                                        class="lucide lucide-book-open w-4 h-4 mr-1.5">
-                                        <path d="M12 7v14"></path>
-                                        <path
-                                            d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z">
-                                        </path>
-                                    </svg> Review in Flashcards</button></a><button onclick="nextQuestion()"
-                                class="inline-flex items-center justify-center gap-2 whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground shadow hover:bg-primary/90 h-8 rounded-md px-3 text-xs flex-1"
-                                style="background: rgb(106, 13, 173); color: rgb(255, 255, 255);">Next Question <svg
-                                    xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round"
-                                    class="lucide lucide-arrow-right w-4 h-4 ml-1.5">
-                                    <path d="M5 12h14"></path>
-                                    <path d="m12 5 7 7-7 7"></path>
-                                </svg></button></div>
-                    </div><button type="button"
-                        class="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground"><svg
+                    </div>
+                </div>
+                <div class="rounded-xl p-4 bg-blue-50 border border-blue-200 mb-5 max-h-[400px] overflow-y-scroll">
+                    <p class="text-xs font-semibold text-blue-500 uppercase tracking-wide mb-1">Explanation</p>
+                    <div class="text-sm leading-relaxed text-blue-900" id="rationale"></div>
+                </div>
+                <div class="flex flex-col sm:flex-row gap-3"><a href="{{ route('flashcards', ['school' => $school, 'subject' => $subject_slug]) }}"
+                        class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-transparent shadow-sm hover:bg-accent hover:text-accent-foreground px-4 py-2 flex-1 gap-1.5 h-11"><svg
                             xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round" class="lucide lucide-x h-4 w-4">
-                            <path d="M18 6 6 18"></path>
-                            <path d="m6 6 12 12"></path>
-                        </svg><span class="sr-only">Close</span></button>
-                </div>
+                            stroke-linejoin="round" class="lucide lucide-book-open w-4 h-4">
+                            <path d="M12 7v14"></path>
+                            <path
+                                d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z">
+                            </path>
+                        </svg>Flashcards</a><button onclick="nextQuestion()"
+                        class="inline-flex items-center justify-center whitespace-nowrap rounded-md transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary shadow hover:bg-primary/90 px-4 py-2 flex-1 gradient-primary text-white gap-1.5 h-11 text-base font-semibold">Next
+                        Question<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right w-4 h-4">
+                            <path d="M5 12h14"></path>
+                            <path d="m12 5 7 7-7 7"></path>
+                        </svg></button></div>
             </div>
         </div>
         {{-- right bar --}}
@@ -254,9 +281,11 @@
 <script>
     let selectedAnswer;
     let answeredQuestions = 0;
+    let remianingQuestion = document.querySelector('.remaining_questions').innerText;
     let submitButton = document.getElementById('submitButton');
     const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
     document.addEventListener('DOMContentLoaded', checkChoices());
+    const exam_id = document.querySelector('[id^="exam_id"]').id.replace('exam_id_', '');
 
     function checkChoices() {
         const options = document.querySelectorAll('[id^="choice"]');
@@ -276,9 +305,12 @@
     function submitAnswer() {
         let qid = document.querySelector('.question').id.replace('q_id_', '')
         submitButton.disabled = true;
+        document.getElementById('submitButton').classList.add('hidden')
+        document.getElementById('nextButton').classList.remove('hidden')
         const postData = {
             question_id: qid,
             user_answer: selectedAnswer,
+            exam_id: exam_id
         };
         fetch('/exam-question', {
                 method: 'POST',
@@ -291,13 +323,28 @@
             })
             .then(response => response.json())
             .then(data => {
+                remianingQuestion--
+                document.querySelector('.remaining_questions').innerText = remianingQuestion 
                 document.getElementById('overlay').classList.remove('hidden')
-                document.getElementById('rationale').innerText = data.rationale
+                document.getElementById('rationale').innerHTML = data.rationale
+                let p_id = Number(answeredQuestions) +  1
+                let next_p_id = Number(answeredQuestions) +  2
+                let pill_id = "pill_"+ p_id
+                let next_pill_id = "pill_"+ next_p_id 
+                let pill = document.getElementById(pill_id)
+                pill.classList.remove('bg-primary','text-muted-foreground')
                 if (data.status == 'correct') {
-                    document.getElementById('correct_icon').classList.remove('hidden')
+                    document.getElementById('correct_card').classList.remove('hidden')
+                    pill.classList.add('bg-green-700','text-white')
                 } else if (data.status == 'wrong') {
-                    document.getElementById('wrong_icon').classList.remove('hidden')
+                    pill.classList.add('bg-red-700','text-white')
+                    document.getElementById('wrong_card').classList.remove('hidden')
+                    document.getElementById('user_answer').innerText = selectedAnswer
+                    document.getElementById('correct_answer').innerText = data.correct_answer
                 }
+
+                document.getElementById(next_pill_id).classList.remove('bg-primary/30');
+                document.getElementById(next_pill_id).classList.add('bg-primary');
             })
             .catch(err => {
                 console.error(err)
@@ -306,14 +353,18 @@
 
     function nextQuestion() {
         let qid = document.querySelector('.question').id.replace('q_id_', '')
-
+        
         const postData = {
             question_id: qid,
         };
         fetch('/next-question/' + qid)
             .then(response => response.json())
             .then(data => {
+                document.getElementById('submitButton').classList.remove('hidden')
+        document.getElementById('nextButton').classList.add('hidden')
                 document.getElementById('overlay').classList.add('hidden')
+                 document.getElementById('wrong_card').classList.add('hidden')
+                  document.getElementById('correct_card').classList.add('hidden')
                 selectedAnswer = null
                 const options = document.querySelectorAll('[id^="choice"]');
                 options.forEach(option => {
@@ -321,9 +372,7 @@
                         'border-primary', 'text-black'));
                 });
                 document.querySelector('.question').innerText = data.question
-                document.querySelector('.question').id = "q_id_" + data.id
-                document.getElementById('correct_icon').classList.add('hidden')
-                document.getElementById('wrong_icon').classList.add('hidden')
+                document.querySelector('.question').id = "q_id_" + data.id 
                 answeredQuestions = answeredQuestions + 1
                 document.querySelector('.answered_questions').innerText = answeredQuestions
                 document.getElementById('answered_questions').innerText = answeredQuestions
@@ -335,5 +384,9 @@
             .catch(err => {
                 console.error(err)
             })
+    }
+
+    function closeOverLay(){
+          document.getElementById('overlay').classList.add('hidden')
     }
 </script>

@@ -164,6 +164,33 @@ document.addEventListener("DOMContentLoaded", () => {
             renderCard();
         });
     });
+    // Dynamic Back Button Logic (SEO Friendly)
+    const btnBackDynamic = document.getElementById("btn-back-dynamic");
+    if (btnBackDynamic) {
+        const referrer = document.referrer || "";
+
+        // If they came from the library page
+        if (referrer.includes("/library")) {
+            btnBackDynamic.textContent = "Back to Library";
+            btnBackDynamic.addEventListener("click", () => {
+                window.location.href = referrer;
+            });
+        }
+        // If they came from a different page
+        else if (referrer && !referrer.includes("/flashcards")) {
+            btnBackDynamic.textContent = "Back to Questions";
+            btnBackDynamic.addEventListener("click", () => {
+                window.history.back();
+            });
+        }
+        // Fallback if they navigated directly to the URL
+        else {
+            btnBackDynamic.textContent = "Back to Library";
+            btnBackDynamic.addEventListener("click", () => {
+                window.location.href = "/library";
+            });
+        }
+    }
 
     // Init
     renderCard();

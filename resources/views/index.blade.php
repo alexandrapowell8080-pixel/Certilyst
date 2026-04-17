@@ -297,8 +297,8 @@
                     <rect x="-70" y="-28" width="140" height="70" rx="12" fill="white"/>
                     <circle cx="-40" cy="8" r="14" fill="#7c3aed"/>
                     <text x="-40" y="13" text-anchor="middle" fill="white" font-size="15" font-weight="800" font-family="Inter, sans-serif">1</text>
-                    <text x="15" y="-2" fill="#0f172a" font-size="13" font-weight="700" font-family="Inter, sans-serif">Choose your exam</text>
-                    <text x="15" y="16" fill="#64748b" font-size="10" font-family="Inter, sans-serif">Browse 200+ certification paths</text>
+                    <text x="-57" y="-8" fill="orangered" font-size="13" font-weight="700" font-family="Inter, sans-serif">Choose your exam</text>
+                    <text x="-50" y="36" fill="#64748b" font-size="10" font-family="Inter, sans-serif">Browse 200+ certification paths</text>
                 </g>
                 
                 <!-- Step 2 -->
@@ -306,8 +306,8 @@
                     <rect x="-80" y="-28" width="160" height="70" rx="12" fill="white"/>
                     <circle cx="-50" cy="8" r="14" fill="#7c3aed"/>
                     <text x="-50" y="13" text-anchor="middle" fill="white" font-size="15" font-weight="800" font-family="Inter, sans-serif">2</text>
-                    <text x="10" y="-2" fill="#0f172a" font-size="13" font-weight="700" font-family="Inter, sans-serif">Take realistic simulations</text>
-                    <text x="10" y="16" fill="#64748b" font-size="10" font-family="Inter, sans-serif">Timed, exam-accurate question sets</text>
+                    <text x="-57" y="-8" fill="#90EE90" font-size="13" font-weight="700" font-family="Inter, sans-serif">Take realistic simulations</text>
+                    <text x="-50" y="36" fill="#64748b" font-size="10" font-family="Inter, sans-serif">Timed, exam-accurate question sets</text>
                 </g>
                 
                 <!-- Step 3 -->
@@ -315,8 +315,8 @@
                     <rect x="-85" y="-28" width="170" height="70" rx="12" fill="white"/>
                     <circle cx="-55" cy="8" r="14" fill="#7c3aed"/>
                     <text x="-55" y="13" text-anchor="middle" fill="white" font-size="15" font-weight="800" font-family="Inter, sans-serif">3</text>
-                    <text x="10" y="-2" fill="#0f172a" font-size="13" font-weight="700" font-family="Inter, sans-serif">Review detailed rationales</text>
-                    <text x="10" y="16" fill="#64748b" font-size="10" font-family="Inter, sans-serif">Expert explanations for every answer</text>
+                    <text x="-57" y="-8" fill="#0f172a" font-size="13" font-weight="700" font-family="Inter, sans-serif">Review detailed rationales</text>
+                    <text x="-50" y="36" fill="#64748b" font-size="10" font-family="Inter, sans-serif">Expert explanations for every answer</text>
                 </g>
                 
                 <!-- Step 4 -->
@@ -324,8 +324,8 @@
                     <rect x="-75" y="-28" width="150" height="70" rx="12" fill="white"/>
                     <circle cx="-45" cy="8" r="14" fill="#7c3aed"/>
                     <text x="-45" y="13" text-anchor="middle" fill="white" font-size="15" font-weight="800" font-family="Inter, sans-serif">4</text>
-                    <text x="15" y="-2" fill="#0f172a" font-size="13" font-weight="700" font-family="Inter, sans-serif">Track readiness & pass</text>
-                    <text x="15" y="16" fill="#64748b" font-size="10" font-family="Inter, sans-serif">Monitor progress until certified</text>
+                    <text x="-57" y="-8" fill="#0f172a" font-size="13" font-weight="700" font-family="Inter, sans-serif">Track readiness & pass</text>
+                    <text x="-50" y="36" fill="#64748b" font-size="10" font-family="Inter, sans-serif">Monitor progress until certified</text>
                 </g>
                 
                 <!-- Sun -->

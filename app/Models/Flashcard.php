@@ -12,6 +12,11 @@ class Flashcard extends Model
         'question',
         'answer',
         'hint',
+        'is_hard',
+    ];
+
+    protected $casts = [
+        'is_hard' => 'boolean',
     ];
 
     /**

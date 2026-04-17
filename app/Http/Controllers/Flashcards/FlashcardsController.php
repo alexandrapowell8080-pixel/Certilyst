@@ -20,7 +20,7 @@ class FlashcardsController extends Controller
         $school_slug = $school;
 
         // 2. Fetch the flashcards 
-        $flashcards = $subject->flashcards->map(function ($card) {
+        $flashcards = $subject->flashcards()->get()->map(function ($card) {
             return [
                 'id'      => $card->id,
                 'q'       => $card->question,

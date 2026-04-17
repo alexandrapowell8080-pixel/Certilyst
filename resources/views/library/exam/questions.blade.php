@@ -1,7 +1,49 @@
 <x-library-layout>
+    @section('title', 'Cerilyst Learning Library')
+    @section('description',
+        'Ace your '.$course_name.' using '.  $exam_name )
+   
+
+    @section('keywords', $school_name . ', ' . $course_name . ', ' . $subject_name . ', ' . $exam_name)
+
+@section('canonical', url($school_slug . '/' . $course_slug . '/' . $exam_slug))
+
+
+    @push('schema')
+         <script type="application/ld+json">
+        {
+        "@@context": "https://schema.org",
+        "@@type": "BreadcrumbList",
+        "itemListElement": [
+                    {
+                        "@@type": "ListItem",
+                        "position": 1,
+                        "name": "Exam name",
+                        "item": "{{ url($school_slug . '/' . $course_slug . '/' . $exam_slug) }}"
+                    },
+                    {
+                        "@@type": "ListItem",
+                        "position": 2,
+                        "name": "Library",
+                        "item": "{{ url('/library') }}"
+                    },
+                    {
+                        "@@type": "ListItem",
+                        "position": 3,
+                        "name": "Home",
+                        "item": "{{ url('/') }}"
+                    }
+            ]
+        }
+</script>
+    @endpush
+
+
+
+
     {{-- NAVBAR --}}
     <div class="bg-white border-b sticky top-0 z-40" style="border-color: rgb(233, 236, 239);">
-        <div class="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
+        <div class="sm:max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
             <div class="flex items-center gap-3"><a href="{{ route('library') }}"><button
                         class="inline-flex items-center justify-center gap-2 whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs"><svg
                             xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
@@ -19,7 +61,7 @@
                     class="hidden sm:flex items-center gap-1 text-xs font-medium px-3 py-1 rounded-full"
                     style="background: rgb(255, 243, 205); color: rgb(133, 100, 4);">Trial: 1/5</span></div>
             <div class="flex items-center gap-3">
-                <div class="flex items-center gap-1.5 text-sm" style="color: rgb(108, 117, 125);"><svg
+                <div class="hidden items-center gap-1.5 text-sm" style="color: rgb(108, 117, 125);"><svg
                         xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round" class="lucide lucide-clock w-4 h-4">
@@ -91,12 +133,12 @@
 
             <div class="border p-6 sm:p-8  w-full "
                 style="background: rgb(255, 255, 255); border-color: rgb(233, 236, 239); box-shadow: rgba(0, 0, 0, 0.06) 0px 4px 12px;">
-                <div class="flex items-center justify-between mb-6">
+                <div class="flex items-center justify-between mb-6 ">
 
                     <span class="text-xs font-semibold px-3 py-1 rounded-full capitalize"
                         style="background: rgb(245, 240, 255); color: rgb(106, 13, 173);">
                         {{ $question->question_type == 'Regular' ? 'Single choice' : 'Single Choice' }}</span><button onclick="flaqQuestion"
-                        class="flex items-center gap-1.5 text-xs font-medium transition-colors"
+                        class="flex items-center hidden gap-1.5 text-xs font-medium transition-colors"
                         style="color: rgb(108, 117, 125);"><svg xmlns="http://www.w3.org/2000/svg" width="24"
                             height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -240,7 +282,7 @@
             </div>
         </div>
         {{-- right bar --}}
-        <div class=" xl:block w-72 bg-card border-l border-border p-5 overflow-auto">
+        <div class=" sm:block hidden w-72 bg-card border-l border-border p-5 overflow-auto">
             <div class="space-y-5">
                 <div class="bg-blue-400/20 rounded-xl p-4">
                     <div class="flex items-center gap-2 mb-2"><svg xmlns="http://www.w3.org/2000/svg" width="24"

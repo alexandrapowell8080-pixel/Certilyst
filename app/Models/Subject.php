@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Models\Flashcard;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Subject extends Model
 {
@@ -14,6 +15,11 @@ class Subject extends Model
     public function exam():HasMany
     {
         return $this->hasMany(Exam::class,'subject_id');
+    }
+
+    public function course():BelongsTo
+    {
+        return $this->belongsTo(course::class);
     }
 
     // New relationship added safely below your existing code

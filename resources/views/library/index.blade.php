@@ -1,4 +1,40 @@
 <x-library-layout>
+    @php
+        $sch = [];
+
+        foreach ($schools as $key => $school) {
+            $sch[] = $school->name;
+        }
+    @endphp
+    @section('title', 'Cerilyst Learning Library')
+    @section('description',
+        'Access our prep materials ranging from Business and Finance, IT, Real estate, Insurance,
+        Praxis, Nursing, Medical & Allied health and Project management')
+    @section('keywords', implode(',', $sch))
+    @section('canonical', env('app_url') . '/library/')
+
+    @push('schema')
+        <script type="application/ld+json">
+        {
+        "@@context": "https://schema.org",
+        "@@type": "BreadcrumbList",
+        "itemListElement": [
+                    {
+                        "@@type": "ListItem",
+                        "position": 1,
+                        "name": "Library",
+                        "item": "{{ url('/library') }}"
+                    },
+                    {
+                        "@@type": "ListItem",
+                        "position": 2,
+                        "name": "Home",
+                        "item": "{{ url('/') }}"
+                    }
+            ]
+        }
+</script>
+    @endpush
     @if (session('message'))
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script>
@@ -21,6 +57,7 @@
             });
         </script>
     @endif
+
     <div class="bg-white border-b sn-pro-700" style="border-color: rgb(233, 236, 239); ">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10">
             <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 border-b border-border pb-8">
@@ -60,7 +97,7 @@
         </div>
     </div>
 
-    <div class="w-10/12 mb-5 mx-auto mt-4 sn-pro-400" x-data="{
+    <div class="sm:w-10/12 w-11/12 mb-5 mx-auto mt-4 sn-pro-400" x-data="{
         activeSchool: 'all',
         moveToFront(id) {
             this.activeSchool = id;
@@ -115,7 +152,7 @@
                             class="flex items-center justify-between p-5 cursor-pointer hover:bg-muted/30 transition-colors list-none">
                             <div class="flex items-center gap-4">
                                 <div
-                                    class="w-12 h-12 rounded-xl bg-secondary flex items-center justify-center text-xl shadow-inner">
+                                    class="w-12 h-12 rounded-xl bg-secondary sm:flex items-center justify-center text-xl shadow-inner  hidden">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                         viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"
                                         stroke-linecap="round" stroke-linejoin="round"
@@ -150,14 +187,14 @@
                         </summary>
 
                         {{-- COURSES CONTAINER --}}
-                        <div class="px-5 pb-5 pt-2 bg-slate-50/50 border-t border-border/50">
+                        <div class="sm:px-5 px-2 pb-5 pt-2 bg-slate-50/50 border-t border-border/50">
                             @foreach ($school->course as $course)
-                                <details
+                                <details open
                                     class="group/course mt-3 border border-border/60 rounded-xl bg-white shadow-sm overflow-hidden">
                                     <summary
-                                        class="w-full flex items-center gap-3 p-3 text-left cursor-pointer hover:bg-emerald-50/30 transition-colors list-none">
+                                        class="w-full sm:flex items-center gap-3 p-3 text-left cursor-pointer hover:bg-emerald-50/30 transition-colors list-none">
                                         <div
-                                            class="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center flex-shrink-0 shadow-sm">
+                                            class="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-500 to-teal-600 sm:flex hidden items-center justify-center flex-shrink-0 shadow-sm">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                 viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -173,30 +210,30 @@
                                                 </path>
                                             </svg>
                                         </div>
-                                        <span
-                                            class="text-sm font-bold text-foreground flex-1 tracking-tight">{{ $course->name }}</span>
-                                        <span
+                                        <p class="text-sm font-bold text-foreground flex-1 tracking-tight">
+                                            {{ $course->name }}</p>
+                                        <p
                                             class="text-[11px] font-semibold text-muted-foreground bg-muted px-2 py-0.5 rounded-md uppercase tracking-wider">
                                             {{ count($course->subject) }}
                                             subject{{ count($course->subject) > 1 ? 's' : '' }}
-                                        </span>
+                                        </p>
                                     </summary>
 
                                     {{-- SUBJECTS LIST --}}
                                     <div class="px-4 pb-4 pt-1 sn-pro-500">
-                                        <div class="space-y-2 border-l-2 border-emerald-100 ml-4 pl-4">
+                                        <div class="space-y-2 border-l-2 border-emerald-100 sm:ml-4 sm:pl-4">
                                             @foreach ($course->subject as $subject)
-                                                <details class="group/subject">
+                                                <details open class="group/subject">
                                                     <summary
-                                                        class="list-none cursor-pointer w-full flex items-center justify-between gap-3 py-2 px-3 rounded-lg hover:bg-slate-50 transition-all">
+                                                        class="list-none cursor-pointer w-full sm:flex items-center justify-between gap-3 py-2 px-3 rounded-lg hover:bg-slate-50 transition-all">
                                                         <div class="flex items-center gap-2.5 flex-1 min-w-0">
                                                             <div
-                                                                class="w-2 h-2 rounded-full bg-emerald-400 group-open/subject:bg-emerald-600 transition-colors">
+                                                                class="w-2 h-2 rounded-full bg-emerald-400 group-open/subject:bg-emerald-600 transition-colors sm:block hidden">
                                                             </div>
                                                             <span
                                                                 class="text-sm font-semibold text-foreground/90">{{ $subject->name }}</span>
                                                         </div>
-                                                        <div class="flex items-center gap-2">
+                                                        <div class="flex justify-between items-center gap-2">
                                                             <span
                                                                 class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700 tabular-nums">
                                                                 {{ $subject->exam->count() }} EXAMS
@@ -215,7 +252,7 @@
                                                     <div class="mt-2 space-y-3 pl-4 pb-2">
                                                         {{-- Highlighted Flashcard Action --}}
                                                         <div
-                                                            class="flex items-center justify-between rounded-xl p-3 bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-100 shadow-sm">
+                                                            class="sm:flex items-center justify-between rounded-xl p-3 bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-100 shadow-sm">
                                                             <div class="flex items-center gap-3">
                                                                 <div
                                                                     class="w-9 h-9 rounded-lg bg-white flex items-center justify-center shadow-sm text-emerald-600">
@@ -239,7 +276,7 @@
                                                                 </div>
                                                             </div>
                                                             <a href="{{ route('flashcards', ['school' => $school->slug, 'subject' => $subject->slug]) }}"
-                                                                class="text-[11px] font-bold px-4 py-1.5 rounded-lg bg-emerald-600 text-white hover:bg-emerald-700 shadow-md shadow-emerald-200 transition-all">
+                                                                class="text-[11px] font-bold w-full sm:w-fit px-4 py-1.5 rounded-lg bg-emerald-600 text-white hover:bg-emerald-700 shadow-md shadow-emerald-200 transition-all">
                                                                 START
                                                             </a>
                                                         </div>
@@ -273,12 +310,12 @@
                                                                 </a> --}}
 
                                                                 <a href="{{ route('exam-questions', ['school' => $school->slug, 'course' => $course->slug, 'exam' => $exam->slug]) }}"
-                                                                    class="group/item flex items-center justify-between gap-3 bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm font-medium text-gray-800 hover:border-emerald-400 hover:bg-emerald-50 transition-all duration-200 shadow-sm hover:shadow-md">
+                                                                    class="group/item sm:flex items-center justify-between gap-3 bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm font-medium text-gray-800 hover:border-emerald-400 hover:bg-emerald-50 transition-all duration-200 shadow-sm hover:shadow-md">
 
                                                                     <!-- Left Section -->
-                                                                    <div class="flex items-center gap-3">
+                                                                    <div class=" items-center gap-3">
                                                                         <div
-                                                                            class="p-2 rounded-lg bg-emerald-100 text-emerald-600 group-hover/item:bg-emerald-200 transition">
+                                                                            class="p-2 rounded-lg bg-emerald-100  sm:block hidden text-emerald-600 group-hover/item:bg-emerald-200 transition">
                                                                             <svg xmlns="http://www.w3.org/2000/svg"
                                                                                 width="14" height="14"
                                                                                 viewBox="0 0 24 24" fill="none"
@@ -294,7 +331,7 @@
                                                                         </div>
 
                                                                         <span
-                                                                            class="truncate">{{ $exam->name }}</span>
+                                                                            class="sm:truncate">{{ $exam->name }}</span>
                                                                     </div>
 
                                                                     <!-- Right Section -->
@@ -305,18 +342,6 @@
                                                                             class="text-xs font-semibold bg-emerald-100 text-emerald-700 px-2 py-1 rounded-full">
                                                                             {{ $exam->questions_count }} Qs
                                                                         </span>
-
-                                                                        <!-- Arrow -->
-                                                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                                                            width="12" height="12"
-                                                                            viewBox="0 0 24 24" fill="none"
-                                                                            stroke="currentColor" stroke-width="3"
-                                                                            stroke-linecap="round"
-                                                                            stroke-linejoin="round"
-                                                                            class="opacity-0 -translate-x-2 group-hover/item:opacity-100 group-hover/item:translate-x-0 transition-all text-emerald-600">
-                                                                            <path d="m9 18 6-6-6-6"></path>
-                                                                        </svg>
-
                                                                     </div>
                                                                 </a>
                                                             @endforeach

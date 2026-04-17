@@ -5,20 +5,13 @@
                 <div class="flex items-center gap-2 mb-4">
                     <div
                         class="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
-                        <span class="text-white font-poppins font-bold text-sm">C</span></div><span
+                        <span class="text-white font-poppins font-bold text-sm"><img src="{{ asset('images/logo-1.png') }}"
+                            alt="Certilyst"></span></div><span
                         class="font-poppins font-bold text-xl">Cerilyst</span>
                 </div>
                 <p class="text-background/60 text-sm leading-relaxed mb-6">Expert-led certification prep across Real
                     Estate, Insurance, IT, Education, and more. Master your exams with confidence.</p>
-                <div class="flex gap-4"><a href="#"
-                        class="w-9 h-9 rounded-full bg-background/10 hover:bg-primary/80 flex items-center justify-center transition-colors text-xs font-medium">T</a><a
-                        href="#"
-                        class="w-9 h-9 rounded-full bg-background/10 hover:bg-primary/80 flex items-center justify-center transition-colors text-xs font-medium">L</a><a
-                        href="#"
-                        class="w-9 h-9 rounded-full bg-background/10 hover:bg-primary/80 flex items-center justify-center transition-colors text-xs font-medium">Y</a><a
-                        href="#"
-                        class="w-9 h-9 rounded-full bg-background/10 hover:bg-primary/80 flex items-center justify-center transition-colors text-xs font-medium">I</a>
-                </div>
+               
             </div>
             <div>
                 <h4 class="font-poppins font-semibold text-sm mb-4 uppercase tracking-wider text-background/80">Quick

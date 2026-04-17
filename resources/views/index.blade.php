@@ -260,78 +260,172 @@
             <h2 class="section-title">How It Works</h2>
             <p class="section-subtitle">Four simple steps to exam success.</p>
         </div>
+
         <div class="roadmap-wrapper">
-            <svg viewBox="0 0 900 400" xmlns="http://www.w3.org/2000/svg" class="roadmap-svg">
+            <svg viewBox="0 0 1200 300" xmlns="http://www.w3.org/2000/svg" class="roadmap-svg" preserveAspectRatio="xMidYMid meet">
                 <defs>
                     <linearGradient id="roadGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stop-color="#1e293b"/><stop offset="100%" stop-color="#0f172a"/>
+                        <stop offset="0%" stop-color="#1e293b"/>
+                        <stop offset="100%" stop-color="#0f172a"/>
                     </linearGradient>
-                    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-                        <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000" flood-opacity="0.15"/>
+                    <filter id="roadShadow" x="-20%" y="-20%" width="140%" height="140%">
+                        <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000" flood-opacity="0.2"/>
                     </filter>
+                    <!-- Pin Gradients -->
+                    <linearGradient id="pinPurple" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stop-color="#8b5cf6"/>
+                        <stop offset="100%" stop-color="#7c3aed"/>
+                    </linearGradient>
+                    <linearGradient id="pinGreen" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stop-color="#22c55e"/>
+                        <stop offset="100%" stop-color="#16a34a"/>
+                    </linearGradient>
+                    <linearGradient id="pinBlue" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stop-color="#3b82f6"/>
+                        <stop offset="100%" stop-color="#2563eb"/>
+                    </linearGradient>
+                    <linearGradient id="pinPink" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stop-color="#ec4899"/>
+                        <stop offset="100%" stop-color="#db2777"/>
+                    </linearGradient>
                 </defs>
                 
-                <!-- Background -->
-                <rect width="900" height="400" fill="#fce7f3" rx="16"/>
-                
-                <!-- Tarmac Road -->
-                <path d="M 40 320 Q 150 320, 200 240 T 350 180 T 500 120 T 650 180 T 800 240 T 860 180" fill="none" stroke="url(#roadGrad)" stroke-width="56" stroke-linecap="round" stroke-linejoin="round"/>
+                <!-- Winding Road Path -->
+                <path d="M 50 200 
+                         C 150 200, 200 150, 300 150 
+                         C 400 150, 450 200, 550 200 
+                         C 650 200, 700 100, 800 100 
+                         C 900 100, 950 180, 1050 180 
+                         C 1100 180, 1130 150, 1150 140" 
+                      fill="none" 
+                      stroke="url(#roadGrad)" 
+                      stroke-width="48" 
+                      stroke-linecap="round" 
+                      stroke-linejoin="round"
+                      filter="url(#roadShadow)"/>
                 
                 <!-- Center Dashed Line -->
-                <path d="M 40 320 Q 150 320, 200 240 T 350 180 T 500 120 T 650 180 T 800 240 T 860 180" fill="none" stroke="#fbbf24" stroke-width="2" stroke-dasharray="10 8" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M 50 200 
+                         C 150 200, 200 150, 300 150 
+                         C 400 150, 450 200, 550 200 
+                         C 650 200, 700 100, 800 100 
+                         C 900 100, 950 180, 1050 180 
+                         C 1100 180, 1130 150, 1150 140" 
+                      fill="none" 
+                      stroke="#fbbf24" 
+                      stroke-width="3" 
+                      stroke-dasharray="12 10" 
+                      stroke-linecap="round" 
+                      stroke-linejoin="round"
+                      opacity="0.9"/>
                 
-                <!-- Road Edges -->
-                <path d="M 40 294 Q 150 294, 200 214 T 350 154 T 500 94 T 650 154 T 800 214 T 860 154" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-opacity="0.4" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M 40 346 Q 150 346, 200 266 T 350 206 T 500 146 T 650 206 T 800 266 T 860 196" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-opacity="0.4" stroke-linecap="round" stroke-linejoin="round"/>
-                
-                <!-- START -->
-                <rect x="20" y="300" width="44" height="28" rx="6" fill="#10b981" filter="url(#shadow)"/>
-                <text x="42" y="319" text-anchor="middle" fill="white" font-size="11" font-weight="700" font-family="Inter, sans-serif">START</text>
-                
-                <!-- FINISH -->
-                <rect x="836" y="160" width="44" height="28" rx="6" fill="#ef4444" filter="url(#shadow)"/>
-                <text x="858" y="179" text-anchor="middle" fill="white" font-size="11" font-weight="700" font-family="Inter, sans-serif">FINISH</text>
-                
-                <!-- Step 1 -->
-                <g transform="translate(220, 180)" filter="url(#shadow)">
-                    <rect x="-70" y="-28" width="140" height="70" rx="12" fill="white"/>
-                    <circle cx="-40" cy="8" r="14" fill="#7c3aed"/>
-                    <text x="-40" y="13" text-anchor="middle" fill="white" font-size="15" font-weight="800" font-family="Inter, sans-serif">1</text>
-                    <text x="-57" y="-8" fill="orangered" font-size="13" font-weight="700" font-family="Inter, sans-serif">Choose your exam</text>
-                    <text x="-50" y="36" fill="#64748b" font-size="10" font-family="Inter, sans-serif">Browse 200+ certification paths</text>
+                <!-- Pin Marker 1 (Purple) -->
+                <g transform="translate(280, 120)">
+                    <path d="M 0,-35 C -12,-35 -22,-25 -22,-12 C -22,5 0,25 0,25 C 0,25 22,5 22,-12 C 22,-25 12,-35 0,-35 Z" 
+                          fill="url(#pinPurple)" 
+                          stroke="white" 
+                          stroke-width="2"/>
+                    <circle cx="0" cy="-12" r="6" fill="white"/>
+                    <text x="0" y="-8" text-anchor="middle" fill="#7c3aed" font-size="12" font-weight="800" font-family="Inter, sans-serif">1</text>
                 </g>
                 
-                <!-- Step 2 -->
-                <g transform="translate(420, 100)" filter="url(#shadow)">
-                    <rect x="-80" y="-28" width="160" height="70" rx="12" fill="white"/>
-                    <circle cx="-50" cy="8" r="14" fill="#7c3aed"/>
-                    <text x="-50" y="13" text-anchor="middle" fill="white" font-size="15" font-weight="800" font-family="Inter, sans-serif">2</text>
-                    <text x="-57" y="-8" fill="#90EE90" font-size="13" font-weight="700" font-family="Inter, sans-serif">Take realistic simulations</text>
-                    <text x="-50" y="36" fill="#64748b" font-size="10" font-family="Inter, sans-serif">Timed, exam-accurate question sets</text>
+                <!-- Pin Marker 2 (Green) -->
+                <g transform="translate(520, 170)">
+                    <path d="M 0,-35 C -12,-35 -22,-25 -22,-12 C -22,5 0,25 0,25 C 0,25 22,5 22,-12 C 22,-25 12,-35 0,-35 Z" 
+                          fill="url(#pinGreen)" 
+                          stroke="white" 
+                          stroke-width="2"/>
+                    <circle cx="0" cy="-12" r="6" fill="white"/>
+                    <text x="0" y="-8" text-anchor="middle" fill="#16a34a" font-size="12" font-weight="800" font-family="Inter, sans-serif">2</text>
                 </g>
                 
-                <!-- Step 3 -->
-                <g transform="translate(620, 180)" filter="url(#shadow)">
-                    <rect x="-85" y="-28" width="170" height="70" rx="12" fill="white"/>
-                    <circle cx="-55" cy="8" r="14" fill="#7c3aed"/>
-                    <text x="-55" y="13" text-anchor="middle" fill="white" font-size="15" font-weight="800" font-family="Inter, sans-serif">3</text>
-                    <text x="-57" y="-8" fill="#0f172a" font-size="13" font-weight="700" font-family="Inter, sans-serif">Review detailed rationales</text>
-                    <text x="-50" y="36" fill="#64748b" font-size="10" font-family="Inter, sans-serif">Expert explanations for every answer</text>
+                <!-- Pin Marker 3 (Blue) -->
+                <g transform="translate(780, 70)">
+                    <path d="M 0,-35 C -12,-35 -22,-25 -22,-12 C -22,5 0,25 0,25 C 0,25 22,5 22,-12 C 22,-25 12,-35 0,-35 Z" 
+                          fill="url(#pinBlue)" 
+                          stroke="white" 
+                          stroke-width="2"/>
+                    <circle cx="0" cy="-12" r="6" fill="white"/>
+                    <text x="0" y="-8" text-anchor="middle" fill="#2563eb" font-size="12" font-weight="800" font-family="Inter, sans-serif">3</text>
                 </g>
                 
-                <!-- Step 4 -->
-                <g transform="translate(790, 120)" filter="url(#shadow)">
-                    <rect x="-75" y="-28" width="150" height="70" rx="12" fill="white"/>
-                    <circle cx="-45" cy="8" r="14" fill="#7c3aed"/>
-                    <text x="-45" y="13" text-anchor="middle" fill="white" font-size="15" font-weight="800" font-family="Inter, sans-serif">4</text>
-                    <text x="-57" y="-8" fill="#0f172a" font-size="13" font-weight="700" font-family="Inter, sans-serif">Track readiness & pass</text>
-                    <text x="-50" y="36" fill="#64748b" font-size="10" font-family="Inter, sans-serif">Monitor progress until certified</text>
+                <!-- Pin Marker 4 (Pink) -->
+                <g transform="translate(1080, 150)">
+                    <path d="M 0,-35 C -12,-35 -22,-25 -22,-12 C -22,5 0,25 0,25 C 0,25 22,5 22,-12 C 22,-25 12,-35 0,-35 Z" 
+                          fill="url(#pinPink)" 
+                          stroke="white" 
+                          stroke-width="2"/>
+                    <circle cx="0" cy="-12" r="6" fill="white"/>
+                    <text x="0" y="-8" text-anchor="middle" fill="#db2777" font-size="12" font-weight="800" font-family="Inter, sans-serif">4</text>
                 </g>
-                
-                <!-- Sun -->
-                <circle cx="750" cy="50" r="30" fill="#fbbf24" opacity="0.8"/>
-                <circle cx="750" cy="50" r="20" fill="#f59e0b" opacity="0.6"/>
             </svg>
+        </div>
+
+        <!-- Explanation Cards Below -->
+        <div class="steps-grid">
+            <!-- Card 1: Choose -->
+            <div class="step-card" data-step="1">
+                <div class="step-badge purple">
+                    <span>1</span>
+                </div>
+                <div class="step-icon-wrapper purple">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+                        <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+                        <path d="M9 14l2 2 4-4"></path>
+                    </svg>
+                </div>
+                <h3>Choose</h3>
+                <p>Browse 200+ certification paths</p>
+            </div>
+            
+            <!-- Card 2: Practice -->
+            <div class="step-card" data-step="2">
+                <div class="step-badge green">
+                    <span>2</span>
+                </div>
+                <div class="step-icon-wrapper green">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                </div>
+                <h3>Practice</h3>
+                <p>Take realistic simulated exams.</p>
+            </div>
+            
+            <!-- Card 3: Review -->
+            <div class="step-card" data-step="3">
+                <div class="step-badge blue">
+                    <span>3</span>
+                </div>
+                <div class="step-icon-wrapper blue">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+                        <circle cx="12" cy="12" r="3"></circle>
+                        <path d="m22 22-2.5-2.5"></path>
+                    </svg>
+                </div>
+                <h3>Review</h3>
+                <p>Analyze answers with explanations.</p>
+            </div>
+            
+            <!-- Card 4: Pass -->
+            <div class="step-card" data-step="4">
+                <div class="step-badge pink">
+                    <span>4</span>
+                </div>
+                <div class="step-icon-wrapper pink">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" fill="#fbbf24" stroke="none"></polygon>
+                    </svg>
+                </div>
+                <h3>Pass</h3>
+                <p>Track readiness & pass with confidence.</p>
+            </div>
         </div>
     </div>
 </section>

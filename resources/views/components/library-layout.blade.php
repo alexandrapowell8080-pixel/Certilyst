@@ -8,6 +8,7 @@
      <title>{{ env('APP_NAME') }}</title>
      <meta name="csrf-token" content="{{ csrf_token() }}">
      <script src="https://cdn.tailwindcss.com"></script>
+     <link href="{{ asset('images/logo-1.png') }}" rel="icon" type="image/png">
      <script>
          tailwind.config = {
              theme: {

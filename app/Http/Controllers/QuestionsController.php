@@ -31,11 +31,15 @@ class QuestionsController extends Controller
         $questions_count = $query->count();
 
         // Flashcard by exam
-        $currentExam = Exam::with('subject')->where('slug', $exam)->firstOrFail();
-
+        $currentExam = Exam::with('subject.course.school')->where('slug', $exam)->firstOrFail();
+    
         $subject_slug = $currentExam->subject->slug;
-
-        return view('library.exam.questions', compact('question', 'questions_count', 'subject_slug', 'school'));
+        $school_name = $currentExam->subject->course->school->name;
+        $subject_name = $currentExam->subject->name;
+        $course_name = $currentExam->subject->course->name;
+        $exam_name = $examRecord->name;
+     
+        return view('library.exam.questions', compact('question', 'questions_count', 'subject_slug', 'school','school_name','subject_name','course_name','exam_name'));
     }
 
     public function examAnswers(Request $request): JsonResponse

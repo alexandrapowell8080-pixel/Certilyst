@@ -253,7 +253,7 @@
     </div>
 </section>
 
-{{-- HOW IT WORKS (ROADMAP) --}}
+{{-- HOW IT WORKS (ROADMAP WITH ANIMATED CAR) --}}
 <section class="how-it-works-roadmap">
     <div class="section-container">
         <div class="section-header">
@@ -262,7 +262,7 @@
         </div>
 
         <div class="roadmap-wrapper">
-            <svg viewBox="0 0 1200 300" xmlns="http://www.w3.org/2000/svg" class="roadmap-svg" preserveAspectRatio="xMidYMid meet">
+            <svg viewBox="0 0 1200 350" xmlns="http://www.w3.org/2000/svg" class="roadmap-svg" preserveAspectRatio="xMidYMid meet" id="roadmapSvg">
                 <defs>
                     <linearGradient id="roadGrad" x1="0%" y1="0%" x2="100%" y2="0%">
                         <stop offset="0%" stop-color="#1e293b"/>
@@ -271,103 +271,80 @@
                     <filter id="roadShadow" x="-20%" y="-20%" width="140%" height="140%">
                         <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000" flood-opacity="0.2"/>
                     </filter>
-                    <!-- Pin Gradients -->
                     <linearGradient id="pinPurple" x1="0%" y1="0%" x2="0%" y2="100%">
-                        <stop offset="0%" stop-color="#8b5cf6"/>
-                        <stop offset="100%" stop-color="#7c3aed"/>
+                        <stop offset="0%" stop-color="#8b5cf6"/><stop offset="100%" stop-color="#7c3aed"/>
                     </linearGradient>
                     <linearGradient id="pinGreen" x1="0%" y1="0%" x2="0%" y2="100%">
-                        <stop offset="0%" stop-color="#22c55e"/>
-                        <stop offset="100%" stop-color="#16a34a"/>
+                        <stop offset="0%" stop-color="#22c55e"/><stop offset="100%" stop-color="#16a34a"/>
                     </linearGradient>
                     <linearGradient id="pinBlue" x1="0%" y1="0%" x2="0%" y2="100%">
-                        <stop offset="0%" stop-color="#3b82f6"/>
-                        <stop offset="100%" stop-color="#2563eb"/>
+                        <stop offset="0%" stop-color="#3b82f6"/><stop offset="100%" stop-color="#2563eb"/>
                     </linearGradient>
                     <linearGradient id="pinPink" x1="0%" y1="0%" x2="0%" y2="100%">
-                        <stop offset="0%" stop-color="#ec4899"/>
-                        <stop offset="100%" stop-color="#db2777"/>
+                        <stop offset="0%" stop-color="#ec4899"/><stop offset="100%" stop-color="#db2777"/>
+                    </linearGradient>
+                    <linearGradient id="carGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#f59e0b"/><stop offset="100%" stop-color="#d97706"/>
                     </linearGradient>
                 </defs>
                 
-                <!-- Winding Road Path -->
-                <path d="M 50 200 
-                         C 150 200, 200 150, 300 150 
-                         C 400 150, 450 200, 550 200 
-                         C 650 200, 700 100, 800 100 
-                         C 900 100, 950 180, 1050 180 
-                         C 1100 180, 1130 150, 1150 140" 
-                      fill="none" 
-                      stroke="url(#roadGrad)" 
-                      stroke-width="48" 
-                      stroke-linecap="round" 
-                      stroke-linejoin="round"
-                      filter="url(#roadShadow)"/>
+                <path id="roadPath" d="M 80 250 C 180 250, 230 200, 330 200 C 430 200, 480 250, 580 250 C 680 250, 730 120, 830 120 C 930 120, 980 220, 1080 220 C 1130 220, 1160 190, 1180 180" 
+                      fill="none" stroke="url(#roadGrad)" stroke-width="65" stroke-linecap="round" stroke-linejoin="round" filter="url(#roadShadow)"/>
                 
-                <!-- Center Dashed Line -->
-                <path d="M 50 200 
-                         C 150 200, 200 150, 300 150 
-                         C 400 150, 450 200, 550 200 
-                         C 650 200, 700 100, 800 100 
-                         C 900 100, 950 180, 1050 180 
-                         C 1100 180, 1130 150, 1150 140" 
-                      fill="none" 
-                      stroke="#fbbf24" 
-                      stroke-width="3" 
-                      stroke-dasharray="12 10" 
-                      stroke-linecap="round" 
-                      stroke-linejoin="round"
-                      opacity="0.9"/>
+                <path id="centerLinePath" d="M 80 250 C 180 250, 230 200, 330 200 C 430 200, 480 250, 580 250 C 680 250, 730 120, 830 120 C 930 120, 980 220, 1080 220 C 1130 220, 1160 190, 1180 180" 
+                      fill="none" stroke="#fbbf24" stroke-width="4" stroke-dasharray="15 12" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
                 
-                <!-- Pin Marker 1 (Purple) -->
-                <g transform="translate(280, 120)">
-                    <path d="M 0,-35 C -12,-35 -22,-25 -22,-12 C -22,5 0,25 0,25 C 0,25 22,5 22,-12 C 22,-25 12,-35 0,-35 Z" 
-                          fill="url(#pinPurple)" 
-                          stroke="white" 
-                          stroke-width="2"/>
-                    <circle cx="0" cy="-12" r="6" fill="white"/>
-                    <text x="0" y="-8" text-anchor="middle" fill="#7c3aed" font-size="12" font-weight="800" font-family="Inter, sans-serif">1</text>
+                <g transform="translate(50, 230)">
+                    <rect x="0" y="0" width="60" height="40" rx="8" fill="#10b981" filter="url(#roadShadow)"/>
+                    <text x="30" y="26" text-anchor="middle" fill="white" font-size="13" font-weight="800" font-family="Inter, sans-serif">START</text>
                 </g>
                 
-                <!-- Pin Marker 2 (Green) -->
-                <g transform="translate(520, 170)">
-                    <path d="M 0,-35 C -12,-35 -22,-25 -22,-12 C -22,5 0,25 0,25 C 0,25 22,5 22,-12 C 22,-25 12,-35 0,-35 Z" 
-                          fill="url(#pinGreen)" 
-                          stroke="white" 
-                          stroke-width="2"/>
-                    <circle cx="0" cy="-12" r="6" fill="white"/>
-                    <text x="0" y="-8" text-anchor="middle" fill="#16a34a" font-size="12" font-weight="800" font-family="Inter, sans-serif">2</text>
+                <g transform="translate(1150, 160)">
+                    <rect x="0" y="0" width="60" height="40" rx="8" fill="#ef4444" filter="url(#roadShadow)"/>
+                    <text x="30" y="26" text-anchor="middle" fill="white" font-size="12" font-weight="800" font-family="Inter, sans-serif">FINISH</text>
                 </g>
                 
-                <!-- Pin Marker 3 (Blue) -->
-                <g transform="translate(780, 70)">
-                    <path d="M 0,-35 C -12,-35 -22,-25 -22,-12 C -22,5 0,25 0,25 C 0,25 22,5 22,-12 C 22,-25 12,-35 0,-35 Z" 
-                          fill="url(#pinBlue)" 
-                          stroke="white" 
-                          stroke-width="2"/>
-                    <circle cx="0" cy="-12" r="6" fill="white"/>
-                    <text x="0" y="-8" text-anchor="middle" fill="#2563eb" font-size="12" font-weight="800" font-family="Inter, sans-serif">3</text>
+                <g transform="translate(310, 170)" class="pin-marker" data-step="1">
+                    <path d="M 0,-40 C -14,-40 -26,-28 -26,-12 C -26,8 0,30 0,30 C 0,30 26,8 26,-12 C 26,-28 14,-40 0,-40 Z" fill="url(#pinPurple)" stroke="white" stroke-width="2.5"/>
+                    <circle cx="0" cy="-12" r="8" fill="white"/>
+                    <text x="0" y="-7" text-anchor="middle" fill="#7c3aed" font-size="14" font-weight="800" font-family="Inter, sans-serif">1</text>
                 </g>
                 
-                <!-- Pin Marker 4 (Pink) -->
-                <g transform="translate(1080, 150)">
-                    <path d="M 0,-35 C -12,-35 -22,-25 -22,-12 C -22,5 0,25 0,25 C 0,25 22,5 22,-12 C 22,-25 12,-35 0,-35 Z" 
-                          fill="url(#pinPink)" 
-                          stroke="white" 
-                          stroke-width="2"/>
-                    <circle cx="0" cy="-12" r="6" fill="white"/>
-                    <text x="0" y="-8" text-anchor="middle" fill="#db2777" font-size="12" font-weight="800" font-family="Inter, sans-serif">4</text>
+                <g transform="translate(560, 220)" class="pin-marker" data-step="2">
+                    <path d="M 0,-40 C -14,-40 -26,-28 -26,-12 C -26,8 0,30 0,30 C 0,30 26,8 26,-12 C 26,-28 14,-40 0,-40 Z" fill="url(#pinGreen)" stroke="white" stroke-width="2.5"/>
+                    <circle cx="0" cy="-12" r="8" fill="white"/>
+                    <text x="0" y="-7" text-anchor="middle" fill="#16a34a" font-size="14" font-weight="800" font-family="Inter, sans-serif">2</text>
+                </g>
+                
+                <g transform="translate(810, 90)" class="pin-marker" data-step="3">
+                    <path d="M 0,-40 C -14,-40 -26,-28 -26,-12 C -26,8 0,30 0,30 C 0,30 26,8 26,-12 C 26,-28 14,-40 0,-40 Z" fill="url(#pinBlue)" stroke="white" stroke-width="2.5"/>
+                    <circle cx="0" cy="-12" r="8" fill="white"/>
+                    <text x="0" y="-7" text-anchor="middle" fill="#2563eb" font-size="14" font-weight="800" font-family="Inter, sans-serif">3</text>
+                </g>
+                
+                <g transform="translate(1110, 190)" class="pin-marker" data-step="4">
+                    <path d="M 0,-40 C -14,-40 -26,-28 -26,-12 C -26,8 0,30 0,30 C 0,30 26,8 26,-12 C 26,-28 14,-40 0,-40 Z" fill="url(#pinPink)" stroke="white" stroke-width="2.5"/>
+                    <circle cx="0" cy="-12" r="8" fill="white"/>
+                    <text x="0" y="-7" text-anchor="middle" fill="#db2777" font-size="14" font-weight="800" font-family="Inter, sans-serif">4</text>
+                </g>
+                
+                <g id="animatedCar" transform="translate(80, 220)">
+                    <rect x="-18" y="-12" width="36" height="24" rx="6" fill="url(#carGradient)" stroke="#92400e" stroke-width="2"/>
+                    <rect x="-12" y="-18" width="24" height="12" rx="4" fill="#fbbf24" stroke="#92400e" stroke-width="2"/>
+                    <circle cx="-10" cy="12" r="5" fill="#1e293b"/>
+                    <circle cx="10" cy="12" r="5" fill="#1e293b"/>
+                    <circle cx="16" cy="-6" r="3" fill="#fef3c7"/>
+                    <circle cx="16" cy="2" r="3" fill="#fef3c7"/>
+                    <rect x="-8" y="-15" width="8" height="6" rx="2" fill="#dbeafe" opacity="0.8"/>
+                    <rect x="2" y="-15" width="8" height="6" rx="2" fill="#dbeafe" opacity="0.8"/>
                 </g>
             </svg>
         </div>
 
-        <!-- Explanation Cards Below -->
+        <!-- YOUR EXACT CARD STRUCTURE - CLASSES UNCHANGED -->
         <div class="steps-grid">
-            <!-- Card 1: Choose -->
-            <div class="step-card" data-step="1">
-                <div class="step-badge purple">
-                    <span>1</span>
-                </div>
+            <div class="step-card" id="stepCard1" data-step="1">
+                <div class="step-badge purple"><span>1</span></div>
                 <div class="step-icon-wrapper purple">
                     <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
@@ -379,11 +356,8 @@
                 <p>Browse 200+ certification paths</p>
             </div>
             
-            <!-- Card 2: Practice -->
-            <div class="step-card" data-step="2">
-                <div class="step-badge green">
-                    <span>2</span>
-                </div>
+            <div class="step-card" id="stepCard2" data-step="2">
+                <div class="step-badge green"><span>2</span></div>
                 <div class="step-icon-wrapper green">
                     <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="12" cy="12" r="10"></circle>
@@ -394,11 +368,8 @@
                 <p>Take realistic simulated exams.</p>
             </div>
             
-            <!-- Card 3: Review -->
-            <div class="step-card" data-step="3">
-                <div class="step-badge blue">
-                    <span>3</span>
-                </div>
+            <div class="step-card" id="stepCard3" data-step="3">
+                <div class="step-badge blue"><span>3</span></div>
                 <div class="step-icon-wrapper blue">
                     <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
@@ -411,11 +382,8 @@
                 <p>Analyze answers with explanations.</p>
             </div>
             
-            <!-- Card 4: Pass -->
-            <div class="step-card" data-step="4">
-                <div class="step-badge pink">
-                    <span>4</span>
-                </div>
+            <div class="step-card" id="stepCard4" data-step="4">
+                <div class="step-badge pink"><span>4</span></div>
                 <div class="step-icon-wrapper pink">
                     <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>

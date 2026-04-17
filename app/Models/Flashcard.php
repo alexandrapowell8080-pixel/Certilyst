@@ -5,13 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Exam extends Model
+class Flashcard extends Model
 {
     protected $fillable = [
-        'subject_id','name','slug'
+        'subject_id',
+        'question',
+        'answer',
+        'hint',
     ];
 
-    public function subject():BelongsTo{
+    /**
+     * Get the subject that owns the flashcard.
+     */
+    public function subject(): BelongsTo
+    {
         return $this->belongsTo(Subject::class);
     }
 }

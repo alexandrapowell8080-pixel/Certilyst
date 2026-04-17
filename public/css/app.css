@@ -62,7 +62,7 @@ body { font-family: system-ui, -apple-system, sans-serif; background: #000; colo
 .hero-section {
   position: relative;
   overflow: hidden;
-  min-height: 90vh;
+  min-height: 85vh;
   display: flex;
   align-items: center;
   padding: 7rem 0 5rem 0;

@@ -4,20 +4,21 @@
   <meta charset="utf-8">
   <link href="{{ asset('images/logo-1.png') }}" rel="icon" type="image/png">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Certilyst - Flashcards</title>
+  
+  <title>{{ $subject->name }} Flashcards - Certilyst</title>
   
   <link href="{{ asset('css/component.css') }}" rel="stylesheet">
   <link href="{{ asset('css/flashcards.css') }}" rel="stylesheet">
   <meta content="An interactive professional certification platform offering expert-led exam prep and mastery-based learning tools for specialized career paths." name="description">
   
-  <meta content="Certilyst - Flashcards" property="og:title">
+  <meta content="{{ $subject->name }} Flashcards - Certilyst" property="og:title">
   <meta content="An interactive professional certification platform offering expert-led exam prep and mastery-based learning tools for specialized career paths." property="og:description">
   <meta content="{{ asset('images/logo-1.png') }}" property="og:image">
   <meta content="{{ url()->current() }}" property="og:url">
   <meta content="website" property="og:type">
   <meta content="Certilyst" property="og:site_name">
   
-  <meta content="Certilyst - Flashcards" name="twitter:title">
+  <meta content="{{ $subject->name }} Flashcards - Certilyst" name="twitter:title">
   <meta content="An interactive professional certification platform offering expert-led exam prep and mastery-based learning tools for specialized career paths." name="twitter:description">
   <meta content="{{ asset('images/logo-1.png') }}" name="twitter:image">
   <meta content="summary_large_image" name="twitter:card">
@@ -29,6 +30,43 @@
   
   <link href="{{ url()->current() }}" rel="canonical">
   <link href="https://fonts.googleapis.com/css2?family=SN+Pro:ital,wght@0,200..900;1,200..900&family=Sniglet:wght@400;800&display=swap" rel="stylesheet">
+
+  <script type="application/ld+json">
+  {
+    "@@context": "https://schema.org",
+    "@@graph": [
+      {
+        "@@type": "WebPage",
+        "name": "{{ $subject->name }} Flashcards - Certilyst",
+        "description": "An interactive professional certification platform offering expert-led exam prep and mastery-based learning tools for specialized career paths.",
+        "url": "{{ url()->current() }}"
+      },
+      {
+        "@@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "{{ url('/') }}"
+          },
+          {
+            "@@type": "ListItem",
+            "position": 2,
+            "name": "Library",
+            "item": "{{ url('/library') }}"
+          },
+          {
+            "@@type": "ListItem",
+            "position": 3,
+            "name": "{{ $subject->name }} Flashcards",
+            "item": "{{ url()->current() }}"
+          }
+        ]
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
   {{-- Header --}}
@@ -115,7 +153,7 @@
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-sm"><path d="m15 18-6-6 6-6"></path></svg> 
           Prev
         </button>
-        <a class="btn-link" href="{{ route('library') }}">Back to Library</a>
+        <button id="btn-back-dynamic" class="btn-link">Back to Library</button>
         <button id="btn-next" class="btn btn-nav">
           Next 
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-sm"><path d="m9 18 6-6-6-6"></path></svg>

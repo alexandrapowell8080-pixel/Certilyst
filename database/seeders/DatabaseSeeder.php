@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
             SchoolSeeder::class,
             ExamDataSeeder::class,
             FlashcardSeeder::class,
+            QuestionSeeder::class,
         ]);
     }
 }

@@ -1,4 +1,37 @@
 <x-library-layout>
+    @section('title', 'Cerilyst Learning Library')
+    @section('description',
+        'Ace your {{ $course_name }} using  {{ $exam_name }} ')
+    @section('keywords', {{ $school_name }}.','.)
+    @section('canonical', {{ current() }})
+
+    @push('schema')
+        <script type="application/ld+json">
+        {
+        "@@context": "https://schema.org",
+        "@@type": "BreadcrumbList",
+        "itemListElement": [
+                    {
+                        "@@type": "ListItem",
+                        "position": 1,
+                        "name": "Exam name",
+                        "item": "{{ url('/current url') }}"
+                    },
+                    {
+                        "@@type": "ListItem",
+                        "position": 2,
+                        "name": "Home",
+                        "item": "{{ url('/') }}"
+                    }
+            ]
+        }
+</script>
+    @endpush
+
+
+
+
+
     {{-- NAVBAR --}}
     <div class="bg-white border-b sticky top-0 z-40" style="border-color: rgb(233, 236, 239);">
         <div class="sm:max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">

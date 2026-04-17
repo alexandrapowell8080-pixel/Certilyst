@@ -9,17 +9,18 @@
   
   <link href="{{ asset('css/component.css') }}" rel="stylesheet">
   <link href="{{ asset('css/flashcards.css') }}" rel="stylesheet">
-  <meta content="An interactive professional certification platform offering expert-led exam prep and mastery-based learning tools for specialized career paths." name="description">
+  <meta content="Interactive exam prep and mastery flashcards for {{ $subject->name }} on Certilyst." name="description">
+  <meta content="{{ $subject->name }}, flashcards, course, certification, exam prep, Certilyst" name="keywords">
   
   <meta content="{{ $subject->name }} Flashcards - Certilyst" property="og:title">
-  <meta content="An interactive professional certification platform offering expert-led exam prep and mastery-based learning tools for specialized career paths." property="og:description">
+  <meta content="Interactive exam prep and mastery flashcards for {{ $subject->name }} on Certilyst." property="og:description">
   <meta content="{{ asset('images/logo-1.png') }}" property="og:image">
   <meta content="{{ url()->current() }}" property="og:url">
   <meta content="website" property="og:type">
   <meta content="Certilyst" property="og:site_name">
   
   <meta content="{{ $subject->name }} Flashcards - Certilyst" name="twitter:title">
-  <meta content="An interactive professional certification platform offering expert-led exam prep and mastery-based learning tools for specialized career paths." name="twitter:description">
+  <meta content="Interactive exam prep and mastery flashcards for {{ $subject->name }} on Certilyst." name="twitter:description">
   <meta content="{{ asset('images/logo-1.png') }}" name="twitter:image">
   <meta content="summary_large_image" name="twitter:card">
   <meta content="{{ url()->current() }}" name="twitter:url">
@@ -38,7 +39,7 @@
       {
         "@@type": "WebPage",
         "name": "{{ $subject->name }} Flashcards - Certilyst",
-        "description": "An interactive professional certification platform offering expert-led exam prep and mastery-based learning tools for specialized career paths.",
+        "description": "Interactive exam prep and mastery flashcards for {{ $subject->name }} on Certilyst.",
         "url": "{{ url()->current() }}"
       },
       {

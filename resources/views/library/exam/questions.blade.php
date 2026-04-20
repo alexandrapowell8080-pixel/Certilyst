@@ -1,9 +1,12 @@
 <x-library-layout>
-    @section('title', 'Cerilyst Learning Library')
-    @section('description',
-        'Ace your {{ $course_name }} using  {{ $exam_name }} ')
-    @section('keywords', {{ $school_name }}.','.)
-    @section('canonical', {{ current() }})
+    @section('title', 'Certilyst Learning Library')
+    @section('description', 'Ace your ' . $course_name . ' using ' . $exam_name)
+
+
+    @section('keywords', $school_name . ', ' . $course_name . ', ' . $subject_name . ', ' . $exam_name)
+
+    @section('canonical', url($school_slug . '/' . $course_slug . '/' . $exam_slug))
+
 
     @push('schema')
         <script type="application/ld+json">
@@ -15,17 +18,24 @@
                         "@@type": "ListItem",
                         "position": 1,
                         "name": "Exam name",
-                        "item": "{{ url('/current url') }}"
+                        "item": "{{ url($school_slug . '/' . $course_slug . '/' . $exam_slug) }}"
                     },
                     {
                         "@@type": "ListItem",
                         "position": 2,
+                        "name": "Library",
+                        "item": "{{ url('/library') }}"
+                    },
+                    {
+                        "@@type": "ListItem",
+                        "position": 3,
                         "name": "Home",
                         "item": "{{ url('/') }}"
                     }
             ]
         }
 </script>
+        <meta name="robots" content="noindex" />
     @endpush
 
 
@@ -110,7 +120,7 @@
             <div class="text-xs text-muted-foreground mb-2">Questions</div>
             <div class="grid grid-cols-5 gap-1.5 max-h-[300px] overflow-y-scroll">
                 @for ($i = 0; $i < $questions_count; $i++)
-                    <button id="pill_{{ $i+1 }}"
+                    <button id="pill_{{ $i + 1 }}"
                         class="w-full aspect-square rounded-lg text-xs font-semibold flex items-center justify-center transition-all border
                         {{ $i == 0 ? 'brand-gradient text-white border-transparent bg-primary' : 'bg-primary/30 text-muted-foreground border-border hover:border-primary/30' }}
                          ">{{ $i + 1 }}</button>
@@ -128,7 +138,8 @@
 
                     <span class="text-xs font-semibold px-3 py-1 rounded-full capitalize"
                         style="background: rgb(245, 240, 255); color: rgb(106, 13, 173);">
-                        {{ $question->question_type == 'Regular' ? 'Single choice' : 'Single Choice' }}</span><button onclick="flaqQuestion"
+                        {{ $question->question_type == 'Regular' ? 'Single choice' : 'Single Choice' }}</span><button
+                        onclick="flaqQuestion"
                         class="flex items-center hidden gap-1.5 text-xs font-medium transition-colors"
                         style="color: rgb(108, 117, 125);"><svg xmlns="http://www.w3.org/2000/svg" width="24"
                             height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -182,10 +193,10 @@
                         class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground shadow hover:bg-primary/90 h-9 px-4 py-2"
                         disabled="" style="background: rgb(106, 13, 173); color: rgb(255, 255, 255);">Submit
                         Answer</button>
-                        <button id="nextButton" onclick="nextQuestion()"
+                    <button id="nextButton" onclick="nextQuestion()"
                         class="inline-flex items-center hidden justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground shadow hover:bg-primary/90 h-9 px-4 py-2"
-                          style="background: rgb(155, 47, 233); color: rgb(255, 255, 255);">Next Question
-                        </button>
+                        style="background: rgb(155, 47, 233); color: rgb(255, 255, 255);">Next Question
+                    </button>
 
 
                 </div>
@@ -253,7 +264,8 @@
                     <p class="text-xs font-semibold text-blue-500 uppercase tracking-wide mb-1">Explanation</p>
                     <div class="text-sm leading-relaxed text-blue-900" id="rationale"></div>
                 </div>
-                <div class="flex flex-col sm:flex-row gap-3"><a href="{{ route('flashcards', ['school' => $school, 'subject' => $subject_slug]) }}"
+                <div class="flex flex-col sm:flex-row gap-3"><a
+                        href="{{ route('flashcards', ['school' => $school, 'subject' => $subject_slug]) }}"
                         class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-transparent shadow-sm hover:bg-accent hover:text-accent-foreground px-4 py-2 flex-1 gap-1.5 h-11"><svg
                             xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -357,20 +369,20 @@
             .then(response => response.json())
             .then(data => {
                 remianingQuestion--
-                document.querySelector('.remaining_questions').innerText = remianingQuestion 
+                document.querySelector('.remaining_questions').innerText = remianingQuestion
                 document.getElementById('overlay').classList.remove('hidden')
                 document.getElementById('rationale').innerHTML = data.rationale
-                let p_id = Number(answeredQuestions) +  1
-                let next_p_id = Number(answeredQuestions) +  2
-                let pill_id = "pill_"+ p_id
-                let next_pill_id = "pill_"+ next_p_id 
+                let p_id = Number(answeredQuestions) + 1
+                let next_p_id = Number(answeredQuestions) + 2
+                let pill_id = "pill_" + p_id
+                let next_pill_id = "pill_" + next_p_id
                 let pill = document.getElementById(pill_id)
-                pill.classList.remove('bg-primary','text-muted-foreground')
+                pill.classList.remove('bg-primary', 'text-muted-foreground')
                 if (data.status == 'correct') {
                     document.getElementById('correct_card').classList.remove('hidden')
-                    pill.classList.add('bg-green-700','text-white')
+                    pill.classList.add('bg-green-700', 'text-white')
                 } else if (data.status == 'wrong') {
-                    pill.classList.add('bg-red-700','text-white')
+                    pill.classList.add('bg-red-700', 'text-white')
                     document.getElementById('wrong_card').classList.remove('hidden')
                     document.getElementById('user_answer').innerText = selectedAnswer
                     document.getElementById('correct_answer').innerText = data.correct_answer
@@ -386,7 +398,7 @@
 
     function nextQuestion() {
         let qid = document.querySelector('.question').id.replace('q_id_', '')
-        
+
         const postData = {
             question_id: qid,
         };
@@ -394,10 +406,10 @@
             .then(response => response.json())
             .then(data => {
                 document.getElementById('submitButton').classList.remove('hidden')
-        document.getElementById('nextButton').classList.add('hidden')
+                document.getElementById('nextButton').classList.add('hidden')
                 document.getElementById('overlay').classList.add('hidden')
-                 document.getElementById('wrong_card').classList.add('hidden')
-                  document.getElementById('correct_card').classList.add('hidden')
+                document.getElementById('wrong_card').classList.add('hidden')
+                document.getElementById('correct_card').classList.add('hidden')
                 selectedAnswer = null
                 const options = document.querySelectorAll('[id^="choice"]');
                 options.forEach(option => {
@@ -405,7 +417,7 @@
                         'border-primary', 'text-black'));
                 });
                 document.querySelector('.question').innerText = data.question
-                document.querySelector('.question').id = "q_id_" + data.id 
+                document.querySelector('.question').id = "q_id_" + data.id
                 answeredQuestions = answeredQuestions + 1
                 document.querySelector('.answered_questions').innerText = answeredQuestions
                 document.getElementById('answered_questions').innerText = answeredQuestions
@@ -419,7 +431,7 @@
             })
     }
 
-    function closeOverLay(){
-          document.getElementById('overlay').classList.add('hidden')
+    function closeOverLay() {
+        document.getElementById('overlay').classList.add('hidden')
     }
 </script>

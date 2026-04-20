@@ -82,7 +82,7 @@
         
       <header class="fc-header">
         <div class="fc-title-group">
-          <h2 class="fc-title">{{ $subject->name }}</h2>
+          <h1 class="fc-title">{{ $subject->name }}</h1>
           <div id="nav-count" class="fc-counter">1 / {{ count($flashcards) }}</div>
         </div>
       </header>

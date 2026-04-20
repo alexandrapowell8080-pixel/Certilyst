@@ -6,7 +6,7 @@
                     <span class="text-white font-poppins font-bold text-sm"><img src="{{ asset('images/logo-1.png') }}"
                             alt="Certilyst"> </span>
                 </div>
-                <span class="font-poppins font-bold text-xl text-foreground">Cerilyst</span>
+                <span class="font-poppins font-bold text-xl text-foreground">Certilyst</span>
             </a>
 
             <div class="hidden md:flex items-center gap-8">

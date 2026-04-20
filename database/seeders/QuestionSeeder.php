@@ -16,7 +16,13 @@ class QuestionSeeder extends Seeder
         //DB::table('questions')->truncate();
         $paths=[
             'seeders/data/business.csv',
-            'seeders/data/nursing.csv'
+            'seeders/data/estate.csv',
+           / // 'seeders/data/insurance.csv',
+            // 'seeders/data/it.csv',
+            // 'seeders/data/medical.csv',
+            // 'seeders/data/pmp.csv',
+            // 'seeders/data/praxis.csv',
+            // 'seeders/data/school_hierarchy.csv',
         ];
         foreach ($paths as $key => $path) {
              $csvPath = database_path($path);
@@ -131,7 +137,8 @@ class QuestionSeeder extends Seeder
                     'row_data'   => $rowPreview
                 ]);
 
-                $this->command->error("❌ Failed at row " . ($count + $skipped + $failed + 1) . ": " . $e->getMessage());
+                $this->command->error("❌ Failed at row " . ($count + $skipped + $failed + 1) . ": check the log file with reference row" . ($count + $skipped + $failed + 1));
+                logger("❌ Failed at row " . ($count + $skipped + $failed + 1));
                 $this->command->warn("   Preview: " . substr($rowPreview, 0, 120) . "...");
             }
         }

@@ -1,4 +1,40 @@
 <x-library-layout>
+    @php
+        $sch = [];
+
+        foreach ($schools as $key => $school) {
+            $sch[] = $school->name;
+        }
+    @endphp
+    @section('title', 'Certilyst Learning Library')
+    @section('description',
+        'Access our prep materials ranging from Business and Finance, IT, Real estate, Insurance,
+        Praxis, Nursing, Medical & Allied health and Project management')
+    @section('keywords', implode(',', $sch))
+    @section('canonical', env('app_url') . '/library/')
+
+    @push('schema')
+        <script type="application/ld+json">
+        {
+        "@@context": "https://schema.org",
+        "@@type": "BreadcrumbList",
+        "itemListElement": [
+                    {
+                        "@@type": "ListItem",
+                        "position": 1,
+                        "name": "Library",
+                        "item": "{{ url('/library') }}"
+                    },
+                    {
+                        "@@type": "ListItem",
+                        "position": 2,
+                        "name": "Home",
+                        "item": "{{ url('/') }}"
+                    }
+            ]
+        }
+</script>
+    @endpush
     @if (session('message'))
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script>
@@ -21,13 +57,14 @@
             });
         </script>
     @endif
+
     <div class="bg-white border-b sn-pro-700" style="border-color: rgb(233, 236, 239); ">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10">
             <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 border-b border-border pb-8">
 
                 <div class="space-y-2">
                     <h1 class=" font-bold text-3xl sm:text-4xl tracking-tight text-foreground">
-                        Cerilyst <span class="text-primary">Learning Library</span>
+                        Certilyst <span class="text-primary">Learning Library</span>
                     </h1>
                     <p class="text-lg text-muted-foreground max-w-2xl">
                         Browse our schools and find the perfect certification prep for your career.
@@ -173,13 +210,13 @@
                                                 </path>
                                             </svg>
                                         </div>
-                                        <p
-                                            class="text-sm font-bold text-foreground flex-1 tracking-tight">{{ $course->name }}</p>
+                                        <p class="text-sm font-bold text-foreground flex-1 tracking-tight">
+                                            {{ $course->name }}</p>
                                         <p
                                             class="text-[11px] font-semibold text-muted-foreground bg-muted px-2 py-0.5 rounded-md uppercase tracking-wider">
                                             {{ count($course->subject) }}
                                             subject{{ count($course->subject) > 1 ? 's' : '' }}
-                                    </p>
+                                        </p>
                                     </summary>
 
                                     {{-- SUBJECTS LIST --}}

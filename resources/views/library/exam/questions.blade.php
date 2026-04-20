@@ -1,15 +1,16 @@
 <x-library-layout>
-    @section('title', 'Certilyst Learning Library')
-    @section('description', 'Ace your ' . $course_name . ' using ' . $exam_name)
-
+    @section('title', 'Cerilyst Learning Library')
+    @section('description',
+        'Ace your '.$course_name.' using '.  $exam_name )
+   
 
     @section('keywords', $school_name . ', ' . $course_name . ', ' . $subject_name . ', ' . $exam_name)
 
-    @section('canonical', url($school_slug . '/' . $course_slug . '/' . $exam_slug))
+@section('canonical', url($school_slug . '/' . $course_slug . '/' . $exam_slug))
 
 
     @push('schema')
-        <script type="application/ld+json">
+         <script type="application/ld+json">
         {
         "@@context": "https://schema.org",
         "@@type": "BreadcrumbList",
@@ -37,7 +38,6 @@
 </script>
         <meta name="robots" content="noindex" />
     @endpush
-
 
 
 

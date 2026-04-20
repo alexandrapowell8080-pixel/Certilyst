@@ -13,19 +13,30 @@ class QuestionSeeder extends Seeder
 {
     public function run(): void
     {
-        DB::table('questions')->truncate();
+        //DB::table('questions')->truncate();
+        $paths=[
+            'seeders/data/business.csv',
+            'seeders/data/nursing.csv'
+        ];
+        foreach ($paths as $key => $path) {
+             $csvPath = database_path($path);
 
-       //$csvPath = 'C:/Users/' . get_current_user() . '/Downloads/it.csv';
-        $csvPath = database_path('seeders/data/medical.csv');
-        //$csvPath = database_path('seeders/data/praxis.csv');
-
-        if (!file_exists($csvPath)) {
+             if (!file_exists($csvPath)) {
             $this->command->error("❌ CSV file not found at: {$csvPath}");
             $this->command->info("Make sure the file is named 'questions.csv' and is in your Downloads folder.");
             return;
         }
+            $this->examseeder($csvPath);
+            # code...
+        }
+       //$csvPath = 'C:/Users/' . get_current_user() . '/Downloads/it.csv';
+       
+        //$csvPath = database_path('seeders/data/praxis.csv'); 
 
-        $handle = fopen($csvPath, 'r');
+        $this->command->info("📝 Check storage/logs/laravel.log for detailed skipped exams and errors.");
+    }
+    private function examseeder(string $csvPath){
+          $handle = fopen($csvPath, 'r');
         fgetcsv($handle); // Skip header
 
         $count = 0;
@@ -126,15 +137,13 @@ class QuestionSeeder extends Seeder
         }
 
         fclose($handle);
-
-        // Final Summary
-        $this->command->info("\n🎉 Question seeding completed!");
+         // Final Summary
+        $this->command->info("\n🎉 Question seeding completed for ". basename($csvPath));
         $this->command->info("   ✅ Successfully inserted : {$count} questions");
         $this->command->warn("   ⚠️  Skipped               : {$skipped} rows");
         if ($failed > 0) {
             $this->command->error("   ❌ Failed                : {$failed} rows");
         }
 
-        $this->command->info("📝 Check storage/logs/laravel.log for detailed skipped exams and errors.");
     }
 }

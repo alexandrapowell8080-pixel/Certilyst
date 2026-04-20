@@ -21,9 +21,17 @@
     {{-- Hero Section --}}
     <section class="hero-section">
   <div class="hero-background">
-    <video autoplay loop playsinline class="hero-video" poster="https://images.pexels.com/videos/7683392/pexels-photo-7683392.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=1920">
-      <source src="https://videos.pexels.com/video-files/7683392/7683392-hd_1920_1080_30fps.mp4" type="video/mp4">
-    </video>
+    <video
+    autoplay
+    muted
+    loop
+    playsinline
+    preload="auto"
+    class="hero-video"
+    poster="https://images.pexels.com/videos/7683392/pexels-photo-7683392.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=1920"
+>
+    <source src="https://videos.pexels.com/video-files/7683392/7683392-hd_1920_1080_30fps.mp4" type="video/mp4">
+</video>
     <div class="hero-overlay-dark"></div>
     <div class="hero-overlay-color"></div>
   </div>

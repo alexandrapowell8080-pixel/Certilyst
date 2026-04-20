@@ -22,3 +22,16 @@ Route::get('/{school}/{subject}/flashcards', [FlashcardsController::class, 'inde
 
 // Exam Route
 Route::get('/{school}/{course}/{exam}', [QuestionsController::class, 'questions'])->name('exam-questions');
+
+
+// --- SYSTEM UTILS ---
+Route::get('/clear-cache/{secret}', function($secret) {
+    $your_secret = '85c749007239f3e0597a77dd09459e44';
+    if ($secret !== $your_secret) abort(403, 'Unauthorized action.');
+    
+    Artisan::call('cache:clear');
+    Artisan::call('config:clear');
+    Artisan::call('route:clear');
+    Artisan::call('view:clear');
+    return "Cache cleared!";
+});

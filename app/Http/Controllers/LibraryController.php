@@ -7,17 +7,18 @@ use Illuminate\View\View;
 
 class LibraryController extends Controller
 {
-
     /**
      * Libary Page
      */
     public function index(): View
     {
-        $schools = school::with(['course.subject.exam' => function($query){
+        $start = microtime(true);
+        $schools = school::with(['course.subject.exam' => function ($query) {
             $query->withCount('questions');
         }])->get();
+        $responseTime = round((microtime(true) - $start) * 1000, 2);
+        logger('responseTime: '.$responseTime);
 
         return view('library.index', compact('schools'));
     }
-
 }

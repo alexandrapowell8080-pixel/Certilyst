@@ -17,7 +17,7 @@ class QuestionSeeder extends Seeder
         $paths=[
             'seeders/data/business.csv',
             'seeders/data/estate.csv',
-           / // 'seeders/data/insurance.csv',
+            // 'seeders/data/insurance.csv',
             // 'seeders/data/it.csv',
             // 'seeders/data/medical.csv',
             // 'seeders/data/pmp.csv',

@@ -254,3 +254,21 @@ document.querySelectorAll('.faq-question').forEach(button => {
         observer.observe(document.querySelector('.how-it-works-roadmap'));
     }
 })();
+document.addEventListener('DOMContentLoaded', function () {
+    const heroVideo = document.querySelector('.hero-video');
+    if (!heroVideo) return;
+
+    heroVideo.muted = true;
+    heroVideo.defaultMuted = true;
+    heroVideo.setAttribute('muted', '');
+    heroVideo.setAttribute('playsinline', '');
+    heroVideo.setAttribute('autoplay', '');
+
+    const playPromise = heroVideo.play();
+
+    if (playPromise !== undefined) {
+        playPromise.catch((error) => {
+            console.log('Hero video autoplay was blocked:', error);
+        });
+    }
+});

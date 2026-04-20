@@ -32,7 +32,7 @@ class QuestionsController extends Controller
 
         // Flashcard by exam
         $currentExam = Exam::with('subject.course.school')->where('slug', $exam)->firstOrFail();
-    
+
         $subject_slug = $currentExam->subject->slug;
         $school_name = $currentExam->subject->course->school->name;
         $school_slug = $currentExam->subject->course->school->slug;
@@ -41,8 +41,8 @@ class QuestionsController extends Controller
         $course_slug = $currentExam->subject->course->slug;
         $exam_name = $examRecord->name;
         $exam_slug = $examRecord->slug;
-     
-        return view('library.exam.questions', compact('question', 'questions_count', 'subject_slug', 'school','school_name','subject_name','course_name','exam_name','school_slug','course_slug','exam_slug'));
+
+        return view('library.exam.questions', compact('question', 'questions_count', 'subject_slug', 'school', 'school_name', 'subject_name', 'course_name', 'exam_name', 'school_slug', 'course_slug', 'exam_slug'));
     }
 
     public function examAnswers(Request $request): JsonResponse
@@ -54,7 +54,7 @@ class QuestionsController extends Controller
         ]);
 
         $questions = Question::where('exam_id', $data['exam_id'])->get();
-
+        logger($questions);
         foreach ($questions as $key => $question) {
             if ($question['id'] == $data['question_id']) {
                 if ($data['user_answer'] == $question['correct_answer']) {
@@ -84,11 +84,13 @@ class QuestionsController extends Controller
 
         $question = Question::where('exam_id', $current->exam_id)
             ->where('id', '>', $current->id)
+            
             ->orderBy('id', 'asc')
-            ->first();
+            ->first(['exam_id', 'extract', 'question', 'choiceA', 'choiceB', 'choiceC', 'choiceD', 'choiceE', 'choiceF', 'choiceG', 'rationale', 'question_type', 'image', 'url','id']);
         if ($question == null) {
             return response()->json(['message' => 'No more questions'], 200);
         }
+
         return response()->json($question);
 
     }

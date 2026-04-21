@@ -1,74 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <link href="{{ asset('images/logo-1.png') }}" rel="icon" type="image/png">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  
-  <title>{{ $subject->name }} Flashcards - Certilyst</title>
-  
-  <link href="{{ asset('css/component.css') }}" rel="stylesheet">
-  <link href="{{ asset('css/flashcards.css') }}" rel="stylesheet">
-  <meta content="An interactive professional certification platform offering expert-led exam prep and mastery-based learning tools for specialized career paths." name="description">
-  
-  <meta content="{{ $subject->name }} Flashcards - Certilyst" property="og:title">
-  <meta content="An interactive professional certification platform offering expert-led exam prep and mastery-based learning tools for specialized career paths." property="og:description">
-  <meta content="{{ asset('images/logo-1.png') }}" property="og:image">
-  <meta content="{{ url()->current() }}" property="og:url">
-  <meta content="website" property="og:type">
-  <meta content="Certilyst" property="og:site_name">
-  
-  <meta content="{{ $subject->name }} Flashcards - Certilyst" name="twitter:title">
-  <meta content="An interactive professional certification platform offering expert-led exam prep and mastery-based learning tools for specialized career paths." name="twitter:description">
-  <meta content="{{ asset('images/logo-1.png') }}" name="twitter:image">
-  <meta content="summary_large_image" name="twitter:card">
-  <meta content="{{ url()->current() }}" name="twitter:url">
-  
-  <meta content="yes" name="mobile-web-app-capable">
-  <meta content="black" name="apple-mobile-web-app-status-bar-style">
-  <meta content="Certilyst" name="apple-mobile-web-app-title">
-  
-  <link href="{{ url()->current() }}" rel="canonical">
-  <link href="https://fonts.googleapis.com/css2?family=SN+Pro:ital,wght@0,200..900;1,200..900&family=Sniglet:wght@400;800&display=swap" rel="stylesheet">
+   <meta charset="utf-8">
+   <link href="{{ asset('images/logo-1.png') }}" rel="icon" type="image/png">
+   <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    
+   <title>{{ $subject_name }} Flashcards - Certilyst</title>
+    
+   <link href="{{ asset('css/component.css') }}" rel="stylesheet">
+   <link href="{{ asset('css/flashcards.css') }}" rel="stylesheet">
+    
+   {{-- Dynamic Description & Keywords (Shortened to stay under 160 chars) --}}
+   <meta content="Mastery flashcards and interactive exam prep for {{ $subject_name }} on Certilyst." name="description">
+   <meta content="{{ $school_name }}, {{ $course_name }}, {{ $subject_name }}, Exam Flashcards, exam prep, Certilyst" name="keywords">
+    
+   <meta content="{{ $subject_name }} Flashcards - Certilyst" property="og:title">
+   <meta content="Mastery flashcards and interactive exam prep for {{ $subject_name }} on Certilyst." property="og:description">
+   <meta content="{{ $school_name }}, {{ $course_name }}, {{ $subject_name }}, Exam Flashcards, exam prep, Certilyst" property="og:keywords">
+   <meta content="{{ asset('images/logo-1.png') }}" property="og:image">
+   <meta content="{{ url($school_slug . '/' . $subject_slug . '/flashcards') }}/" property="og:url">
+   <meta content="website" property="og:type">
+   <meta content="Certilyst" property="og:site_name">
+    
+   <meta content="{{ $subject_name }} Flashcards - Certilyst" name="twitter:title">
+   <meta content="Mastery flashcards and interactive exam prep for {{ $subject_name }} on Certilyst." name="twitter:description">
+   <meta content="{{ asset('images/logo-1.png') }}" name="twitter:image">
+   <meta content="summary_large_image" name="twitter:card">
+   <meta content="{{ url($school_slug . '/' . $subject_slug . '/flashcards') }}/" name="twitter:url">
+    
+   <meta content="yes" name="mobile-web-app-capable">
+   <meta content="black" name="apple-mobile-web-app-status-bar-style">
+   <meta content="Certilyst" name="apple-mobile-web-app-title">
+    
+   {{-- Hardcoded URLs removed, dynamically built per manager's request --}}
+   <link href="{{ url($school_slug . '/' . $subject_slug . '/flashcards') }}/" rel="canonical">
+   <link href="https://fonts.googleapis.com/css2?family=SN+Pro:ital,wght@0,200..900;1,200..900&family=Sniglet:wght@400;800&display=swap" rel="stylesheet">
 
-  <script type="application/ld+json">
-  {
-    "@@context": "https://schema.org",
-    "@@graph": [
-      {
-        "@@type": "WebPage",
-        "name": "{{ $subject->name }} Flashcards - Certilyst",
-        "description": "An interactive professional certification platform offering expert-led exam prep and mastery-based learning tools for specialized career paths.",
-        "url": "{{ url()->current() }}"
-      },
-      {
-        "@@type": "BreadcrumbList",
-        "itemListElement": [
-          {
-            "@@type": "ListItem",
-            "position": 1,
-            "name": "Home",
-            "item": "{{ url('/') }}"
-          },
-          {
-            "@@type": "ListItem",
-            "position": 2,
-            "name": "Library",
-            "item": "{{ url('/library') }}"
-          },
-          {
-            "@@type": "ListItem",
-            "position": 3,
-            "name": "{{ $subject->name }} Flashcards",
-            "item": "{{ url()->current() }}"
-          }
-        ]
-      }
-    ]
-  }
-  </script>
-
-  
+   <script type="application/ld+json">
+   {
+      "@@context": "https://schema.org",
+      "@@graph": [
+         {
+            "@@type": "WebPage",
+            "name": "{{ $subject_name }} Flashcards - Certilyst",
+            "description": "Mastery flashcards and interactive exam prep for {{ $subject_name }} on Certilyst.",
+            "url": "{{ url($school_slug . '/' . $subject_slug . '/flashcards') }}/"
+         },
+         {
+            "@@type": "BreadcrumbList",
+            "itemListElement": [
+               {
+                  "@@type": "ListItem",
+                  "position": 1,
+                  "name": "Home",
+                  "item": "{{ url('/') }}/"
+               },
+               {
+                  "@@type": "ListItem",
+                  "position": 2,
+                  "name": "Library",
+                  "item": "{{ url('/library') }}/"
+               },
+               {
+                  "@@type": "ListItem",
+                  "position": 3,
+                  "name": "{{ $subject_name }} Flashcards",
+                  "item": "{{ url($school_slug . '/' . $subject_slug . '/flashcards') }}/"
+               }
+            ]
+         }
+      ]
+   }
+   </script>
 </head>
 <body>
   {{-- Header --}}
@@ -79,7 +82,7 @@
         
       <header class="fc-header">
         <div class="fc-title-group">
-          <h2 class="fc-title">{{ $subject->name }}</h2>
+          <h1 class="fc-title">{{ $subject->name }}</h1>
           <div id="nav-count" class="fc-counter">1 / {{ count($flashcards) }}</div>
         </div>
       </header>

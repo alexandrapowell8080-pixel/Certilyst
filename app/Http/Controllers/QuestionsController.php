@@ -16,7 +16,7 @@ class QuestionsController extends Controller
      */
     public function questions(string $school, string $course, string $exam): View|RedirectResponse
     {
-        $examRecord = Exam::where('slug', $exam)->first(['id', 'name']);
+        $examRecord = Exam::where('slug', $exam)->first(['id', 'name', 'slug']);
 
         if ($examRecord == null) {
             return redirect()->route('library')

@@ -7,7 +7,7 @@
                         class="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
                         <span class="text-white font-poppins font-bold text-sm"><img src="{{ asset('images/logo-1.png') }}"
                             alt="Certilyst"></span></div><span
-                        class="font-poppins font-bold text-xl">Cerilyst</span>
+                        class="font-poppins font-bold text-xl">Certilyst</span>
                 </div>
                 <p class="text-background/60 text-sm leading-relaxed mb-6">Expert-led certification prep across Real
                     Estate, Insurance, IT, Education, and more. Master your exams with confidence.</p>
@@ -75,7 +75,7 @@
         </div>
         <div
             class="mt-12 pt-8 border-t border-background/10 flex flex-col sm:flex-row justify-between items-center gap-4">
-            <p class="text-sm text-background/50">© 2026 Cerilyst. All rights reserved.</p>
+            <p class="text-sm text-background/50">© 2026 Certilyst. All rights reserved.</p>
             <div class="flex gap-6"><a href="#"
                     class="text-xs text-background/50 hover:text-background/80 transition-colors">Privacy Policy</a><a
                     href="#" class="text-xs text-background/50 hover:text-background/80 transition-colors">Terms

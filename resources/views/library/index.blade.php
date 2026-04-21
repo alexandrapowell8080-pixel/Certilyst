@@ -6,7 +6,7 @@
             $sch[] = $school->name;
         }
     @endphp
-    @section('title', 'Cerilyst Learning Library')
+    @section('title', 'Certilyst Learning Library')
     @section('description',
         'Access our prep materials ranging from Business and Finance, IT, Real estate, Insurance,
         Praxis, Nursing, Medical & Allied health and Project management')
@@ -64,7 +64,7 @@
 
                 <div class="space-y-2">
                     <h1 class=" font-bold text-3xl sm:text-4xl tracking-tight text-foreground">
-                        Cerilyst <span class="text-primary">Learning Library</span>
+                        Certilyst <span class="text-primary">Learning Library</span>
                     </h1>
                     <p class="text-lg text-muted-foreground max-w-2xl">
                         Browse our schools and find the perfect certification prep for your career.

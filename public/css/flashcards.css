@@ -429,7 +429,7 @@ svg.icon-sm {
 /* Ultra Small Screens */
 @media (max-width: 380px) {
     html {
-        font-size: 13px;
+        font-size: 15px;
     }
     .content-container {
         padding: 5rem 0.5rem 2rem 0.5rem;
@@ -453,10 +453,10 @@ svg.icon-sm {
     }
 }
 
-/* Standard Mobile & Tablets   */
+/* Standard Mobile & Tablets */
 @media (max-width: 768px) {
     html {
-        font-size: 14px;
+        font-size: 16px; 
     }
     .mode-selectors {
         flex-wrap: wrap;
@@ -467,7 +467,7 @@ svg.icon-sm {
     }
 }
 
-/*  Standard Desktops */
+/* Standard Desktops */
 @media (min-width: 1024px) {
     html {
         font-size: 16px;
@@ -481,20 +481,20 @@ svg.icon-sm {
     }
 }
 
-/* Large Screens */
+/* Large Screens (TVs) */
 @media (min-width: 1920px) {
     html {
-        font-size: 22px;
+        font-size: 24px; 
     }
     .content-container {
         max-width: 48rem;
     }
 }
 
-/*  Ultrawide */
+/* Ultrawide / Billboards */
 @media (min-width: 3000px) {
     html {
-        font-size: 32px;
+        font-size: 36px; 
     }
     .content-container {
         max-width: 60rem;

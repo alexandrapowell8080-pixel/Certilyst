@@ -9,33 +9,10 @@
 
 
     @push('schema')
-        <script type="application/ld+json">
-        {
-        "@@context": "https://schema.org",
-        "@@type": "BreadcrumbList",
-        "itemListElement": [
-                    {
-                        "@@type": "ListItem",
-                        "position": 1,
-                        "name": "Exam name",
-                        "item": "{{ url($school_slug . '/' . $course_slug . '/' . $exam_slug) }}"
-                    },
-                    {
-                        "@@type": "ListItem",
-                        "position": 2,
-                        "name": "Library",
-                        "item": "{{ url('/library') }}"
-                    },
-                    {
-                        "@@type": "ListItem",
-                        "position": 3,
-                        "name": "Home",
-                        "item": "{{ url('/') }}"
-                    }
-            ]
-        }
-</script>
         <meta name="robots" content="noindex" />
+        <script type="application/ld+json">
+{!! json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
+</script>
     @endpush
 
     {{-- NAVBAR --}}
@@ -140,7 +117,7 @@
                                         d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z">
                                     </path>
                                 </svg>
-                                Home
+                                <span class="hidden sm:block">Home</span>
                             </a>
                         </li>
 
@@ -153,7 +130,19 @@
                                         clip-rule="evenodd"></path>
                                 </svg>
                                 <a href="/library"
-                                    class="ml-1 text-sm font-medium hover:text-primary md:ml-2 transition-colors duration-200">Library</a>
+                                    class="ml-1 text-sm font-medium hover:text-primary md:ml-2 transition-colors duration-200">
+                                    <span class="sm:block hidden">Library</span>
+                                    <svg class="block sm:hidden" xmlns="http://www.w3.org/2000/svg" width="20"
+                                        height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                        class="lucide lucide-library-big-icon lucide-library-big">
+                                        <rect width="8" height="18" x="3" y="3" rx="1" />
+                                        <path d="M7 3v18" />
+                                        <path
+                                            d="M20.4 18.9c.2.5-.1 1.1-.6 1.3l-1.9.7c-.5.2-1.1-.1-1.3-.6L11.1 5.1c-.2-.5.1-1.1.6-1.3l1.9-.7c.5-.2 1.1.1 1.3.6Z" />
+                                    </svg>
+
+                                </a>
                             </div>
                         </li>
 
@@ -165,7 +154,7 @@
                                         d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
                                         clip-rule="evenodd"></path>
                                 </svg>
-                                <span class="ml-1 text-sm font-bold text-foreground md:ml-2">{{ $school_name  }}</span>
+                                <span class="ml-1 text-sm font-bold text-foreground md:ml-2">{{ $school_name }}</span>
                             </div>
                         </li>
                     </ol>
@@ -243,6 +232,7 @@
                         <x-drag-and-drop :items="$choices" :correctOrder="['I', 'M', 'P', 'R', 'Z']" />
                     </div>
                 @elseif ($question->question_type == 'Selection')
+             
                     @php
                         preg_match_all('/\[(.*?)\]/', explode(':', $question['question'])[1], $matches);
                         $results = $matches[1];
@@ -254,7 +244,7 @@
                             $choices = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
                         @endphp
 
-                        @foreach ($choices as $letter)
+                        {{-- @foreach ($choices as $letter)
                             <div
                                 class="flex items-center gap-3 {{ $letter >= 'E' && $question['choice' . $letter] == null ? 'hidden' : 'flex' }}">
 
@@ -272,9 +262,21 @@
                                 <div class="relative w-1/3">
                                     <select id="rank{{ $letter }}" onchange="onSelectAnswer()"
                                         class="appearance-none w-full h-14 pl-3 pr-2 rounded-xl border-2 border-border bg-card text-foreground font-bold text-sm focus:border-primary focus:ring-2 focus:ring-primary outline-none transition-all cursor-pointer">
-                                        @foreach ($matches[1] as $key => $match)
-                                            <option value="" id="r_c_{{ $match }}">{{ $match }}
+                                    @foreach ($matches[1] as $key => $match)
+                                            <option value="{{ $match }}" id="r_c_{{ $match }}">{{ $match }}
                                             </option>
+                                        @endforeach 
+
+                                        @foreach ($choices as $key => $letter)
+                                            @php
+                                                $value = $question['choice' . $letter] ?? null;
+                                            @endphp
+
+                                            @if ($value)
+                                                <option value="{{ $letter }}">
+                                                    {{ $value }}
+                                                </option>
+                                            @endif
                                         @endforeach
 
                                     </select>
@@ -289,7 +291,67 @@
                                 </div>
 
                             </div>
+                        @endforeach --}}
+
+
+                        @foreach ($choices as $index => $letter)
+                            @php
+                                $choiceText = $question['choice' . $letter] ?? null;
+                                $coverageText = $matches[1][$index] ?? null;
+                            @endphp
+
+                            @if ($choiceText)
+                                <div class="flex items-center gap-3">
+
+                                    <!-- LEFT SIDE (coverage values) -->
+                                    <button id="choice{{ $letter }}"
+                                        class="flex-grow text-left p-4 rounded-xl border-2 border-border bg-card hover:bg-muted/50 transition-all duration-200 flex items-start gap-3 group">
+
+                                        <span
+                                            class="w-7 h-7 rounded-full border-2 flex items-center justify-center shrink-0 text-xs font-bold mt-0.5 border-muted-foreground/30 text-muted-foreground group-hover:border-primary group-hover:text-primary transition-colors">
+                                            {{ $letter }}
+                                        </span>
+
+                                        <span class="text-sm leading-relaxed">
+                                            {{ $coverageText }}
+                                        </span>
+
+                                    </button>
+
+                                    <!-- RIGHT SIDE (dropdown with choices) -->
+                                    <div class="relative w-5/12">
+                                        <select id="rank{{ $letter }}" onchange="onSelectAnswer()"
+                                            class="appearance-none w-full h-14 pl-3 pr-2 rounded-xl border-2 border-border bg-card text-foreground font-bold text-sm focus:border-primary focus:ring-2 focus:ring-primary outline-none transition-all cursor-pointer">
+
+                                            @foreach ($choices as $opt)
+                                                @php
+                                                    $text = $question['choice' . $opt] ?? null;
+                                                @endphp
+
+                                                @if ($text)
+                                                    <option value="{{ $opt }}">
+                                                        {{ $text }}
+                                                    </option>
+                                                @endif
+                                            @endforeach
+
+                                        </select>
+
+                                        <div
+                                            class="pointer-events-none absolute inset-y-0 right-1 flex items-center px-1 text-muted-foreground">
+                                            <svg class="h-3 w-3" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
+                                                    d="M19 9l-7 7-7-7"></path>
+                                            </svg>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            @endif
                         @endforeach
+
+
                     </div>
                 @elseif ($question->question_type == 'Images')
                     <div class="space-y-3">
@@ -386,9 +448,8 @@
                 @endif
                 <div class="flex items-center justify-between mt-8 pt-6 border-t"
                     style="border-color: rgb(233, 236, 239);">
-                    <button
-                        class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-transparent shadow-sm hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2"
-                        disabled="">
+                    <button id="previousButton" onclick="previousQuestion()" disabled
+                        class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-transparent shadow-sm hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                             stroke-linejoin="round" class="lucide lucide-chevron-left w-4 h-4 mr-1">
@@ -527,7 +588,7 @@
 
 
 </x-library-layout>
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     let selectedAnswer;
     let selectedAnswers = [];
@@ -538,6 +599,7 @@
     let question_type = null;
     let remianingQuestion = document.querySelector('.remaining_questions').innerText;
     let submitButton = document.getElementById('submitButton');
+    let previousButton = document.getElementById('previousButton');
     const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
     document.addEventListener('DOMContentLoaded', checkChoices());
     const exam_id = document.querySelector('[id^="exam_id"]').id.replace('exam_id_', '');
@@ -583,22 +645,23 @@
     function checkQuestionType() {
         let classes = document.getElementById('question_type').classList
         if (classes.contains('multiple_choice')) {
+            question_type = 'multiple_choice'
             return 'multiple_choice'
         } else if (classes.contains('regular')) {
+            question_type = 'regular'
             return 'regular'
         } else if (classes.contains('drag_and_drop')) {
+            question_type = 'drag_and_drop'
             return 'drag_and_drop'
         } else if (classes.contains('images')) {
+            question_type = 'regular'
             return 'regular'
         } else if (classes.contains('selection')) {
+            question_type = 'selection'
             return 'selection'
         }
     }
 
-
-
-
-    // submitButton.addEventListener('click', submitAnswer())
 
     function submitAnswer() {
         let qid = document.querySelector('.question').id.replace('q_id_', '')
@@ -622,19 +685,15 @@
 
             letters.forEach(letter => {
                 const selectEl = document.getElementById(`rank${letter}`);
-
-                // 2. Only pull data if the element exists and isn't hidden
-                // (Handles the 'hidden' logic for E, F, G)
-                if (selectEl && selectEl.closest('.flex').style.display !== 'none') {
-                    const selectedValue = selectEl.value;
-
-                    // 3. Store the mapping: e.g., { "A": "Rank 1", "B": "Rank 3" }
-                    userSelections[letter] = selectedValue;
-                }
+                console.log(selectEl?.value)
+                userSelections[letter] = selectEl?.value;
             });
 
             console.log(userSelections);
-            return
+            user_answer = Object.values(userSelections)
+                .filter(v => v !== undefined)
+                .join(',');
+
         }
         const postData = {
             question_id: qid,
@@ -692,13 +751,25 @@
 
     function nextQuestion() {
         let qid = document.querySelector('.question').id.replace('q_id_', '')
-
+        activatePreviousBtn()
         const postData = {
             question_id: qid,
         };
         fetch('/next-question/' + qid)
             .then(response => response.json())
             .then(data => {
+                if (data.message == 'No more questions') {
+                    deactivatePreviousBtn()
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Congratulation!',
+                        text: "You have successfully reached the end of the exam, Try more questions to better yourself!.",
+                        confirmButtonColor: '#f0ad4e',
+                        footer: "<a href=\"library\">Library</a>"
+                    });
+
+                    return;
+                }
                 document.getElementById('submitButton').classList.remove('hidden')
                 document.getElementById('nextButton').classList.add('hidden')
                 document.getElementById('overlay').classList.add('hidden')
@@ -711,65 +782,10 @@
                         'border-primary', 'text-black');
                     option.classList.add('border-2');
                 });
-                document.querySelector('.question').innerText = data.question
-                document.querySelector('.question').id = "q_id_" + data.id
-                answeredQuestions = answeredQuestions + 1
-                document.querySelector('.answered_questions').innerText = answeredQuestions
-                document.getElementById('answered_questions').innerText = answeredQuestions
-                if (data.question_type === 'Drag and Drop') {
-                    document.getElementById('question_type').innerText = 'Drag and Drop'
-                    document.getElementById('question_type').classList.remove(question_type)
-                    document.getElementById('question_type').classList.add('drag_and_drop')
-                    let items = [
-                        data.choiceA,
-                        data.choiceB,
-                        data.choiceC,
-                        data.choiceD,
-                        data.choiceE,
-                        data.choiceF,
-                        data.choiceG,
-                    ];
+                // start
+                updateQuestion(data)
 
-                    renderDragAndDrop(items);
-                    return;
-                } else if (data.question_type === 'Multiple Choice') {
-                    document.getElementById('question_type').innerText = 'Multiple Choice'
-                    document.getElementById('question_type').classList.remove(question_type)
-                    document.getElementById('question_type').classList.add('multiple_choice')
-                    document.getElementById('regular_container')?.classList.remove('hidden')
-                    document.getElementById('dd_container')?.remove()
-                    document.getElementById('drag-drop-container').innerHTML = '';
-                } else {
-                    document.getElementById('question_type').innerText = 'Single Choice'
-                    document.getElementById('question_type').classList.remove(question_type)
-                    document.getElementById('question_type').classList.add('regular')
-                    document.getElementById('regular_container')?.classList.remove('hidden')
-                    document.getElementById('dd_container')?.remove()
-                    document.getElementById('drag-drop-container').innerHTML = '';
-                }
-                document.getElementById('optionA').innerText = data.choiceA
-                document.getElementById('optionB').innerText = data.choiceB
-                document.getElementById('optionC').innerText = data.choiceC
-                document.getElementById('optionD').innerText = data.choiceD
-                if (data.choiceE) {
-                    document.getElementById('choiceE').classList.remove('hidden')
-                    document.getElementById('optionE').innerText = data.choiceE
-                } else {
-                    document.getElementById('choiceE').classList.add('hidden')
-                }
-                if (data.choiceF) {
-                    console.log(data.choiceF)
-                    document.getElementById('choiceF').classList.remove('hidden')
-                    document.getElementById('optionF').innerText = data.choiceF
-                } else {
-                    document.getElementById('choiceF').classList.add('hidden')
-                }
-                if (data.choiceG) {
-                    document.getElementById('choiceG').classList.remove('hidden')
-                    document.getElementById('optionG').innerText = data.choiceG
-                } else {
-                    document.getElementById('choiceG').classList.add('hidden')
-                }
+                // end
 
 
             })
@@ -823,13 +839,23 @@
         submitButton.removeAttribute('disabled');
     }
 
+    function deactivateSubmitBtn() {
+        submitButton.setAttribute('disabled', true);
+    }
+
+    function activatePreviousBtn() {
+        previousButton.removeAttribute('disabled');
+    }
+
+    function deactivatePreviousBtn() {
+        previousButton.setAttribute('disabled', true);
+    }
+
     function onSelectAnswer() {
         activateSubmitBtn()
+        checkQuestionType()
     }
-</script>
 
-
-<script>
     let draggedItem = null;
 
     function dragStart(event) {
@@ -889,5 +915,99 @@
 
     function checkOrder() {
 
+    }
+
+    function previousQuestion() {
+        let qid = document.querySelector('.question').id.replace('q_id_', '')
+        const postData = {
+            question_id: qid,
+            exam_id: exam_id
+        };
+
+        let url = '/previous-question/' + exam_id + '/' + qid
+
+
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                if (data.message == 'No more questions') {
+                    deactivatePreviousBtn()
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'Oops!',
+                        text: "Sorry, that was the last questions.",
+                        confirmButtonColor: '#f0ad4e'
+                    });
+
+                    return;
+                }
+                updateQuestion(data)
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
+
+
+    function updateQuestion(data) {
+        document.querySelector('.question').innerText = data.question
+        document.querySelector('.question').id = "q_id_" + data.id
+        answeredQuestions = answeredQuestions + 1
+        document.querySelector('.answered_questions').innerText = answeredQuestions
+        document.getElementById('answered_questions').innerText = answeredQuestions
+        if (data.question_type === 'Drag and Drop') {
+            document.getElementById('question_type').innerText = 'Drag and Drop'
+            document.getElementById('question_type').classList.remove(question_type)
+            document.getElementById('question_type').classList.add('drag_and_drop')
+            let items = [
+                data.choiceA,
+                data.choiceB,
+                data.choiceC,
+                data.choiceD,
+                data.choiceE,
+                data.choiceF,
+                data.choiceG,
+            ];
+
+            renderDragAndDrop(items);
+            return;
+        } else if (data.question_type === 'Multiple Choice') {
+            document.getElementById('question_type').innerText = 'Multiple Choice'
+            document.getElementById('question_type').classList.remove(question_type)
+            document.getElementById('question_type').classList.add('multiple_choice')
+            document.getElementById('regular_container')?.classList.remove('hidden')
+            document.getElementById('dd_container')?.remove()
+            document.getElementById('drag-drop-container').innerHTML = '';
+        } else {
+            document.getElementById('question_type').innerText = 'Single Choice'
+            document.getElementById('question_type').classList.remove(question_type)
+            document.getElementById('question_type').classList.add('regular')
+            document.getElementById('regular_container')?.classList.remove('hidden')
+            document.getElementById('dd_container')?.remove()
+            document.getElementById('drag-drop-container').innerHTML = '';
+        }
+        document.getElementById('optionA').innerText = data.choiceA
+        document.getElementById('optionB').innerText = data.choiceB
+        document.getElementById('optionC').innerText = data.choiceC
+        document.getElementById('optionD').innerText = data.choiceD
+        if (data.choiceE) {
+            document.getElementById('choiceE').classList.remove('hidden')
+            document.getElementById('optionE').innerText = data.choiceE
+        } else {
+            document.getElementById('choiceE').classList.add('hidden')
+        }
+        if (data.choiceF) {
+            console.log(data.choiceF)
+            document.getElementById('choiceF').classList.remove('hidden')
+            document.getElementById('optionF').innerText = data.choiceF
+        } else {
+            document.getElementById('choiceF').classList.add('hidden')
+        }
+        if (data.choiceG) {
+            document.getElementById('choiceG').classList.remove('hidden')
+            document.getElementById('optionG').innerText = data.choiceG
+        } else {
+            document.getElementById('choiceG').classList.add('hidden')
+        }
     }
 </script>

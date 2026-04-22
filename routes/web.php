@@ -41,6 +41,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 Route::get('/library', [LibraryController::class, 'index'])->name('library');
 Route::post('/exam-question', [QuestionsController::class, 'examAnswers']);
 Route::get('/next-question/{question_id}', [QuestionsController::class, 'nextQuestion']);
+Route::get('/previous-question/{exam_id}/{question_id}', [QuestionsController::class, 'previousQuestion']);
 
 // Flash Card Routes
 Route::get('/{school}/{subject}/flashcards', [FlashcardsController::class, 'index'])->name('flashcards');

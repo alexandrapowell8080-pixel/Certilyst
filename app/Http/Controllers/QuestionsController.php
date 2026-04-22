@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Exam;
 use App\Models\Question;
+use App\Models\Subject;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -22,7 +23,7 @@ class QuestionsController extends Controller
             return redirect()->route('library')
                 ->with('exam_message', 'No such exam exists');
         }
-        $query = Question::where('exam_id', $examRecord->id);
+        $query = Question::where('exam_id', $examRecord->id)->whereNot('question_type', 'List Selection');
 
         if ($query->count() == 0) {
             return back()->with('message', 'No questions available at the moment for '.$examRecord->name);
@@ -42,25 +43,21 @@ class QuestionsController extends Controller
         $exam_name = $examRecord->name;
         $exam_slug = $examRecord->slug;
 
-        $questions = collect();
+        $exam = Exam::with('subject.course.school')->findOrFail($examRecord->id);
 
-        $examIds = Question::where('exam_id', '!=', $examRecord->exam_id)
-            ->distinct()
-            ->pluck('exam_id');
+        $exams = Exam::whereHas('subject.course.school', function ($q) use ($exam) {
+            $q->where('id', $exam->subject->course->school->id);
+        })
+            ->pluck('id');
 
-        foreach ($examIds as $examId) {
-            $q = Question::with('exam')->where('exam_id', $examId)
-                ->orderBy('id') 
+        $questions = $exams->map(function ($id) {
+            return Question::where('exam_id', $id)
+                ->inRandomOrder()
                 ->first();
-        
-            if ($q) {
-                $questions->push($q);
-            }
-        }
+        })->filter();
 
-        $q_r  = [];
+        $q_r = [];
         foreach ($questions as $key => $quiz) {
-            logger($quiz);
             $q_r[] = [
                 '@type' => 'Question',
                 'name' => $quiz->question,
@@ -110,7 +107,7 @@ class QuestionsController extends Controller
                     ]],
 
             ],
-            'relatedLink' =>  $q_r,
+            'relatedLink' => $q_r,
         ];
 
         return view('library.exam.questions', compact('question', 'questions_count', 'subject_slug', 'school', 'school_name', 'subject_name', 'course_name', 'exam_name', 'school_slug', 'course_slug', 'exam_slug', 'schema'));
@@ -165,7 +162,7 @@ class QuestionsController extends Controller
 
         $question = Question::where('exam_id', $current->exam_id)
             ->where('id', '>', $current->id)
-            
+            ->whereNot('question_type', 'List Selection')
             ->orderBy('id', 'asc')
             ->first(['exam_id', 'extract', 'question', 'choiceA', 'choiceB', 'choiceC', 'choiceD', 'choiceE', 'choiceF', 'choiceG', 'rationale', 'question_type', 'image', 'url', 'id']);
         if ($question == null) {
@@ -182,13 +179,77 @@ class QuestionsController extends Controller
 
         $question = Question::where('exam_id', $current->exam_id)
             ->where('id', '<', $current->id)
+            ->whereNot('question_type', 'List Selection')
             ->orderBy('id', 'desc')
-            
+
             ->first(['exam_id', 'extract', 'question', 'choiceA', 'choiceB', 'choiceC', 'choiceD', 'choiceE', 'choiceF', 'choiceG', 'rationale', 'question_type', 'image', 'url', 'id']);
         if ($question == null) {
             return response()->json(['message' => 'No more questions'], 200);
         }
 
         return response()->json($question);
+    }
+
+    /**
+     * Individual question 
+     *
+     * @param string $url
+     * @return View
+     */
+    public function individualQuestions(string $url): View
+    {
+        $path = '/'.request()->path();
+
+        $question = Question::with('exam.subject.course.school')
+            ->where('url', $path)
+            ->whereNot('question_type', 'List Selection')
+            ->firstOrFail();
+
+        // Extract relationships once
+        $exam = $question->exam;
+        $subject = $exam->subject;
+        $course = $subject->course;
+        $school = $course->school;
+
+        $related_questions = Question::where('id', '>', $question->id)
+            ->whereNot('question_type', 'List Selection')
+            ->take(5)
+            ->get(['question', 'url']);
+
+        $subjects = Subject::with([
+            'exam.questions' => fn ($query) => $query
+                ->orderBy('id', 'asc')
+                ->limit(1)
+                ->select('id', 'exam_id', 'url'),
+        ])
+            ->with('exam')
+            ->where('id', $subject->id)
+            ->get();
+
+        $subject_exams = Exam::with([
+            'questions' => fn ($query) => $query->limit(1),
+        ])
+            ->where('subject_id', $subject->id)
+            ->get();
+
+        $course_exams = Subject::with([
+            'exam.questions' => fn ($query) => $query->limit(1),
+        ])
+            ->where('course_id', $course->id)
+            ->take(5)
+            ->get();
+
+        return view('questions.index', [
+            'question' => $question,
+            'related_questions' => $related_questions,
+            'exam_name' => $exam->name,
+            'school' => $school,
+            'subject_slug' => $subject->slug,
+            'questions_count' => '',
+            'school_name' => $school->name,
+            'subjects' => $subjects,
+            'subject_exams' => $subject_exams,
+            'course_exams' => $course_exams,
+        ]);
     }
 }

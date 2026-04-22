@@ -22,6 +22,10 @@ class Subject extends Model
         return $this->belongsTo(course::class);
     }
 
+    public function questions():HasMany{
+        return $this->hasMany(Question::class,'exam_id');
+    }
+
     // New relationship added safely below your existing code
     public function flashcards():HasMany
     {

@@ -27,10 +27,11 @@
                         </svg> Exit</button></a>
                 <div class="hidden sm:block">
                     <h2 class="font-poppins font-semibold text-sm" style="color: rgb(33, 37, 41);"
-                        id="exam_id_{{ $question->exam_id }}">Texas</h2>
+                        id="exam_id_{{ $question->exam_id }}">{{ $exam_name }}</h2>
                 </div>
             </div>
-            <div class="flex items-center gap-2"><span class="font-mono text-sm font-semibold px-3 py-1 rounded-full"
+            <div class="flex items-center gap-2 hidden"><span
+                    class="font-mono text-sm font-semibold px-3 py-1 rounded-full"
                     style="background: rgb(245, 240, 255); color: rgb(106, 13, 173);">1 of 10</span><span
                     class="hidden sm:flex items-center gap-1 text-xs font-medium px-3 py-1 rounded-full"
                     style="background: rgb(255, 243, 205); color: rgb(133, 100, 4);">Trial: 1/5</span></div>
@@ -53,7 +54,7 @@
                             <path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12"></path>
                             <path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17"></path>
                         </svg> Flashcards</button></a><button
-                    class="inline-flex items-center justify-center gap-2 whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground shadow hover:bg-primary/90 h-8 rounded-md px-3 text-xs"
+                    class="inline-flex hidden items-center justify-center gap-2 whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground shadow hover:bg-primary/90 h-8 rounded-md px-3 text-xs"
                     style="background: rgb(106, 13, 173); color: rgb(255, 255, 255);"><svg
                         xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -203,14 +204,21 @@
                         </svg>Flag</button>
                 </div>
 
-                <h2 class="sn-pro-700 text-lg font-semibold mb-6 leading-relaxed" style="color: rgb(33, 37, 41);">
+                <h2 id="extarct" class="sn-pro-700 text-lg font-semibold mb-6 leading-relaxed" style="color: rgb(33, 37, 41);">
                     {{ $question['extract'] }}</h2>
 
                 <h3 id="q_id_{{ $question['id'] }}" class="question  font-semibold mb-6 leading-relaxed"
                     style="color: rgb(33, 37, 41);">
                     @if ($question->question_type == 'Selection')
                         {{ explode(':', $question['question'])[0] }}
-                    @else
+                    @elseif ($question->question_type == 'List Selection')
+                    @php
+                        preg_match('/(.*?)(\[[^\]]+\])/', $question['question'], $matches);
+                       
+                    @endphp
+                    {{ $matches[1] }}
+                  
+                        @else
                         {{ $question['question'] }}
                     @endif
                 </h3>
@@ -232,7 +240,6 @@
                         <x-drag-and-drop :items="$choices" :correctOrder="['I', 'M', 'P', 'R', 'Z']" />
                     </div>
                 @elseif ($question->question_type == 'Selection')
-             
                     @php
                         preg_match_all('/\[(.*?)\]/', explode(':', $question['question'])[1], $matches);
                         $results = $matches[1];
@@ -243,55 +250,6 @@
                             // Define the choices to loop through to keep the code DRY
                             $choices = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
                         @endphp
-
-                        {{-- @foreach ($choices as $letter)
-                            <div
-                                class="flex items-center gap-3 {{ $letter >= 'E' && $question['choice' . $letter] == null ? 'hidden' : 'flex' }}">
-
-
-                                <button id="choice{{ $letter }}"
-                                    class="flex-grow text-left p-4 rounded-xl border-2 border-border bg-card hover:bg-muted/50 transition-all duration-200 flex items-start gap-3 group">
-                                    <span
-                                        class="w-7 h-7 rounded-full border-2 flex items-center justify-center shrink-0 text-xs font-bold mt-0.5 border-muted-foreground/30 text-muted-foreground group-hover:border-primary group-hover:text-primary transition-colors">
-                                        {{ $letter }}
-                                    </span>
-                                    <span class="text-sm leading-relaxed" id="option{{ $letter }}">
-                                        {{ $question['choice' . $letter] }}
-                                    </span>
-                                </button>
-                                <div class="relative w-1/3">
-                                    <select id="rank{{ $letter }}" onchange="onSelectAnswer()"
-                                        class="appearance-none w-full h-14 pl-3 pr-2 rounded-xl border-2 border-border bg-card text-foreground font-bold text-sm focus:border-primary focus:ring-2 focus:ring-primary outline-none transition-all cursor-pointer">
-                                    @foreach ($matches[1] as $key => $match)
-                                            <option value="{{ $match }}" id="r_c_{{ $match }}">{{ $match }}
-                                            </option>
-                                        @endforeach 
-
-                                        @foreach ($choices as $key => $letter)
-                                            @php
-                                                $value = $question['choice' . $letter] ?? null;
-                                            @endphp
-
-                                            @if ($value)
-                                                <option value="{{ $letter }}">
-                                                    {{ $value }}
-                                                </option>
-                                            @endif
-                                        @endforeach
-
-                                    </select>
-                                    <div
-                                        class="pointer-events-none absolute inset-y-0 right-1 flex items-center px-1 text-muted-foreground">
-                                        <svg class="h-3 w-3" fill="none" stroke="currentColor"
-                                            viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
-                                                d="M19 9l-7 7-7-7"></path>
-                                        </svg>
-                                    </div>
-                                </div>
-
-                            </div>
-                        @endforeach --}}
 
 
                         @foreach ($choices as $index => $letter)
@@ -334,6 +292,79 @@
                                                     </option>
                                                 @endif
                                             @endforeach
+
+                                        </select>
+
+                                        <div
+                                            class="pointer-events-none absolute inset-y-0 right-1 flex items-center px-1 text-muted-foreground">
+                                            <svg class="h-3 w-3" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
+                                                    d="M19 9l-7 7-7-7"></path>
+                                            </svg>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            @endif
+                        @endforeach
+
+
+                    </div>
+
+                @elseif ($question->question_type == 'List Selection')
+           
+            {{ $matches[2] }}
+                    <div class="space-y-3">
+                        @php
+                            // Define the choices to loop through to keep the code DRY
+                            $choices = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
+                        @endphp
+
+
+                        @foreach ($choices as $index => $letter)
+                            @php
+                                $choiceText = $question['choice' . $letter] ?? null;
+                                $coverageText = $matches[1][$index] ?? null;
+                            @endphp
+
+                            @if ($choiceText)
+                                <div class="flex items-center gap-3">
+
+                                    <!-- LEFT SIDE (coverage values) -->
+                                    <button id="choice{{ $letter }}"
+                                        class="flex-grow text-left p-4 rounded-xl border-2 border-border bg-card hover:bg-muted/50 transition-all duration-200 flex items-start gap-3 group">
+
+                                        <span
+                                            class="w-7 h-7 rounded-full border-2 flex items-center justify-center shrink-0 text-xs font-bold mt-0.5 border-muted-foreground/30 text-muted-foreground group-hover:border-primary group-hover:text-primary transition-colors">
+                                            {{ $letter }}
+                                        </span>
+
+                                        <span class="text-sm leading-relaxed">
+                                            {{ $choiceText }}
+                                        </span>
+
+                                    </button>
+
+                                    <!-- RIGHT SIDE (dropdown with choices) -->
+                                    <div class="relative w-5/12">
+                                        <select id="rank{{ $letter }}" onchange="onSelectAnswer()"
+                                            class="appearance-none w-full h-14 pl-3 pr-2 rounded-xl border-2 border-border bg-card text-foreground font-bold text-sm focus:border-primary focus:ring-2 focus:ring-primary outline-none transition-all cursor-pointer">
+
+                                            @foreach (array_map('trim', explode(',', trim($matches[2], "[]"))) as $opt)
+
+    @php
+        $key = 'choice' . str_replace(' ', '_', $opt);
+        $text = $question[$key] ?? null;
+    @endphp
+
+    @if ($text)
+        <option value="{{ $opt }}">
+            {{ $opt }}
+        </option>
+    @endif
+
+@endforeach
 
                                         </select>
 
@@ -570,7 +601,7 @@
                         question.
                     </p>
                 </div>
-                <div class="bg-secondary/10 rounded-xl p-4">
+                <div class="bg-secondary/10 rounded-xl p-4 hidden">
                     <div class="flex items-center gap-2 mb-2"><svg xmlns="http://www.w3.org/2000/svg" width="24"
                             height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -584,8 +615,6 @@
                 </div>
             </div>
         </div>
-
-
 
 </x-library-layout>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -950,6 +979,9 @@
 
 
     function updateQuestion(data) {
+        if(data.extact){
+            document.getElementById('extarct').innerText = data.extact
+        }
         document.querySelector('.question').innerText = data.question
         document.querySelector('.question').id = "q_id_" + data.id
         answeredQuestions = answeredQuestions + 1

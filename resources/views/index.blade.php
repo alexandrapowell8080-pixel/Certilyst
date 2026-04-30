@@ -223,37 +223,37 @@
                 <div class="path-icon purple"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 18C10 18 2 13 2 8C2 5 4.5 2 7.5 2C9 2 10 3 10 3C10 3 11 2 12.5 2C15.5 2 18 5 18 8C18 13 10 18 10 18Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M8 8H12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M8 11H12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
                 <h3 class="path-title">Nursing & Healthcare</h3>
                 <p class="path-desc">NCLEX, CNA, HESI, and medical board practice exams.</p>
-                <div class="path-footer"><span class="path-count">48 practice tests</span><a href="{{ route('library') }}?category=nursing" class="path-link">Explore →</a></div>
+                <div class="path-footer"><span class="path-count">48 practice tests</span><a href="{{ route('library') }}#nursing" class="path-link">Explore →</a></div>
             </div>
             <div class="path-card">
                 <div class="path-icon pink"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M16 4V16H4V4H16Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 4V16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M4 10H16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
                 <h3 class="path-title">Real Estate Licensing</h3>
                 <p class="path-desc">State-specific salesperson and broker exam simulations.</p>
-                <div class="path-footer"><span class="path-count">36 practice tests</span><a href="{{ route('library') }}?category=realestate" class="path-link">Explore →</a></div>
+                <div class="path-footer"><span class="path-count">36 practice tests</span><a href="{{ route('library') }}#realestate" class="path-link">Explore →</a></div>
             </div>
             <div class="path-card">
                 <div class="path-icon blue"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 18C10 18 18 12 18 7C18 4.5 16 2 10 2C4 2 2 4.5 2 7C2 12 10 18 10 18Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M10 10C11.1046 10 12 9.10457 12 8C12 6.89543 11.1046 6 10 6C8.89543 6 8 6.89543 8 8C8 9.10457 8.89543 10 10 10Z" stroke="currentColor" stroke-width="1.5"/></svg></div>
                 <h3 class="path-title">Insurance Exams</h3>
                 <p class="path-desc">Life, health, property & casualty licensing prep.</p>
-                <div class="path-footer"><span class="path-count">28 practice tests</span><a href="{{ route('library') }}?category=insurance" class="path-link">Explore →</a></div>
+                <div class="path-footer"><span class="path-count">28 practice tests</span><a href="{{ route('library') }}#insurance" class="path-link">Explore →</a></div>
             </div>
             <div class="path-card">
                 <div class="path-icon green"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M16 6V14C16 15.1046 15.1046 16 14 16H6C4.89543 16 4 15.1046 4 14V6C4 4.89543 4.89543 4 6 4H14C15.1046 4 16 4.89543 16 6Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 8H16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M8 10H12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
                 <h3 class="path-title">IT & Cybersecurity</h3>
                 <p class="path-desc">CompTIA, CISSP, AWS, and cloud certification paths.</p>
-                <div class="path-footer"><span class="path-count">52 practice tests</span><a href="{{ route('library') }}?category=it" class="path-link">Explore →</a></div>
+                <div class="path-footer"><span class="path-count">52 practice tests<a href="{{ route('library') }}#it" class="path-link">Explore →</a></div>
             </div>
             <div class="path-card">
                 <div class="path-icon orange"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M16 14V16H4V14H16Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 10V14H8V10H12Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 6V10H6V6H14Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
                 <h3 class="path-title">Project Management</h3>
                 <p class="path-desc">PMP, CAPM, Agile, and Scrum certification prep.</p>
-                <div class="path-footer"><span class="path-count">24 practice tests</span><a href="{{ route('library') }}?category=project" class="path-link">Explore →</a></div>
+                <div class="path-footer"><span class="path-count">24 practice tests</span><a href="{{ route('library') }}#project" class="path-link">Explore →</a></div>
             </div>
             <div class="path-card">
                 <div class="path-icon teal"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 16L16 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M4 4V8H8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 16V12H12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
                 <h3 class="path-title">HS Equivalency & Admissions</h3>
                 <p class="path-desc">GED, HiSET, TEAS, and entrance exam practice.</p>
-                <div class="path-footer"><span class="path-count">32 practice tests</span><a href="{{ route('library') }}?category=hs" class="path-link">Explore →</a></div>
+                <div class="path-footer"><span class="path-count">32 practice tests</span><a href="{{ route('library') }}#hs" class="path-link">Explore →</a></div>
             </div>
         </div>
     </div>

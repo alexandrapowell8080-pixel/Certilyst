@@ -97,8 +97,11 @@
         </div>
     </div>
 
+    {{-- CHANGED: Initialize activeSchool from URL parameter --}}
     <div class="sm:w-10/12 w-11/12 mb-5 mx-auto mt-4 sn-pro-400" x-data="{
-        activeSchool: 'all',
+        activeSchool: new URLSearchParams(window.location.search).get('category') 
+            ? ({{ Js::from(collect($schools)->pluck('id', 'slug')->toArray()) }})[new URLSearchParams(window.location.search).get('category')] || 'all'
+            : 'all',
         moveToFront(id) {
             this.activeSchool = id;
         }
@@ -140,13 +143,15 @@
         <div class="space-y-4">
 
             @foreach ($schools as $school)
-                <div x-show="activeSchool === 'all' || activeSchool === '{{ $school->id }}'"
+                {{-- CHANGED: Added id for scrolling --}}
+                <div id="school-{{ $school->slug }}" x-show="activeSchool === 'all' || activeSchool === '{{ $school->id }}'"
                     x-transition:enter="transition ease-out duration-300"
                     x-transition:enter-start="opacity-0 transform translate-y-2"
                     x-transition:enter-end="opacity-100 transform translate-y-0">
 
                     {{-- SCHOOL CARD --}}
-                    <details
+                    {{-- CHANGED: Added id for targeting --}}
+                    <details id="details-{{ $school->slug }}"
                         class="group bg-card border border-border rounded-2xl overflow-hidden shadow-sm transition-all duration-200 open:ring-1 open:ring-emerald-500/20">
                         <summary
                             class="flex items-center justify-between p-5 cursor-pointer hover:bg-muted/30 transition-colors list-none">
@@ -364,10 +369,25 @@
 
 </x-library-layout>
 <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-
+<script>
+document.addEventListener('alpine:initialized', () => {
+    const category = new URLSearchParams(window.location.search).get('category');
+    if (category) {
+        const details = document.getElementById('details-' + category);
+        const wrapper = document.getElementById('school-' + category);
+        if (details && wrapper) {
+            details.setAttribute('open', 'true');
+            setTimeout(() => {
+                wrapper.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                details.classList.add('highlight-section');
+            }, 300);
+        }
+    }
+});
+</script>
 
 <style>
-    /* Hide scrollbar but keep scrolling */
+
     .no-scrollbar::-webkit-scrollbar {
         display: none;
     }
@@ -383,5 +403,15 @@
 
     summary::-webkit-details-marker {
         display: none;
+    }
+    
+  
+    .highlight-section {
+        animation: highlightPulse 2s ease-in-out;
+    }
+    @keyframes highlightPulse {
+        0% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.7); }
+        70% { box-shadow: 0 0 0 10px rgba(139, 92, 246, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0); }
     }
 </style>

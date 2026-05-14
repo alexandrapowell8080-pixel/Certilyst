@@ -16,10 +16,8 @@
 </head>
 <body>
     
-    {{-- Header --}}
     @include('partials.nav-bar')
     
-    {{-- Hero Section --}}
     <section class="hero-section">
   <div class="hero-background">
     <video
@@ -178,7 +176,7 @@
     </div>
   </div>
 </section>
-{{-- STATS BANNER --}}
+
 <section class="stats-banner">
     <div class="stats-grid">
         <div class="stats-block">
@@ -215,7 +213,6 @@
     </div>
 </section>
 
-{{-- CERTIFICATION PATHS --}}
 <section class="certification-paths">
     <div class="section-container">
         <div class="section-header">
@@ -227,43 +224,42 @@
                 <div class="path-icon purple"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 18C10 18 2 13 2 8C2 5 4.5 2 7.5 2C9 2 10 3 10 3C10 3 11 2 12.5 2C15.5 2 18 5 18 8C18 13 10 18 10 18Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M8 8H12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M8 11H12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
                 <h3 class="path-title">Nursing & Healthcare</h3>
                 <p class="path-desc">NCLEX, CNA, HESI, and medical board practice exams.</p>
-                <div class="path-footer"><span class="path-count">48 practice tests</span><a href="#" class="path-link">Explore →</a></div>
+                <div class="path-footer"><span class="path-count">48 practice tests</span><a href="{{ route('library') }}#nursing" class="path-link">Explore →</a></div>
             </div>
             <div class="path-card">
                 <div class="path-icon pink"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M16 4V16H4V4H16Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 4V16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M4 10H16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
                 <h3 class="path-title">Real Estate Licensing</h3>
                 <p class="path-desc">State-specific salesperson and broker exam simulations.</p>
-                <div class="path-footer"><span class="path-count">36 practice tests</span><a href="#" class="path-link">Explore →</a></div>
+                <div class="path-footer"><span class="path-count">36 practice tests</span><a href="{{ route('library') }}#realestate" class="path-link">Explore →</a></div>
             </div>
             <div class="path-card">
                 <div class="path-icon blue"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 18C10 18 18 12 18 7C18 4.5 16 2 10 2C4 2 2 4.5 2 7C2 12 10 18 10 18Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M10 10C11.1046 10 12 9.10457 12 8C12 6.89543 11.1046 6 10 6C8.89543 6 8 6.89543 8 8C8 9.10457 8.89543 10 10 10Z" stroke="currentColor" stroke-width="1.5"/></svg></div>
                 <h3 class="path-title">Insurance Exams</h3>
                 <p class="path-desc">Life, health, property & casualty licensing prep.</p>
-                <div class="path-footer"><span class="path-count">28 practice tests</span><a href="#" class="path-link">Explore →</a></div>
+                <div class="path-footer"><span class="path-count">28 practice tests</span><a href="{{ route('library') }}#insurance" class="path-link">Explore →</a></div>
             </div>
             <div class="path-card">
                 <div class="path-icon green"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M16 6V14C16 15.1046 15.1046 16 14 16H6C4.89543 16 4 15.1046 4 14V6C4 4.89543 4.89543 4 6 4H14C15.1046 4 16 4.89543 16 6Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 8H16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M8 10H12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
                 <h3 class="path-title">IT & Cybersecurity</h3>
                 <p class="path-desc">CompTIA, CISSP, AWS, and cloud certification paths.</p>
-                <div class="path-footer"><span class="path-count">52 practice tests</span><a href="#" class="path-link">Explore →</a></div>
+                <div class="path-footer"><span class="path-count">52 practice tests<a href="{{ route('library') }}#it" class="path-link">Explore →</a></div>
             </div>
             <div class="path-card">
                 <div class="path-icon orange"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M16 14V16H4V14H16Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 10V14H8V10H12Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 6V10H6V6H14Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
                 <h3 class="path-title">Project Management</h3>
                 <p class="path-desc">PMP, CAPM, Agile, and Scrum certification prep.</p>
-                <div class="path-footer"><span class="path-count">24 practice tests</span><a href="#" class="path-link">Explore →</a></div>
+                <div class="path-footer"><span class="path-count">24 practice tests</span><a href="{{ route('library') }}#project" class="path-link">Explore →</a></div>
             </div>
             <div class="path-card">
                 <div class="path-icon teal"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 16L16 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M4 4V8H8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 16V12H12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
                 <h3 class="path-title">HS Equivalency & Admissions</h3>
                 <p class="path-desc">GED, HiSET, TEAS, and entrance exam practice.</p>
-                <div class="path-footer"><span class="path-count">32 practice tests</span><a href="#" class="path-link">Explore →</a></div>
+                <div class="path-footer"><span class="path-count">32 practice tests</span><a href="{{ route('library') }}#hs" class="path-link">Explore →</a></div>
             </div>
         </div>
     </div>
 </section>
 
-{{-- HOW IT WORKS (ROADMAP WITH ANIMATED CAR) --}}
 <section class="how-it-works-roadmap">
     <div class="section-container">
         <div class="section-header">
@@ -351,7 +347,6 @@
             </svg>
         </div>
 
-        <!-- YOUR EXACT CARD STRUCTURE - CLASSES UNCHANGED -->
         <div class="steps-grid">
             <div class="step-card" id="stepCard1" data-step="1">
                 <div class="step-badge purple"><span>1</span></div>
@@ -407,7 +402,7 @@
         </div>
     </div>
 </section>
-{{-- PLATFORM FEATURES --}}
+
 <section class="platform-features">
     <div class="section-container">
         <div class="section-header">
@@ -416,73 +411,61 @@
             <p class="section-subtitle">A complete toolkit designed for certification success.</p>
         </div>
         <div class="features-grid">
-            <!-- Card 1 -->
             <div class="feature-card">
                 <div class="feature-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="1.5"/><path d="M10 6V10L13 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
                 <h3 class="feature-title">Timed Practice Exams</h3>
                 <p class="feature-desc">Simulate real exam conditions with countdown timers and structured question sets.</p>
             </div>
-            <!-- Card 2 -->
             <div class="feature-card">
                 <div class="feature-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="3" y="3" width="14" height="14" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M7 7H13M7 10H13M7 13H10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
                 <h3 class="feature-title">Drag-and-Drop Questions</h3>
                 <p class="feature-desc">Interactive ordering and matching questions for hands-on learning.</p>
             </div>
-            <!-- Card 3 -->
             <div class="feature-card">
                 <div class="feature-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2" y="4" width="16" height="12" rx="2" stroke="currentColor" stroke-width="1.5"/><circle cx="7" cy="10" r="2" stroke="currentColor" stroke-width="1.5"/><path d="M12 8L14 10L12 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
                 <h3 class="feature-title">Image-Based Answers</h3>
                 <p class="feature-desc">Visual questions with images, diagrams, and hotspot interactions.</p>
             </div>
-            <!-- Card 4 -->
             <div class="feature-card">
                 <div class="feature-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 6C4 4.89543 4.89543 4 6 4H14C15.1046 4 16 4.89543 16 6V14C16 15.1046 15.1046 16 14 16H6C4.89543 16 4 15.1046 4 14V6Z" stroke="currentColor" stroke-width="1.5"/><path d="M8 8H12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
                 <h3 class="feature-title">Flashcard Refresher</h3>
                 <p class="feature-desc">Quick-fire flashcards to reinforce key concepts and definitions.</p>
             </div>
-            <!-- Card 5 -->
             <div class="feature-card">
                 <div class="feature-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 3V17H17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M7 11L10 8L13 11L17 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
                 <h3 class="feature-title">Performance Dashboard</h3>
                 <p class="feature-desc">Track your progress with detailed analytics and performance trends.</p>
             </div>
-            <!-- Card 6 -->
             <div class="feature-card">
                 <div class="feature-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2V18M10 2L6 6M10 2L14 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
                 <h3 class="feature-title">Study Streaks</h3>
                 <p class="feature-desc">Stay motivated with daily streak tracking and achievement badges.</p>
             </div>
-            <!-- Card 7 -->
             <div class="feature-card">
                 <div class="feature-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 4H15C16.1046 4 17 4.89543 17 6V14C17 15.1046 16.1046 16 15 16H5C3.89543 16 3 15.1046 3 14V6C3 4.89543 3.89543 4 5 4Z" stroke="currentColor" stroke-width="1.5"/><path d="M7 8H13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
                 <h3 class="feature-title">Bookmark Questions</h3>
                 <p class="feature-desc">Save difficult questions for later review and targeted practice.</p>
             </div>
-            <!-- Card 8 -->
             <div class="feature-card">
                 <div class="feature-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 18C14.4183 18 18 14.4183 18 10C18 5.58172 14.4183 2 10 2C5.58172 2 2 5.58172 2 10C2 14.4183 5.58172 18 10 18Z" stroke="currentColor" stroke-width="1.5"/><path d="M10 6V10L13 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
                 <h3 class="feature-title">Review Incorrect</h3>
                 <p class="feature-desc">Analyze wrong answers with explanations to improve understanding.</p>
             </div>
-            <!-- Card 9 -->
             <div class="feature-card">
                 <div class="feature-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="3" y="5" width="14" height="10" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M7 15V17M13 15V17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
                 <h3 class="feature-title">Realistic Interface</h3>
                 <p class="feature-desc">Exam interface designed to match real certification test environments.</p>
             </div>
-            <!-- Card 10 -->
             <div class="feature-card">
                 <div class="feature-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><polygon points="8,5 15,10 8,15" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
                 <h3 class="feature-title">Video Demos</h3>
                 <p class="feature-desc">Service demonstration videos showing platform capabilities.</p>
             </div>
-            <!-- Card 11 -->
             <div class="feature-card">
                 <div class="feature-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 3L12.5 8.5L18 9.5L14 13.5L15 19L10 16.5L5 19L6 13.5L2 9.5L7.5 8.5L10 3Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
                 <h3 class="feature-title">Content Validation</h3>
                 <p class="feature-desc">Expert-reviewed content ensuring accuracy and exam alignment.</p>
             </div>
-            <!-- Card 12 -->
             <div class="feature-card">
                 <div class="feature-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><path d="M10 7V10L12 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
                 <h3 class="feature-title">SEO Optimized</h3>
@@ -492,10 +475,8 @@
     </div>
 </section>
 
-{{-- FEATURE HIGHLIGHTS --}}
 <section class="feature-highlights">
     <div class="section-container">
-        <!-- Block 1 -->
         <div class="highlight-block">
             <div class="highlight-text">
                 <h3>Realistic Exam Simulations</h3>
@@ -509,7 +490,6 @@
                 </div>
             </div>
         </div>
-        <!-- Block 2 -->
         <div class="highlight-block reverse">
             <div class="highlight-text">
                 <h3>Performance Analytics</h3>
@@ -523,7 +503,6 @@
                 </div>
             </div>
         </div>
-        <!-- Block 3 -->
         <div class="highlight-block">
             <div class="highlight-text">
                 <h3>Personalized Study Paths</h3>
@@ -539,7 +518,7 @@
         </div>
     </div>
 </section>
-{{-- TESTIMONIALS --}}
+
 <section class="testimonials">
     <div class="section-container">
         <div class="section-header">
@@ -547,7 +526,6 @@
             <p class="section-subtitle">See what certified professionals say about their Certilyst experience.</p>
         </div>
         <div class="testimonials-grid">
-            <!-- Card 1 -->
             <div class="testimonial-card">
                 <div class="stars">★★★★★</div>
                 <p class="testimonial-quote">"Certilyst was the only resource that made me feel truly prepared. The realistic simulations and detailed rationales were game-changers. Passed on my first attempt!"</p>
@@ -560,7 +538,6 @@
                     </div>
                 </div>
             </div>
-            <!-- Card 2 -->
             <div class="testimonial-card">
                 <div class="stars">★★★★★</div>
                 <p class="testimonial-quote">"I studied for just three weeks with Certilyst and passed my real estate licensing exam with a 94%. The practice tests were spot-on accurate."</p>
@@ -573,7 +550,6 @@
                     </div>
                 </div>
             </div>
-            <!-- Card 3 -->
             <div class="testimonial-card">
                 <div class="stars">★★★★★</div>
                 <p class="testimonial-quote">"The performance analytics helped me identify my weak domains instantly. I focused my energy exactly where it mattered. Highly recommended for IT certs."</p>
@@ -590,7 +566,6 @@
     </div>
 </section>
 
-{{-- FAQ SECTION --}}
 <section class="faq-section">
     <div class="section-container">
         <div class="section-header">
@@ -625,7 +600,7 @@
         </div>
     </div>
 </section>
-{{-- FINAL CTA --}}
+
 <section class="final-cta-section">
     <div class="section-container">
         <div class="cta-banner">
@@ -642,9 +617,7 @@
     </div>
 </section>
 <script src="{{ asset('js/app.js') }}"></script>
-    {{-- Footer --}}
     @include('partials.footer')
     
 </body>
 </html>
-

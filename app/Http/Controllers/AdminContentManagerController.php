@@ -8,6 +8,7 @@ use App\Models\Question;
 use App\Models\Subject;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Validation\Rule;
 
 class AdminContentManagerController extends Controller
 {
@@ -24,6 +25,17 @@ class AdminContentManagerController extends Controller
         $questionMarkingEnabled = Schema::hasColumn('questions', 'is_marked');
         $questionStudyHintEnabled = Schema::hasColumn('questions', 'study_hint');
 
+        $questionTypes = [
+            'regular' => 'Regular',
+            'single_choice' => 'Single Choice',
+            'multiple_choice' => 'Multiple Choice',
+            'true_false' => 'True / False',
+            'fill_in_the_blank' => 'Fill in the Blank',
+            'drag_and_drop' => 'Drag and Drop',
+            'hotspot' => 'Hotspot',
+            'case_study' => 'Case Study',
+        ];
+
         $questions = Question::query()
             ->with('exam')
             ->when($questionExamId, function ($query) use ($questionExamId) {
@@ -37,6 +49,7 @@ class AdminContentManagerController extends Controller
                         ->orWhere('choiceC', 'like', "%{$search}%")
                         ->orWhere('choiceD', 'like', "%{$search}%")
                         ->orWhere('correct_answer', 'like', "%{$search}%")
+                        ->orWhere('question_type', 'like', "%{$search}%")
                         ->orWhere('rationale', 'like', "%{$search}%");
                 });
             })
@@ -72,7 +85,8 @@ class AdminContentManagerController extends Controller
             'questions',
             'flashcards',
             'questionMarkingEnabled',
-            'questionStudyHintEnabled'
+            'questionStudyHintEnabled',
+            'questionTypes'
         ));
     }
 
@@ -87,7 +101,20 @@ class AdminContentManagerController extends Controller
             'choiceB' => ['nullable', 'string'],
             'choiceC' => ['nullable', 'string'],
             'choiceD' => ['nullable', 'string'],
-            'correct_answer' => ['required', 'in:A,B,C,D'],
+            'correct_answer' => ['required', 'string', 'max:20'],
+            'question_type' => [
+                'required',
+                Rule::in([
+                    'regular',
+                    'single_choice',
+                    'multiple_choice',
+                    'true_false',
+                    'fill_in_the_blank',
+                    'drag_and_drop',
+                    'hotspot',
+                    'case_study',
+                ]),
+            ],
             'rationale' => ['nullable', 'string'],
         ];
 
@@ -103,7 +130,8 @@ class AdminContentManagerController extends Controller
         $question->choiceB = $validated['choiceB'] ?? null;
         $question->choiceC = $validated['choiceC'] ?? null;
         $question->choiceD = $validated['choiceD'] ?? null;
-        $question->correct_answer = $validated['correct_answer'];
+        $question->correct_answer = strtoupper(trim($validated['correct_answer']));
+        $question->question_type = $validated['question_type'];
         $question->rationale = $validated['rationale'] ?? null;
 
         if ($questionStudyHintEnabled) {

@@ -1,42 +1,32 @@
-/* ========================================
-   1. VARIABLES & GLOBAL RESET
-======================================== */
 :root {
   --primary: #7c3aed;
   --primary-hover: #6d28d9;
   --accent: #a855f7;
-
   --text-main: #ffffff;
   --text-muted: rgba(255, 255, 255, 0.72);
   --text-dark: #0f172a;
   --text-gray: #64748b;
   --text-soft: #94a3b8;
-
   --success: #10b981;
   --warning: #f59e0b;
   --green: #16a34a;
   --amber: #fcd34d;
   --amber-dark: #d97706;
-
   --glass-bg: rgba(255, 255, 255, 0.12);
   --glass-bg-strong: rgba(255, 255, 255, 0.72);
   --glass-border: rgba(255, 255, 255, 0.2);
   --bg-secondary: rgba(255, 255, 255, 0.12);
-
   --section-max: 1200px;
   --container-max: 1280px;
-
   --shadow-sm: 0 4px 14px rgba(15, 23, 42, 0.05);
   --shadow-md: 0 10px 30px rgba(15, 23, 42, 0.08);
   --shadow-lg: 0 16px 40px rgba(15, 23, 42, 0.12);
   --shadow-glow: 0 10px 30px rgba(124, 58, 237, 0.16);
-
   --radius-sm: 12px;
   --radius-md: 16px;
   --radius-lg: 20px;
   --radius-xl: 24px;
   --radius-pill: 9999px;
-
   --font-inter: "Inter", sans-serif;
 }
 
@@ -73,9 +63,6 @@ a {
   color: inherit;
 }
 
-/* ========================================
-   2. GLOBAL UTILITIES
-======================================== */
 .icon {
   width: 16px;
   height: 16px;
@@ -211,9 +198,6 @@ a {
   letter-spacing: 0.05em;
 }
 
-/* ========================================
-   3. HERO SECTION
-======================================== */
 .hero-section {
   position: relative;
   overflow: hidden;
@@ -627,9 +611,6 @@ a {
   background: var(--amber);
 }
 
-/* ========================================
-   4. HERO ANIMATIONS
-======================================== */
 @keyframes float {
   0%, 100% {
     transform: translateY(0);
@@ -656,9 +637,6 @@ a {
   animation: float-slow 5s ease-in-out infinite;
 }
 
-/* ========================================
-   5. STATS BANNER
-======================================== */
 .stats-banner {
   background: linear-gradient(135deg, #6a0dad, #c71585);
   padding: 30px 40px;
@@ -729,9 +707,6 @@ a {
   }
 }
 
-/* ========================================
-   6. CERTIFICATION PATHS
-======================================== */
 .certification-paths {
   padding: 84px 40px;
   background: #ffffff;
@@ -830,9 +805,6 @@ a {
   color: #6d28d9;
 }
 
-/* ========================================
-   7. HOW IT WORKS (ROADMAP)
-======================================== */
 .how-it-works-roadmap {
   padding: 84px 40px;
   background: #fdf2f8;
@@ -959,9 +931,6 @@ a {
   margin: 0;
 }
 
-/* ========================================
-   8. PLATFORM FEATURES
-======================================== */
 .platform-features {
   padding: 84px 40px;
   background: #ffffff;
@@ -1032,9 +1001,6 @@ a {
   line-height: 1.55;
 }
 
-/* ========================================
-   9. FEATURE HIGHLIGHTS
-======================================== */
 .feature-highlights {
   padding: 84px 40px;
   background: #fdf2f8;
@@ -1140,9 +1106,6 @@ a {
   margin-top: 2px;
 }
 
-/* ========================================
-   10. TESTIMONIALS
-======================================== */
 .testimonials {
   padding: 84px 40px;
   background: #ffffff;
@@ -1232,9 +1195,6 @@ a {
   font-weight: 500;
 }
 
-/* ========================================
-   11. FAQ SECTION
-======================================== */
 .faq-section {
   padding: 84px 40px;
   background: #fdf2f8;
@@ -1306,9 +1266,6 @@ a {
   margin: 0;
 }
 
-/* ========================================
-   12. FINAL CTA
-======================================== */
 .final-cta-section {
   padding: 84px 40px 100px;
   background: #ffffff;
@@ -1399,9 +1356,6 @@ a {
   transform: translateY(-2px);
 }
 
-/* ========================================
-   13. ABOUT PAGE
-======================================== */
 .hero-section.about-hero {
   background: linear-gradient(135deg, #faf5ff 0%, #fce7f3 100%);
   padding: 4rem 0 3rem;
@@ -1751,9 +1705,6 @@ a {
   animation: spin 1s linear infinite;
 }
 
-/* ========================================
-   14. RESPONSIVE
-======================================== */
 @media (max-width: 968px) {
   .mission-grid,
   .contact-grid {
@@ -1877,4 +1828,23 @@ a {
   .card-prediction {
     width: 10rem;
   }
+}
+
+.highlight-section {
+    animation: highlightPulse 2s ease-in-out;
+}
+
+@keyframes highlightPulse {
+    0% {
+        background-color: transparent;
+        box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.4);
+    }
+    50% {
+        background-color: rgba(139, 92, 246, 0.1);
+        box-shadow: 0 0 20px 10px rgba(139, 92, 246, 0);
+    }
+    100% {
+        background-color: transparent;
+        box-shadow: 0 0 0 0 rgba(139, 92, 246, 0);
+    }
 }

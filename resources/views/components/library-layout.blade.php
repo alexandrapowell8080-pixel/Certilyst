@@ -8,9 +8,9 @@
      <meta name="csrf-token" content="{{ csrf_token() }}">
      <script src="https://cdn.tailwindcss.com"></script>
      <title> @yield('title', 'Certilyst')</title>
-    <meta name="description" content="@yield('description', 'Certilyst')">
-    <meta name="keywords" content="@yield('keywords', 'Certilyst certification exam preparation')">
-    <link rel="canonical" href="@yield('canonical', request()->url())">
+     <meta name="description" content="@yield('description', 'Certilyst')">
+     <meta name="keywords" content="@yield('keywords', 'Certilyst certification exam preparation')">
+     <link rel="canonical" href="@yield('canonical', request()->url())">
      <link href="{{ asset('images/logo-1.png') }}" rel="icon" type="image/png">
      <script>
          tailwind.config = {
@@ -54,7 +54,7 @@
              }
          }
      </script>
-       @stack('schema')
+     @stack('schema')
      <link rel="preconnect" href="https://fonts.googleapis.com">
      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
      <link
@@ -107,6 +107,7 @@
          {{ $slot }}
      </main>
      <x-footer />
+     @stack('scripts')
  </body>
 
  </html>

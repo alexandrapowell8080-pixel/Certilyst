@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Certilyst - Pass Your Next Certification Exam with Confidence">
     <meta name="keywords" content="certification, exam prep, study guide, Certilyst">
+    <link rel="canonical" href="{{ env('APP_URL') }}">
     <title>Certilyst - Pass Certification Exams with Confidence</title>
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link href="{{ asset('images/logo-1.png') }}" rel="icon" type="image/png">

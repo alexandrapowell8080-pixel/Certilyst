@@ -1,14 +1,10 @@
 <x-library-layout>
-    {{-- @section('title', 'Cerilyst Learning Library')
-    @section('description', 'Ace your ' . $course_name . ' using ' . $exam_name)
+    @section('title', Str::limit($question->question,60))
+    @section('description', Str::limit($question->rationale,160))
+    @section('keywords', $school_name . ',' . $exam_name.','.$question->question)
+    @section('canonical', url($question->url))
 
-
-    @section('keywords', $school_name . ', ' . $course_name . ', ' . $subject_name . ', ' . $exam_name)
-
-    @section('canonical', url($school_slug . '/' . $course_slug . '/' . $exam_slug))
-
-
-    @push('schema')
+    {{-- @push('schema')
         <meta name="robots" content="noindex" />
         <script type="application/ld+json">
 {!! json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
@@ -655,7 +651,7 @@
                             <a href="{{ url($link->url) }}"
                                 class="group flex items-center justify-between p-3 rounded-lg border border-border bg-secondary/5 hover:bg-secondary/20 transition-colors">
                                 <span
-                                    class="text-xs font-medium truncate">{{ Str::limit($link->question, 20) }}</span>
+                                    class="text-xs font-medium truncate">{{  $link->question }}</span>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                     stroke-linecap="round" stroke-linejoin="round"

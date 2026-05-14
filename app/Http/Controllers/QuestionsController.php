@@ -150,6 +150,14 @@ class QuestionsController extends Controller
             sort($user);
 
             return $correct === $user;
+        } elseif ($question['question_type'] === 'List Selection') {
+            $correct = array_filter(array_map('trim', explode(',', $question['correct_answer'])));
+            $user = array_filter(array_map('trim', explode(' ', $userAnswer)));
+
+            sort($correct);
+            sort($user);
+
+            return $correct === $user;
         }
 
         return trim($userAnswer) === trim($question['correct_answer']);
@@ -191,10 +199,7 @@ class QuestionsController extends Controller
     }
 
     /**
-     * Individual question 
-     *
-     * @param string $url
-     * @return View
+     * Individual question
      */
     public function individualQuestions(string $url): View
     {
@@ -247,6 +252,8 @@ class QuestionsController extends Controller
             'subject_slug' => $subject->slug,
             'questions_count' => '',
             'school_name' => $school->name,
+            'subject_name' => $subject->name,
+            'course_name' => $course->name,
             'subjects' => $subjects,
             'subject_exams' => $subject_exams,
             'course_exams' => $course_exams,

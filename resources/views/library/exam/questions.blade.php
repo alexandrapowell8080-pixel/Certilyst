@@ -70,7 +70,7 @@
     {{-- CONTENT --}}
     <div class="flex justify-between">
         {{-- left bar --}}
-        <div class="hidden lg:block w-64 bg-card border-r border-border p-5 overflow-auto">
+        <div class="hidden lg:block w-88 bg-card border-r border-border p-5 overflow-auto">
             <div class="mb-5">
                 <div class="text-xs text-muted-foreground mb-2">Progress</div>
                 <div aria-valuemax="100" aria-valuemin="0" role="progressbar" data-state="indeterminate" data-max="100"
@@ -204,7 +204,8 @@
                         </svg>Flag</button>
                 </div>
 
-                <h2 id="extarct" class="sn-pro-700 text-lg font-semibold mb-6 leading-relaxed" style="color: rgb(33, 37, 41);">
+                <h2 id="extarct" class="sn-pro-700 text-lg font-semibold mb-6 leading-relaxed"
+                    style="color: rgb(33, 37, 41);">
                     {{ $question['extract'] }}</h2>
 
                 <h3 id="q_id_{{ $question['id'] }}" class="question  font-semibold mb-6 leading-relaxed"
@@ -212,13 +213,12 @@
                     @if ($question->question_type == 'Selection')
                         {{ explode(':', $question['question'])[0] }}
                     @elseif ($question->question_type == 'List Selection')
-                    @php
-                        preg_match('/(.*?)(\[[^\]]+\])/', $question['question'], $matches);
-                       
-                    @endphp
-                    {{ $matches[1] }}
-                  
-                        @else
+                        @php
+                            preg_match('/(.*?)(\[[^\]]+\])/', $question['question'], $matches);
+
+                        @endphp
+                        {{ $matches[1] }}
+                    @else
                         {{ $question['question'] }}
                     @endif
                 </h3>
@@ -311,10 +311,8 @@
 
 
                     </div>
-
                 @elseif ($question->question_type == 'List Selection')
-           
-            {{ $matches[2] }}
+                    {{ $matches[2] }}
                     <div class="space-y-3">
                         @php
                             // Define the choices to loop through to keep the code DRY
@@ -350,21 +348,15 @@
                                     <div class="relative w-5/12">
                                         <select id="rank{{ $letter }}" onchange="onSelectAnswer()"
                                             class="appearance-none w-full h-14 pl-3 pr-2 rounded-xl border-2 border-border bg-card text-foreground font-bold text-sm focus:border-primary focus:ring-2 focus:ring-primary outline-none transition-all cursor-pointer">
+                                            @php
+                                                $parts = array_map('trim', explode(',', trim($matches[2], '[]')));
+                                            @endphp
 
-                                            @foreach (array_map('trim', explode(',', trim($matches[2], "[]"))) as $opt)
-
-    @php
-        $key = 'choice' . str_replace(' ', '_', $opt);
-        $text = $question[$key] ?? null;
-    @endphp
-
-    @if ($text)
-        <option value="{{ $opt }}">
-            {{ $opt }}
-        </option>
-    @endif
-
-@endforeach
+                                            @foreach (array_map('trim', explode(',', trim($matches[2], '[]'))) as $opt)
+                                                <option value="{{ $opt }}">
+                                                    {{ $opt }}
+                                                </option>
+                                            @endforeach
 
                                         </select>
 
@@ -582,7 +574,7 @@
             </div>
         </div>
         {{-- right bar --}}
-        <div class=" sm:block hidden w-72 bg-card border-l border-border p-5 overflow-auto">
+        <div class=" sm:block hidden w-88 bg-card border-l border-border p-5 overflow-auto">
             <div class="space-y-5">
                 <div class="bg-blue-400/20 rounded-xl p-4">
                     <div class="flex items-center gap-2 mb-2"><svg xmlns="http://www.w3.org/2000/svg" width="24"
@@ -617,230 +609,248 @@
         </div>
 
 </x-library-layout>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
-    let selectedAnswer;
-    let selectedAnswers = [];
-    let dragAndDropAnswers = [];
-    let imageSelected;
-    let selectOptionAnswer;
-    let answeredQuestions = 0;
-    let question_type = null;
-    let remianingQuestion = document.querySelector('.remaining_questions').innerText;
-    let submitButton = document.getElementById('submitButton');
-    let previousButton = document.getElementById('previousButton');
-    const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-    document.addEventListener('DOMContentLoaded', checkChoices());
-    const exam_id = document.querySelector('[id^="exam_id"]').id.replace('exam_id_', '');
+@push('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        let selectedAnswer;
+        let selectedAnswers = [];
+        let dragAndDropAnswers = [];
+        let imageSelected;
+        let selectOptionAnswer;
+        let answeredQuestions = 0;
+        let question_type = null;
+        let remianingQuestion = document.querySelector('.remaining_questions').innerText;
+        let submitButton = document.getElementById('submitButton');
+        let previousButton = document.getElementById('previousButton');
+        const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        document.addEventListener('DOMContentLoaded', checkChoices());
+        const exam_id = document.querySelector('[id^="exam_id"]').id.replace('exam_id_', '');
 
-    function checkChoices() {
-        const options = document.querySelectorAll('[id^="choice"]');
-        options.forEach(option => {
-            option.addEventListener('click', function() {
-                question_type = checkQuestionType()
-                if (question_type == 'regular' || question_type == 'images') {
-                    options.forEach(opt => opt.classList.remove('bg-primary/5', 'border-2',
-                        'border-primary', 'text-black'));
-                    this.classList.add('bg-primary/5', 'border-2', 'border-primary', 'text-black');
-                    selectedAnswer = option.id.replace('choice', '');
-                } else if (question_type == 'multiple_choice') {
-                    let choice = option.id.replace('choice', '')
+        function checkChoices() {
+            const options = document.querySelectorAll('[id^="choice"]');
+            options.forEach(option => {
+                option.addEventListener('click', function() {
+                    question_type = checkQuestionType()
+                    if (question_type == 'regular' || question_type == 'images') {
+                        options.forEach(opt => opt.classList.remove('bg-primary/5', 'border-2',
+                            'border-primary', 'text-black'));
+                        this.classList.add('bg-primary/5', 'border-2', 'border-primary', 'text-black');
+                        selectedAnswer = option.id.replace('choice', '');
+                    } else if (question_type == 'multiple_choice') {
+                        let choice = option.id.replace('choice', '')
 
-                    if (selectedAnswers != null && selectedAnswers.includes(choice)) {
-                        this.classList.remove('bg-primary/5', 'border-primary', 'text-black');
-                        selectedAnswers = selectedAnswers.filter(item => item !== choice);
-                    } else {
-                        this.classList.add('bg-primary/5', 'border-primary', 'border-2', 'text-black');
-                        selectedAnswers.push(choice);
+                        if (selectedAnswers != null && selectedAnswers.includes(choice)) {
+                            this.classList.remove('bg-primary/5', 'border-primary', 'text-black');
+                            selectedAnswers = selectedAnswers.filter(item => item !== choice);
+                        } else {
+                            this.classList.add('bg-primary/5', 'border-primary', 'border-2', 'text-black');
+                            selectedAnswers.push(choice);
+                        }
+                    } else if (question_type == 'drag_and_drop') {
+                        console.log('hello')
                     }
-                } else if (question_type == 'drag_and_drop') {
-                    console.log('hello')
-                }
-                activateSubmitBtn()
-            });
-
-        });
-    }
-
-    function clearChoices() {
-        const options = document.querySelectorAll('[id^="choice"]');
-
-        options.forEach(opt => opt.classList.remove('bg-primary/5', 'border-2',
-            'border-primary', 'text-black'));
-
-
-    }
-
-    function checkQuestionType() {
-        let classes = document.getElementById('question_type').classList
-        if (classes.contains('multiple_choice')) {
-            question_type = 'multiple_choice'
-            return 'multiple_choice'
-        } else if (classes.contains('regular')) {
-            question_type = 'regular'
-            return 'regular'
-        } else if (classes.contains('drag_and_drop')) {
-            question_type = 'drag_and_drop'
-            return 'drag_and_drop'
-        } else if (classes.contains('images')) {
-            question_type = 'regular'
-            return 'regular'
-        } else if (classes.contains('selection')) {
-            question_type = 'selection'
-            return 'selection'
-        }
-    }
-
-
-    function submitAnswer() {
-        let qid = document.querySelector('.question').id.replace('q_id_', '')
-        submitButton.disabled = true;
-        document.getElementById('submitButton').classList.add('hidden')
-        document.getElementById('nextButton').classList.remove('hidden')
-        let user_answer;
-        console.log(question_type)
-        if (question_type == 'regular') {
-            user_answer = selectedAnswer
-        } else if (question_type == 'multiple_choice') {
-            user_answer = selectedAnswers.join(" ")
-        } else if (question_type == 'drag_and_drop') {
-            dragAndDropAnswers = Array.from(document.querySelectorAll(".sortable-item"))
-                .map(el => el.getAttribute("data-value"));
-            user_answer = dragAndDropAnswers.join(", ")
-        } else if (question_type == 'selection') {
-            user_answer = null;
-            const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
-            const userSelections = {};
-
-            letters.forEach(letter => {
-                const selectEl = document.getElementById(`rank${letter}`);
-                console.log(selectEl?.value)
-                userSelections[letter] = selectEl?.value;
-            });
-
-            console.log(userSelections);
-            user_answer = Object.values(userSelections)
-                .filter(v => v !== undefined)
-                .join(',');
-
-        }
-        const postData = {
-            question_id: qid,
-            user_answer: user_answer,
-            exam_id: exam_id
-        };
-        fetch('/exam-question', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                    'X-CSRF-TOKEN': token,
-                },
-                body: JSON.stringify(postData)
-            })
-            .then(response => response.json())
-            .then(data => {
-                remianingQuestion--
-                document.querySelector('.remaining_questions').innerText = remianingQuestion
-                document.getElementById('overlay').classList.remove('hidden')
-                document.getElementById('rationale').innerHTML = data.rationale
-                let p_id = Number(answeredQuestions) + 1
-                let next_p_id = Number(answeredQuestions) + 2
-                let pill_id = "pill_" + p_id
-                let next_pill_id = "pill_" + next_p_id
-                let pill = document.getElementById(pill_id)
-                pill.classList.remove('bg-primary', 'text-muted-foreground')
-                if (data.status == 'correct') {
-                    document.getElementById('correct_card').classList.remove('hidden')
-                    pill.classList.add('bg-green-700', 'text-white')
-                } else if (data.status == 'wrong') {
-                    pill.classList.add('bg-red-700', 'text-white')
-                    document.getElementById('wrong_card').classList.remove('hidden')
-                    if (selectedAnswer) {
-                        document.getElementById('user_answer').innerText = selectedAnswer
-                    } else if (selectedAnswers.length != 0) {
-                        document.getElementById('user_answer').innerText = selectedAnswers.join(",")
-                    } else if (dragAndDropAnswers.length != 0) {
-                        document.getElementById('user_answer').innerText = dragAndDropAnswers
-                    }
-                    document.getElementById('correct_answer').innerText = data.correct_answer
-                }
-
-                document.getElementById(next_pill_id).classList.remove('bg-primary/30');
-                document.getElementById(next_pill_id).classList.add('bg-primary');
-                selectedAnswer = null;
-                selectedAnswers = [];
-                dragAndDropAnswers = [];
-                clearChoices();
-            })
-            .catch(err => {
-                console.error(err)
-            })
-    }
-
-    function nextQuestion() {
-        let qid = document.querySelector('.question').id.replace('q_id_', '')
-        activatePreviousBtn()
-        const postData = {
-            question_id: qid,
-        };
-        fetch('/next-question/' + qid)
-            .then(response => response.json())
-            .then(data => {
-                if (data.message == 'No more questions') {
-                    deactivatePreviousBtn()
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Congratulation!',
-                        text: "You have successfully reached the end of the exam, Try more questions to better yourself!.",
-                        confirmButtonColor: '#f0ad4e',
-                        footer: "<a href=\"library\">Library</a>"
-                    });
-
-                    return;
-                }
-                document.getElementById('submitButton').classList.remove('hidden')
-                document.getElementById('nextButton').classList.add('hidden')
-                document.getElementById('overlay').classList.add('hidden')
-                document.getElementById('wrong_card').classList.add('hidden')
-                document.getElementById('correct_card').classList.add('hidden')
-                selectedAnswer = null
-                const options = document.querySelectorAll('[id^="choice"]');
-                options.forEach(option => {
-                    option.classList.remove('bg-primary/5',
-                        'border-primary', 'text-black');
-                    option.classList.add('border-2');
+                    activateSubmitBtn()
                 });
-                // start
-                updateQuestion(data)
 
-                // end
+            });
+        }
+
+        function clearChoices() {
+            const options = document.querySelectorAll('[id^="choice"]');
+
+            options.forEach(opt => opt.classList.remove('bg-primary/5', 'border-2',
+                'border-primary', 'text-black'));
 
 
-            })
-            .catch(err => {
-                console.error(err)
-            })
-    }
+        }
 
-    function closeOverLay() {
-        document.getElementById('overlay').classList.add('hidden')
-    }
+        function checkQuestionType() {
+            let classes = document.getElementById('question_type').classList
+            if (classes.contains('multiple_choice')) {
+                question_type = 'multiple_choice'
+                return 'multiple_choice'
+            } else if (classes.contains('regular')) {
+                question_type = 'regular'
+                return 'regular'
+            } else if (classes.contains('drag_and_drop')) {
+                question_type = 'drag_and_drop'
+                return 'drag_and_drop'
+            } else if (classes.contains('images')) {
+                question_type = 'regular'
+                return 'regular'
+            } else if (classes.contains('selection')) {
+                question_type = 'selection'
+                return 'selection'
+            } else if (classes.contains('list_selection')) {
+                question_type = 'list_selection'
+                return 'list_selection'
+            }
+        }
 
-    function renderDragAndDrop(items) {
 
-        document.getElementById('regular_container')?.classList.add('hidden')
-        document.getElementById('dd_container')?.remove()
-        const container = document.getElementById('drag-drop-container');
+        function submitAnswer() {
+            let qid = document.querySelector('.question').id.replace('q_id_', '')
+            submitButton.disabled = true;
+            document.getElementById('submitButton').classList.add('hidden')
+            document.getElementById('nextButton').classList.remove('hidden')
+            let user_answer;
+            console.log(question_type)
+            if (question_type == 'regular') {
+                user_answer = selectedAnswer
+            } else if (question_type == 'multiple_choice') {
+                user_answer = selectedAnswers.join(" ")
+            } else if (question_type == 'drag_and_drop') {
+                dragAndDropAnswers = Array.from(document.querySelectorAll(".sortable-item"))
+                    .map(el => el.getAttribute("data-value"));
+                user_answer = dragAndDropAnswers.join(", ")
+            } else if (question_type == 'selection') {
+                user_answer = null;
+                const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
+                const userSelections = {};
 
-        const choices = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
+                letters.forEach(letter => {
+                    const selectEl = document.getElementById(`rank${letter}`);
+                    console.log(selectEl?.value)
+                    userSelections[letter] = selectEl?.value;
+                });
 
-        let html = `<ul id="sortable-list" class="space-y-3">`;
+                console.log(userSelections);
+                user_answer = Object.values(userSelections)
+                    .filter(v => v !== undefined)
+                    .join(',');
 
-        items.forEach((item, index) => {
-            if (!item) return;
+            } else if (question_type == 'list_selection') {
+                user_answer = null;
+                const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
+                const userSelections = {};
 
-            html += `
+                letters.forEach(letter => {
+                    const selectEl = document.getElementById(`rank${letter}`);
+                    console.log(selectEl?.value)
+                    userSelections[letter] = selectEl?.value;
+                });
+                user_answer = Object.values(userSelections)
+                    .filter(v => v !== undefined)
+                    .join(',');
+                return
+            }
+            const postData = {
+                question_id: qid,
+                user_answer: user_answer,
+                exam_id: exam_id
+            };
+            fetch('/exam-question', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'X-CSRF-TOKEN': token,
+                    },
+                    body: JSON.stringify(postData)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    remianingQuestion--
+                    document.querySelector('.remaining_questions').innerText = remianingQuestion
+                    document.getElementById('overlay').classList.remove('hidden')
+                    document.getElementById('rationale').innerHTML = data.rationale
+                    let p_id = Number(answeredQuestions) + 1
+                    let next_p_id = Number(answeredQuestions) + 2
+                    let pill_id = "pill_" + p_id
+                    let next_pill_id = "pill_" + next_p_id
+                    let pill = document.getElementById(pill_id)
+                    pill.classList.remove('bg-primary', 'text-muted-foreground')
+                    if (data.status == 'correct') {
+                        document.getElementById('correct_card').classList.remove('hidden')
+                        pill.classList.add('bg-green-700', 'text-white')
+                    } else if (data.status == 'wrong') {
+                        pill.classList.add('bg-red-700', 'text-white')
+                        document.getElementById('wrong_card').classList.remove('hidden')
+                        if (selectedAnswer) {
+                            document.getElementById('user_answer').innerText = selectedAnswer
+                        } else if (selectedAnswers.length != 0) {
+                            document.getElementById('user_answer').innerText = selectedAnswers.join(",")
+                        } else if (dragAndDropAnswers.length != 0) {
+                            document.getElementById('user_answer').innerText = dragAndDropAnswers
+                        }
+                        document.getElementById('correct_answer').innerText = data.correct_answer
+                    }
+
+                    document.getElementById(next_pill_id).classList.remove('bg-primary/30');
+                    document.getElementById(next_pill_id).classList.add('bg-primary');
+                    selectedAnswer = null;
+                    selectedAnswers = [];
+                    dragAndDropAnswers = [];
+                    clearChoices();
+                })
+                .catch(err => {
+                    console.error(err)
+                })
+        }
+
+        function nextQuestion() {
+            let qid = document.querySelector('.question').id.replace('q_id_', '')
+            activatePreviousBtn()
+            const postData = {
+                question_id: qid,
+            };
+            fetch('/next-question/' + qid)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.message == 'No more questions') {
+                        deactivatePreviousBtn()
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Congratulation!',
+                            text: "You have successfully reached the end of the exam, Try more questions to better yourself!.",
+                            confirmButtonColor: '#f0ad4e',
+                            footer: "<a href=\"library\">Library</a>"
+                        });
+
+                        return;
+                    }
+                    document.getElementById('submitButton').classList.remove('hidden')
+                    document.getElementById('nextButton').classList.add('hidden')
+                    document.getElementById('overlay').classList.add('hidden')
+                    document.getElementById('wrong_card').classList.add('hidden')
+                    document.getElementById('correct_card').classList.add('hidden')
+                    selectedAnswer = null
+                    const options = document.querySelectorAll('[id^="choice"]');
+                    options.forEach(option => {
+                        option.classList.remove('bg-primary/5',
+                            'border-primary', 'text-black');
+                        option.classList.add('border-2');
+                    });
+                    // start
+                    updateQuestion(data)
+
+                    // end
+
+
+                })
+                .catch(err => {
+                    console.error(err)
+                })
+        }
+
+        function closeOverLay() {
+            document.getElementById('overlay').classList.add('hidden')
+        }
+
+        function renderDragAndDrop(items) {
+
+            document.getElementById('regular_container')?.classList.add('hidden')
+            document.getElementById('dd_container')?.remove()
+            const container = document.getElementById('drag-drop-container');
+
+            const choices = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
+
+            let html = `<ul id="sortable-list" class="space-y-3">`;
+
+            items.forEach((item, index) => {
+                if (!item) return;
+
+                html += `
         <li 
             class="sortable-item group flex items-center p-4 bg-background border-2 border-border rounded-lg cursor-grab"
             draggable="true"
@@ -857,189 +867,190 @@
             <span class="flex-grow font-medium">${item}</span>
         </li>
         `;
-        });
+            });
 
-        html += `</ul>`;
+            html += `</ul>`;
 
-        container.innerHTML = html;
-    }
-
-    function activateSubmitBtn() {
-        submitButton.removeAttribute('disabled');
-    }
-
-    function deactivateSubmitBtn() {
-        submitButton.setAttribute('disabled', true);
-    }
-
-    function activatePreviousBtn() {
-        previousButton.removeAttribute('disabled');
-    }
-
-    function deactivatePreviousBtn() {
-        previousButton.setAttribute('disabled', true);
-    }
-
-    function onSelectAnswer() {
-        activateSubmitBtn()
-        checkQuestionType()
-    }
-
-    let draggedItem = null;
-
-    function dragStart(event) {
-        question_type = checkQuestionType()
-        submitButton.removeAttribute('disabled');
-        draggedItem = event.currentTarget;
-        event.dataTransfer.effectAllowed = "move";
-        // Timeout ensures the visual "ghost" image is created before we dim the element
-        setTimeout(() => draggedItem.classList.add('dragging'), 0);
-    }
-
-    function dragOver(event) {
-        event.preventDefault();
-        const target = event.currentTarget;
-
-        if (target && target !== draggedItem) {
-            const bounding = target.getBoundingClientRect();
-            const offset = bounding.y + (bounding.height / 2);
-
-            // Clear previous indicators
-            target.classList.remove('drag-over-top', 'drag-over-bottom');
-
-            if (event.clientY - offset > 0) {
-                target.classList.add('drag-over-bottom');
-            } else {
-                target.classList.add('drag-over-top');
-            }
+            container.innerHTML = html;
         }
-    }
 
-    function dragLeave(event) {
-        event.currentTarget.classList.remove('drag-over-top', 'drag-over-bottom');
-    }
-
-    function drop(event) {
-        event.preventDefault();
-        const target = event.currentTarget;
-
-        if (target && target !== draggedItem) {
-            const bounding = target.getBoundingClientRect();
-            const offset = bounding.y + (bounding.height / 2);
-
-            if (event.clientY - offset > 0) {
-                target.after(draggedItem);
-            } else {
-                target.before(draggedItem);
-            }
+        function activateSubmitBtn() {
+            submitButton.removeAttribute('disabled');
         }
-        cleanup();
-    }
 
-    function cleanup() {
-        document.querySelectorAll(".sortable-item").forEach(el => {
-            el.classList.remove('dragging', 'drag-over-top', 'drag-over-bottom');
-        });
-    }
+        function deactivateSubmitBtn() {
+            submitButton.setAttribute('disabled', true);
+        }
 
-    function checkOrder() {
+        function activatePreviousBtn() {
+            previousButton.removeAttribute('disabled');
+        }
 
-    }
+        function deactivatePreviousBtn() {
+            previousButton.setAttribute('disabled', true);
+        }
 
-    function previousQuestion() {
-        let qid = document.querySelector('.question').id.replace('q_id_', '')
-        const postData = {
-            question_id: qid,
-            exam_id: exam_id
-        };
+        function onSelectAnswer() {
+            activateSubmitBtn()
+            checkQuestionType()
+        }
 
-        let url = '/previous-question/' + exam_id + '/' + qid
+        let draggedItem = null;
 
+        function dragStart(event) {
+            question_type = checkQuestionType()
+            submitButton.removeAttribute('disabled');
+            draggedItem = event.currentTarget;
+            event.dataTransfer.effectAllowed = "move";
+            // Timeout ensures the visual "ghost" image is created before we dim the element
+            setTimeout(() => draggedItem.classList.add('dragging'), 0);
+        }
 
-        fetch(url)
-            .then(response => response.json())
-            .then(data => {
-                if (data.message == 'No more questions') {
-                    deactivatePreviousBtn()
-                    Swal.fire({
-                        icon: 'info',
-                        title: 'Oops!',
-                        text: "Sorry, that was the last questions.",
-                        confirmButtonColor: '#f0ad4e'
-                    });
+        function dragOver(event) {
+            event.preventDefault();
+            const target = event.currentTarget;
 
-                    return;
+            if (target && target !== draggedItem) {
+                const bounding = target.getBoundingClientRect();
+                const offset = bounding.y + (bounding.height / 2);
+
+                // Clear previous indicators
+                target.classList.remove('drag-over-top', 'drag-over-bottom');
+
+                if (event.clientY - offset > 0) {
+                    target.classList.add('drag-over-bottom');
+                } else {
+                    target.classList.add('drag-over-top');
                 }
-                updateQuestion(data)
-            })
-            .catch(err => {
-                console.log(err)
-            })
-    }
+            }
+        }
+
+        function dragLeave(event) {
+            event.currentTarget.classList.remove('drag-over-top', 'drag-over-bottom');
+        }
+
+        function drop(event) {
+            event.preventDefault();
+            const target = event.currentTarget;
+
+            if (target && target !== draggedItem) {
+                const bounding = target.getBoundingClientRect();
+                const offset = bounding.y + (bounding.height / 2);
+
+                if (event.clientY - offset > 0) {
+                    target.after(draggedItem);
+                } else {
+                    target.before(draggedItem);
+                }
+            }
+            cleanup();
+        }
+
+        function cleanup() {
+            document.querySelectorAll(".sortable-item").forEach(el => {
+                el.classList.remove('dragging', 'drag-over-top', 'drag-over-bottom');
+            });
+        }
+
+        function checkOrder() {
+
+        }
+
+        function previousQuestion() {
+            let qid = document.querySelector('.question').id.replace('q_id_', '')
+            const postData = {
+                question_id: qid,
+                exam_id: exam_id
+            };
+
+            let url = '/previous-question/' + exam_id + '/' + qid
 
 
-    function updateQuestion(data) {
-        if(data.extact){
-            document.getElementById('extarct').innerText = data.extact
-        }
-        document.querySelector('.question').innerText = data.question
-        document.querySelector('.question').id = "q_id_" + data.id
-        answeredQuestions = answeredQuestions + 1
-        document.querySelector('.answered_questions').innerText = answeredQuestions
-        document.getElementById('answered_questions').innerText = answeredQuestions
-        if (data.question_type === 'Drag and Drop') {
-            document.getElementById('question_type').innerText = 'Drag and Drop'
-            document.getElementById('question_type').classList.remove(question_type)
-            document.getElementById('question_type').classList.add('drag_and_drop')
-            let items = [
-                data.choiceA,
-                data.choiceB,
-                data.choiceC,
-                data.choiceD,
-                data.choiceE,
-                data.choiceF,
-                data.choiceG,
-            ];
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.message == 'No more questions') {
+                        deactivatePreviousBtn()
+                        Swal.fire({
+                            icon: 'info',
+                            title: 'Oops!',
+                            text: "Sorry, that was the last questions.",
+                            confirmButtonColor: '#f0ad4e'
+                        });
 
-            renderDragAndDrop(items);
-            return;
-        } else if (data.question_type === 'Multiple Choice') {
-            document.getElementById('question_type').innerText = 'Multiple Choice'
-            document.getElementById('question_type').classList.remove(question_type)
-            document.getElementById('question_type').classList.add('multiple_choice')
-            document.getElementById('regular_container')?.classList.remove('hidden')
-            document.getElementById('dd_container')?.remove()
-            document.getElementById('drag-drop-container').innerHTML = '';
-        } else {
-            document.getElementById('question_type').innerText = 'Single Choice'
-            document.getElementById('question_type').classList.remove(question_type)
-            document.getElementById('question_type').classList.add('regular')
-            document.getElementById('regular_container')?.classList.remove('hidden')
-            document.getElementById('dd_container')?.remove()
-            document.getElementById('drag-drop-container').innerHTML = '';
+                        return;
+                    }
+                    updateQuestion(data)
+                })
+                .catch(err => {
+                    console.log(err)
+                })
         }
-        document.getElementById('optionA').innerText = data.choiceA
-        document.getElementById('optionB').innerText = data.choiceB
-        document.getElementById('optionC').innerText = data.choiceC
-        document.getElementById('optionD').innerText = data.choiceD
-        if (data.choiceE) {
-            document.getElementById('choiceE').classList.remove('hidden')
-            document.getElementById('optionE').innerText = data.choiceE
-        } else {
-            document.getElementById('choiceE').classList.add('hidden')
+
+
+        function updateQuestion(data) {
+            if (data.extact) {
+                document.getElementById('extarct').innerText = data.extact
+            }
+            document.querySelector('.question').innerText = data.question
+            document.querySelector('.question').id = "q_id_" + data.id
+            answeredQuestions = answeredQuestions + 1
+            document.querySelector('.answered_questions').innerText = answeredQuestions
+            document.getElementById('answered_questions').innerText = answeredQuestions
+            if (data.question_type === 'Drag and Drop') {
+                document.getElementById('question_type').innerText = 'Drag and Drop'
+                document.getElementById('question_type').classList.remove(question_type)
+                document.getElementById('question_type').classList.add('drag_and_drop')
+                let items = [
+                    data.choiceA,
+                    data.choiceB,
+                    data.choiceC,
+                    data.choiceD,
+                    data.choiceE,
+                    data.choiceF,
+                    data.choiceG,
+                ];
+
+                renderDragAndDrop(items);
+                return;
+            } else if (data.question_type === 'Multiple Choice') {
+                document.getElementById('question_type').innerText = 'Multiple Choice'
+                document.getElementById('question_type').classList.remove(question_type)
+                document.getElementById('question_type').classList.add('multiple_choice')
+                document.getElementById('regular_container')?.classList.remove('hidden')
+                document.getElementById('dd_container')?.remove()
+                document.getElementById('drag-drop-container').innerHTML = '';
+            } else {
+                document.getElementById('question_type').innerText = 'Single Choice'
+                document.getElementById('question_type').classList.remove(question_type)
+                document.getElementById('question_type').classList.add('regular')
+                document.getElementById('regular_container')?.classList.remove('hidden')
+                document.getElementById('dd_container')?.remove()
+                document.getElementById('drag-drop-container').innerHTML = '';
+            }
+            document.getElementById('optionA').innerText = data.choiceA
+            document.getElementById('optionB').innerText = data.choiceB
+            document.getElementById('optionC').innerText = data.choiceC
+            document.getElementById('optionD').innerText = data.choiceD
+            if (data.choiceE) {
+                document.getElementById('choiceE').classList.remove('hidden')
+                document.getElementById('optionE').innerText = data.choiceE
+            } else {
+                document.getElementById('choiceE').classList.add('hidden')
+            }
+            if (data.choiceF) {
+                console.log(data.choiceF)
+                document.getElementById('choiceF').classList.remove('hidden')
+                document.getElementById('optionF').innerText = data.choiceF
+            } else {
+                document.getElementById('choiceF').classList.add('hidden')
+            }
+            if (data.choiceG) {
+                document.getElementById('choiceG').classList.remove('hidden')
+                document.getElementById('optionG').innerText = data.choiceG
+            } else {
+                document.getElementById('choiceG').classList.add('hidden')
+            }
         }
-        if (data.choiceF) {
-            console.log(data.choiceF)
-            document.getElementById('choiceF').classList.remove('hidden')
-            document.getElementById('optionF').innerText = data.choiceF
-        } else {
-            document.getElementById('choiceF').classList.add('hidden')
-        }
-        if (data.choiceG) {
-            document.getElementById('choiceG').classList.remove('hidden')
-            document.getElementById('optionG').innerText = data.choiceG
-        } else {
-            document.getElementById('choiceG').classList.add('hidden')
-        }
-    }
-</script>
+    </script>
+@endpush

@@ -43,4 +43,45 @@ class FlashcardsController extends Controller
             'school_slug'
         ));
     }
+    public function show($resource_url)
+    {
+
+        $flashcard = Flashcard::with('subject.course.school')
+            ->where('resource_url', $resource_url)
+            ->firstOrFail();
+
+        $subject = $flashcard->subject;
+
+        $subject_name = $subject->name ?? '';
+        $course_name = $subject->course->name ?? '';
+        $school_name = $subject->course->school->name ?? '';
+
+        $related_flashcards = Flashcard::where('subject_id', $subject->id)
+            ->where('id', '>', $flashcard->id)
+            ->whereNotNull('resource_url')
+            ->orderBy('id', 'asc')
+            ->limit(10)
+            ->get();
+
+        if ($related_flashcards->count() < 10) {
+            $shortfall = 10 - $related_flashcards->count();
+
+            $more_flashcards = Flashcard::where('subject_id', $subject->id)
+                ->where('id', '<', $flashcard->id)
+                ->whereNotNull('resource_url')
+                ->orderBy('id', 'asc')
+                ->limit($shortfall)
+                ->get();
+            $related_flashcards = $related_flashcards->concat($more_flashcards);
+        }
+
+        return view('flashcards.show', compact(
+            'flashcard',
+            'related_flashcards',
+            'subject',
+            'subject_name',
+            'course_name',
+            'school_name'
+        ));
+    }
 }

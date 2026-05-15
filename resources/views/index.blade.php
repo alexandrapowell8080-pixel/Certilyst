@@ -465,11 +465,7 @@
                 <h3 class="feature-title">Content Validation</h3>
                 <p class="feature-desc">Expert-reviewed content ensuring accuracy and exam alignment.</p>
             </div>
-            <div class="feature-card">
-                <div class="feature-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><path d="M10 7V10L12 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-                <h3 class="feature-title">SEO Optimized</h3>
-                <p class="feature-desc">Course pages optimized for discoverability and search rankings.</p>
-            </div>
+            
         </div>
     </div>
 </section>

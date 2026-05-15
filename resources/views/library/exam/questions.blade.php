@@ -70,7 +70,7 @@
     {{-- CONTENT --}}
     <div class="flex justify-between">
         {{-- left bar --}}
-        <div class="hidden lg:block w-88 bg-card border-r border-border p-5 overflow-auto">
+        <div class="hidden lg:block w-1/3 bg-card border-r border-border p-5 overflow-auto">
             <div class="mb-5">
                 <div class="text-xs text-muted-foreground mb-2">Progress</div>
                 <div aria-valuemax="100" aria-valuemin="0" role="progressbar" data-state="indeterminate" data-max="100"
@@ -574,7 +574,7 @@
             </div>
         </div>
         {{-- right bar --}}
-        <div class=" sm:block hidden w-88 bg-card border-l border-border p-5 overflow-auto">
+        <div class=" sm:block hidden w-1/3 bg-card border-l border-border p-5 overflow-auto">
             <div class="space-y-5">
                 <div class="bg-blue-400/20 rounded-xl p-4">
                     <div class="flex items-center gap-2 mb-2"><svg xmlns="http://www.w3.org/2000/svg" width="24"

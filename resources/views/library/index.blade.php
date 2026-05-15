@@ -70,7 +70,7 @@
                     </p>
                 </div>
 
-                <div class="relative w-full md:max-w-md group">
+                {{-- <div class="relative w-full md:max-w-md group">
                     <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
                             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -90,7 +90,7 @@
                         <span
                             class="text-[10px] font-bold text-muted-foreground bg-muted px-1.5 py-0.5 rounded border border-border">/</span>
                     </div>
-                </div>
+                </div> --}}
 
             </div>
         </div>
@@ -279,6 +279,7 @@
                                                                         Master {{ $subject->name }}</p>
                                                                 </div>
                                                             </div>
+                                                            
                                                             <a href="{{ route('flashcards', ['school' => $school->slug, 'subject' => $subject->slug]) }}"
                                                                 class="text-[11px] font-bold w-full sm:w-fit px-4 py-1.5 rounded-lg bg-emerald-600 text-white hover:bg-emerald-700 shadow-md shadow-emerald-200 transition-all">
                                                                 START
@@ -313,6 +314,9 @@
                                                                             class="sm:truncate">{{ $exam->name }}</span>
                                                                     </div>
 
+                                                                    @if ( $exam->questions_count)
+                                                                        
+                                                                    
                                                                     <!-- Right Section -->
                                                                     <div class="flex items-center gap-2">
 
@@ -322,6 +326,7 @@
                                                                             {{ $exam->questions_count }} Qs
                                                                         </span>
                                                                     </div>
+                                                                    @endif
                                                                 </a>
                                                             @endforeach
                                                         </div>

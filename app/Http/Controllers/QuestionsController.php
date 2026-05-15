@@ -17,6 +17,7 @@ class QuestionsController extends Controller
      */
     public function questions(string $school, string $course, string $exam): View|RedirectResponse
     {
+        $start = microtime(true);
         $examRecord = Exam::where('slug', $exam)->first(['id', 'name', 'slug']);
 
         if ($examRecord == null) {
@@ -109,6 +110,8 @@ class QuestionsController extends Controller
             ],
             'relatedLink' => $q_r,
         ];
+        $responseTime = round((microtime(true) - $start) * 1000, 2);
+        //logger('responseTime: '.$responseTime);
 
         return view('library.exam.questions', compact('question', 'questions_count', 'subject_slug', 'school', 'school_name', 'subject_name', 'course_name', 'exam_name', 'school_slug', 'course_slug', 'exam_slug', 'schema'));
     }

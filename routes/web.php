@@ -46,6 +46,9 @@ Route::get('/previous-question/{exam_id}/{question_id}', [QuestionsController::c
 // Individual questions
 Route::get('/question/{url}',[QuestionsController::class,'individualQuestions'])->name('individual_questions');
 
+// Individual flashcards
+Route::get('/{school}/{subject}/flashcards', [FlashcardsController::class, 'index'])->name('flashcards');
+
 // Flash Card Routes
 Route::get('/{school}/{subject}/flashcards', [FlashcardsController::class, 'index'])->name('flashcards');
 

@@ -8,6 +8,9 @@
 
     <title>{{ Str::limit($flashcard->question, 50) }} - {{ $subject_name }} Flashcards</title>
 
+    <meta noindex name="robots" content="noindex, nofollow">
+    <meta name="googlebot" content="noindex">
+
     <link href="{{ asset('css/component.css') }}" rel="stylesheet">
     <link href="{{ asset('css/flashcards.css') }}" rel="stylesheet">
 

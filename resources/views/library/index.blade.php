@@ -10,7 +10,7 @@
         'Access our prep materials ranging from Business and Finance, IT, Real estate, Insurance,
         Praxis, Nursing, Medical & Allied health and Project management')
     @section('keywords', implode(',', $sch))
-    @section('canonical', env('app_url') . '/library/')
+    @section('canonical', env('APP_URL') . '/library/')
 
     @push('schema')
         <script type="application/ld+json">
@@ -342,7 +342,8 @@
     </div>
 
 </x-library-layout>
-<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+@push('scripts')
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
 <script>
 document.addEventListener('alpine:initialized', () => {
@@ -361,20 +362,20 @@ document.addEventListener('alpine:initialized', () => {
 });
 </script>
 
-<style>
+    <style>
+        /* Hide scrollbar but keep scrolling */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
 
-    .no-scrollbar::-webkit-scrollbar {
-        display: none;
-    }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
 
-    .no-scrollbar {
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-    }
-
-    summary {
-        list-style: none;
-    }
+        summary {
+            list-style: none;
+        }
 
     summary::-webkit-details-marker {
         display: none;

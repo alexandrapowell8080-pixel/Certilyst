@@ -23,9 +23,7 @@ class QuestionsController extends Controller
             ->first();
 
         if (! $examRecord) {
-            return redirect()
-                ->route('library')
-                ->with('exam_message', 'No such exam exists');
+            abort(404);
         }
 
         $query = Question::where('exam_id', $examRecord->id)
@@ -34,10 +32,7 @@ class QuestionsController extends Controller
         $question = (clone $query)->first();
 
         if (! $question) {
-            return back()->with(
-                'message',
-                'No questions available at the moment for '.$examRecord->name
-            );
+              abort(404);
         }
 
         $questions_count = $query->count();

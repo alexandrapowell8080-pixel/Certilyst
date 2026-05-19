@@ -12,6 +12,7 @@ class Flashcard extends Model
         'question',
         'answer',
         'hint',
+        'resource_url',
         'is_hard',
     ];
 

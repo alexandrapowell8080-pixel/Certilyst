@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="About Certilyst - Your pathway to certification success with AI-driven learning, realistic exam simulations, and expert-curated resources.">
+    <meta name="keywords" content="certification, exam prep, study guide, Certilyst">
+    <link rel="canonical" href="{{ env('APP_URL') }}/about">
     <title>About Certilyst</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <script src="https://cdn.tailwindcss.com"></script>

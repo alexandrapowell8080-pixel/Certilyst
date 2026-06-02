@@ -614,18 +614,7 @@
                             <path d="M7 7H13M7 10H13M7 13H10" stroke="currentColor" stroke-width="1.5"
                                 stroke-linecap="round" />
                         </svg></div>
-                    <h3 class="feature-title">Drag-and-Drop Questions</h3>
-                    <p class="feature-desc">Interactive ordering and matching questions for hands-on learning.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon"><svg width="20" height="20" viewBox="0 0 20 20"
-                            fill="none">
-                            <rect x="2" y="4" width="16" height="12" rx="2" stroke="currentColor"
-                                stroke-width="1.5" />
-                            <circle cx="7" cy="10" r="2" stroke="currentColor" stroke-width="1.5" />
-                            <path d="M12 8L14 10L12 12" stroke="currentColor" stroke-width="1.5"
-                                stroke-linecap="round" stroke-linejoin="round" />
-                        </svg></div>
+                    
                     <h3 class="feature-title">Image-Based Answers</h3>
                     <p class="feature-desc">Visual questions with images, diagrams, and hotspot interactions.</p>
                 </div>
@@ -657,17 +646,7 @@
                             <path d="M10 2V18M10 2L6 6M10 2L14 6" stroke="currentColor" stroke-width="1.5"
                                 stroke-linecap="round" stroke-linejoin="round" />
                         </svg></div>
-                    <h3 class="feature-title">Study Streaks</h3>
-                    <p class="feature-desc">Stay motivated with daily streak tracking and achievement badges.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon"><svg width="20" height="20" viewBox="0 0 20 20"
-                            fill="none">
-                            <path
-                                d="M5 4H15C16.1046 4 17 4.89543 17 6V14C17 15.1046 16.1046 16 15 16H5C3.89543 16 3 15.1046 3 14V6C3 4.89543 3.89543 4 5 4Z"
-                                stroke="currentColor" stroke-width="1.5" />
-                            <path d="M7 8H13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
-                        </svg></div>
+                    
                     <h3 class="feature-title">Bookmark Questions</h3>
                     <p class="feature-desc">Save difficult questions for later review and targeted practice.</p>
                 </div>
@@ -700,15 +679,7 @@
                             <polygon points="8,5 15,10 8,15" fill="none" stroke="currentColor" stroke-width="1.5"
                                 stroke-linejoin="round" />
                         </svg></div>
-                    <h3 class="feature-title">Video Demos</h3>
-                    <p class="feature-desc">Service demonstration videos showing platform capabilities.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon"><svg width="20" height="20" viewBox="0 0 20 20"
-                            fill="none">
-                            <path d="M10 3L12.5 8.5L18 9.5L14 13.5L15 19L10 16.5L5 19L6 13.5L2 9.5L7.5 8.5L10 3Z"
-                                stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
-                        </svg></div>
+                    
                     <h3 class="feature-title">Content Validation</h3>
                     <p class="feature-desc">Expert-reviewed content ensuring accuracy and exam alignment.</p>
                 </div>
@@ -813,7 +784,7 @@
                     <div class="testimonial-author">
                         <div class="author-avatar sm">SM</div>
                         <div class="author-info">
-                            <div class="author-name">Sarah Mitchell</div>
+                            <div class="author-name">Sarah Arguene</div>
                             <div class="author-cert">Passed NCLEX-RN</div>
                         </div>
                     </div>
@@ -826,7 +797,7 @@
                     <div class="testimonial-author">
                         <div class="author-avatar jr">JR</div>
                         <div class="author-info">
-                            <div class="author-name">James Rodriguez</div>
+                            <div class="author-name">Peter Almachel</div>
                             <div class="author-cert">Passed Real Estate Salesperson</div>
                         </div>
                     </div>
@@ -839,7 +810,7 @@
                     <div class="testimonial-author">
                         <div class="author-avatar ps">PS</div>
                         <div class="author-info">
-                            <div class="author-name">Priya Sharma</div>
+                            <div class="author-name">Thomas Sharman</div>
                             <div class="author-cert">Passed CompTIA Security+</div>
                         </div>
                     </div>
@@ -911,15 +882,15 @@
                 <p class="cta-text">Start practicing smarter with premium simulations, deep analytics, and expertly
                     structured question banks.</p>
                 <div class="cta-buttons">
-                    <a href="#" class="btn-cta btn-cta-white">Start Free Trial →</a>
-                    <a href="#" class="btn-cta btn-cta-outline">
+                    
+                    <a href="{{ route('library') }}" class="btn-cta btn-cta-outline">
                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                             <path d="M2 3H14V13H2V3Z" stroke="currentColor" stroke-width="1.5"
                                 stroke-linecap="round" stroke-linejoin="round" />
                             <path d="M2 7L6.5 10L11 7" stroke="currentColor" stroke-width="1.5"
                                 stroke-linecap="round" stroke-linejoin="round" />
                         </svg>
-                        Browse Library
+                        Start Free Trial →
                     </a>
                 </div>
             </div>

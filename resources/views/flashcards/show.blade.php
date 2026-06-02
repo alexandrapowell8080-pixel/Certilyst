@@ -13,6 +13,7 @@
 
     <link href="{{ asset('css/component.css') }}" rel="stylesheet">
     <link href="{{ asset('css/flashcards.css') }}" rel="stylesheet">
+    
 
     <meta content="{{ Str::limit($flashcard->answer, 150) }}" name="description">
     <meta content="{{ $school_name }}, {{ $course_name }}, {{ $subject_name }}, Exam Flashcards, exam prep, Certilyst"
@@ -31,6 +32,7 @@
     <meta content="{{ asset('images/logo-1.png') }}" name="twitter:image">
 
     <link href="{{ route('flashcard.show', $flashcard->resource_url) }}" rel="canonical">
+    <script src="https://cdn.tailwindcss.com"></script>
     <link
         href="https://fonts.googleapis.com/css2?family=SN+Pro:ital,wght@0,200..900;1,200..900&family=Sniglet:wght@400;800&display=swap"
         rel="stylesheet">
@@ -122,8 +124,9 @@
 
         </main>
     </div>
-
+    
     <script src="{{ asset('js/ind-flashcard.js') }}"></script>
+    @include('partials.footer')
 </body>
 
 </html>

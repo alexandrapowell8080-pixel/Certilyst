@@ -9,6 +9,7 @@
     
    <link href="{{ asset('css/component.css') }}" rel="stylesheet">
    <link href="{{ asset('css/flashcards.css') }}" rel="stylesheet">
+   <script src="https://cdn.tailwindcss.com"></script>
     
    {{-- Dynamic Description & Keywords (Shortened to stay under 160 chars) --}}
    <meta content="Mastery flashcards and interactive exam prep for {{ $subject_name }} on Certilyst." name="description">
@@ -172,5 +173,6 @@
       window.appFlashcards = {!! json_encode($flashcards) !!};
   </script>
   <script src="{{ asset('js/flashcards.js') }}"></script>
+  @include('partials.footer')
 </body>
 </html>

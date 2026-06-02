@@ -1,11 +1,11 @@
 <?php
 
-use App\Http\Controllers\LibraryController;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Flashcards\FlashcardsController;
-use App\Http\Controllers\QuestionsController;
 use App\Http\Controllers\AdminContentManagerController;
+use App\Http\Controllers\Flashcards\FlashcardsController;
+use App\Http\Controllers\LibraryController;
+use App\Http\Controllers\QuestionsController;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('index');
@@ -14,7 +14,13 @@ Route::get('/', function () {
 Route::get('/about', function () {
     return view('about');
 });
+Route::get('/privacy-policy', function () {
+    return view('privacy-policy');
+})->name('privacy.policy');
 
+Route::get('/terms-of-service', function () {
+    return view('terms');
+});
 /*
 |--------------------------------------------------------------------------
 | Admin Content Manager
@@ -45,7 +51,7 @@ Route::get('/single-question/{question_id}', [QuestionsController::class, 'singl
 Route::get('/previous-question/{exam_id}/{question_id}', [QuestionsController::class, 'previousQuestion']);
 
 // Individual questions
-Route::get('/question/{url}',[QuestionsController::class,'individualQuestions'])->name('individual_questions');
+Route::get('/question/{url}', [QuestionsController::class, 'individualQuestions'])->name('individual_questions');
 
 // Individual flashcards
 Route::get('/flashcard/{resource_url}', [FlashcardsController::class, 'show'])->name('flashcard.show');
@@ -69,5 +75,5 @@ Route::get('/clear-cache/{secret}', function ($secret) {
     Artisan::call('route:clear');
     Artisan::call('view:clear');
 
-    return "Cache cleared!";
+    return 'Cache cleared!';
 });

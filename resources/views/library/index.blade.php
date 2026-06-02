@@ -98,9 +98,8 @@
 
     {{-- CHANGED: Initialize activeSchool from URL hash --}}
     <div class="sm:w-10/12 w-11/12 mb-5 mx-auto mt-4 sn-pro-400" x-data="{
-        activeSchool: window.location.hash.substring(1)
-            ? ({{ Js::from(collect($schools)->pluck('id', 'slug')->toArray()) }})[window.location.hash.substring(1)] || 'all'
-            : 'all',
+        activeSchool: window.location.hash.substring(1) ?
+            ({{ Js::from(collect($schools)->pluck('id', 'slug')->toArray()) }})[window.location.hash.substring(1)] || 'all' : 'all',
         moveToFront(id) {
             this.activeSchool = id;
         }
@@ -143,15 +142,17 @@
 
             @foreach ($schools as $school)
                 {{-- CHANGED: Added id for scrolling --}}
-                <div id="school-{{ $school->slug }}" x-show="activeSchool === 'all' || activeSchool === '{{ $school->id }}'"
+                <div id="school-{{ $school->slug }}"
+                    x-show="activeSchool === 'all' || activeSchool === '{{ $school->id }}'"
                     x-transition:enter="transition ease-out duration-300"
                     x-transition:enter-start="opacity-0 transform translate-y-2"
                     x-transition:enter-end="opacity-100 transform translate-y-0">
 
                     {{-- SCHOOL CARD --}}
                     {{-- CHANGED: Added id for targeting --}}
-                    <details id="details-{{ $school->slug }}"
-                        class="group bg-card border border-border rounded-2xl overflow-hidden shadow-sm transition-all duration-200 open:ring-1 open:ring-emerald-500/20">
+                    <details onclick="schoolDetail(this, 'details-{{ $school->slug }}')"
+                        id="details-{{ $school->slug }}"
+                        class="group schoolDetail details-{{ $school->slug }}  bg-card border border-border rounded-2xl overflow-hidden shadow-sm transition-all duration-200 open:ring-1 open:ring-emerald-500/20">
                         <summary
                             class="flex items-center justify-between p-5 cursor-pointer hover:bg-muted/30 transition-colors list-none">
                             <div class="flex items-center gap-4">
@@ -193,8 +194,9 @@
                         {{-- COURSES CONTAINER --}}
                         <div class="sm:px-5 px-2 pb-5 pt-2 bg-slate-50/50 border-t border-border/50">
                             @foreach ($school->course as $course)
-                                <details open
-                                    class="group/course mt-3 border border-border/60 rounded-xl bg-white shadow-sm overflow-hidden">
+                                <details onclick="courseDetail(this, 'course-{{ $course->id }}')"
+                                    id="course-{{ $course->id }}"
+                                    class="group/course  courseDetail mt-3 border border-border/60 rounded-xl bg-white shadow-sm overflow-hidden">
                                     <summary
                                         class="w-full sm:flex items-center gap-3 p-3 text-left cursor-pointer hover:bg-emerald-50/30 transition-colors list-none">
                                         <div
@@ -279,8 +281,8 @@
                                                                         Master {{ $subject->name }}</p>
                                                                 </div>
                                                             </div>
-                                                            
-                                                            <a href="{{ route('flashcards', ['school' => $school->slug, 'subject' => $subject->slug]) }}"
+
+                                                            <a target="_blank" href="{{ route('flashcards', ['school' => $school->slug, 'subject' => $subject->slug]) }}"
                                                                 class="text-[11px] font-bold w-full sm:w-fit px-4 py-1.5 rounded-lg bg-emerald-600 text-white hover:bg-emerald-700 shadow-md shadow-emerald-200 transition-all">
                                                                 START
                                                             </a>
@@ -314,18 +316,16 @@
                                                                             class="sm:truncate">{{ $exam->name }}</span>
                                                                     </div>
 
-                                                                    @if ( $exam->questions_count)
-                                                                        
-                                                                    
-                                                                    <!-- Right Section -->
-                                                                    <div class="flex items-center gap-2">
+                                                                    @if ($exam->questions_count)
+                                                                        <!-- Right Section -->
+                                                                        <div class="flex items-center gap-2">
 
-                                                                        <!-- Question Count Badge -->
-                                                                        <span
-                                                                            class="text-xs font-semibold bg-emerald-100 text-emerald-700 px-2 py-1 rounded-full">
-                                                                            {{ $exam->questions_count }} Qs
-                                                                        </span>
-                                                                    </div>
+                                                                            <!-- Question Count Badge -->
+                                                                            <span
+                                                                                class="text-xs font-semibold bg-emerald-100 text-emerald-700 px-2 py-1 rounded-full">
+                                                                                {{ $exam->questions_count }} Qs
+                                                                            </span>
+                                                                        </div>
                                                                     @endif
                                                                 </a>
                                                             @endforeach
@@ -346,52 +346,146 @@
         </div>
     </div>
 
+    @push('scripts')
+        <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+        <script>
+            document.addEventListener('alpine:initialized', () => {
+                const hash = window.location.hash.substring(1); // removes the #
+                if (hash) {
+                    const details = document.getElementById('details-' + hash);
+                    const wrapper = document.getElementById('school-' + hash);
+                    if (details && wrapper) {
+                        details.setAttribute('open', 'true');
+                        setTimeout(() => {
+                            wrapper.scrollIntoView({
+                                behavior: 'smooth',
+                                block: 'center'
+                            });
+                            details.classList.add('highlight-section');
+                        }, 300);
+                    }
+                }
+            });
+
+            function schoolDetail(clickedElement, value) {
+                // Select all <details> elements with the class 'schoolDetail'
+                const schools = document.querySelectorAll('.schoolDetail');
+
+                schools.forEach(school => {
+                    // If it's NOT the element that was just clicked
+                    if (!school.classList.contains(value)) {
+                        // Force it to close
+                        school.open = false;
+
+                    } else {
+                        const elementPosition = school.getBoundingClientRect().top;
+
+                        // 2. Account for how much the page is already scrolled
+                        const offsetPosition = elementPosition + window.scrollY -
+                            100; // Subtract 100px for custom height clearance
+
+                        // 3. Scroll to that exact pixel height
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
+
+
+                });
+            }
+
+            function courseDetail(clickedElement, value) {
+                // Select all <details> elements with the class 'courseDetail'
+                const courses = document.querySelectorAll('.courseDetail');
+                courses.forEach(course => {
+                    // If it's NOT the element that was just clicked
+                    if (!course.classList.contains(value)) {
+                        // Force it to close
+                        course.open = false;
+
+                    } else {
+                        const elementPosition = course.getBoundingClientRect().top;
+
+                        // 2. Account for how much the page is already scrolled
+                        const offsetPosition = elementPosition + window.scrollY -
+                            100; // Subtract 100px for custom height clearance
+
+                        // 3. Scroll to that exact pixel height
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
+
+
+                });
+            }
+
+            function subjectDetail(clickedElement, value) {
+                // Select all <details> elements with the class 'subjectDetail'
+                const subjects = document.querySelectorAll('.subjectDetail');
+                subjects.forEach(subject => {
+                    // If it's NOT the element that was just clicked
+                    if (!subject.classList.contains(value)) {
+                        // Force it to close
+                        subject.open = false;
+
+                    } else {
+                        const elementPosition = subject.getBoundingClientRect().top;
+
+                        // 2. Account for how much the page is already scrolled
+                        const offsetPosition = elementPosition + window.scrollY -
+                            100; // Subtract 100px for custom height clearance
+
+                        // 3. Scroll to that exact pixel height
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
+
+
+                });
+            }
+        </script>
+    @endpush
 </x-library-layout>
-@push('scripts')
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-
-<script>
-document.addEventListener('alpine:initialized', () => {
-    const hash = window.location.hash.substring(1); // removes the #
-    if (hash) {
-        const details = document.getElementById('details-' + hash);
-        const wrapper = document.getElementById('school-' + hash);
-        if (details && wrapper) {
-            details.setAttribute('open', 'true');
-            setTimeout(() => {
-                wrapper.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                details.classList.add('highlight-section');
-            }, 300);
-        }
+<style>
+    /* Hide scrollbar but keep scrolling */
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
     }
-});
-</script>
 
-    <style>
-        /* Hide scrollbar but keep scrolling */
-        .no-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
+    .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
 
-        .no-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-
-        summary {
-            list-style: none;
-        }
+    summary {
+        list-style: none;
+    }
 
     summary::-webkit-details-marker {
         display: none;
     }
-    
+
     .highlight-section {
         animation: highlightPulse 2s ease-in-out;
     }
+
     @keyframes highlightPulse {
-        0% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.7); }
-        70% { box-shadow: 0 0 0 10px rgba(139, 92, 246, 0); }
-        100% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0); }
+        0% {
+            box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.7);
+        }
+
+        70% {
+            box-shadow: 0 0 0 10px rgba(139, 92, 246, 0);
+        }
+
+        100% {
+            box-shadow: 0 0 0 0 rgba(139, 92, 246, 0);
+        }
     }
 </style>

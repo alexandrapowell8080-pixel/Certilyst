@@ -2,11 +2,8 @@
     @section('title', 'Cerilyst Learning Library')
     @section('description', 'Ace your ' . $course_name . ' using ' . $exam_name)
 
-
     @section('keywords', $school_name . ', ' . $course_name . ', ' . $subject_name . ', ' . $exam_name)
-
     @section('canonical', url($school_slug . '/' . $course_slug . '/' . $exam_slug))
-
 
     @push('schema')
         <meta name="robots" content="noindex" />
@@ -75,8 +72,7 @@
                 <div class="text-xs text-muted-foreground mb-2">Progress</div>
                 <div aria-valuemax="100" aria-valuemin="0" role="progressbar" data-state="indeterminate" data-max="100"
                     class="relative w-full overflow-hidden rounded-full bg-primary/20 h-2 mb-2">
-                    <div data-state="indeterminate" data-max="100"
-                        class="h-full w-full flex-1 bg-primary transition-all" style="transform: translateX(-100%);">
+                    <div id="progressBar" class="h-full bg-primary transition-all" style="width: 0%;">
                     </div>
                 </div>
                 <div class="text-xs text-muted-foreground"> <span class="answered_questions">0</span>
@@ -91,14 +87,11 @@
                         class="font-semibold remaining_questions">{{ $questions_count }}</span></div>
             </div>
             <div class="text-xs text-muted-foreground mb-2">Questions</div>
-            <div class="grid grid-cols-5 gap-1.5 max-h-[300px] overflow-y-scroll">
-                @for ($i = 0; $i < $questions_count; $i++)
-                    <button id="pill_{{ $i + 1 }}"
-                        class="w-full aspect-square rounded-lg text-xs font-semibold flex items-center justify-center transition-all border
-                        {{ $i == 0 ? 'brand-gradient text-white border-transparent bg-primary' : 'bg-primary/30 text-muted-foreground border-border hover:border-primary/30' }}
-                         ">{{ $i + 1 }}</button>
-                @endfor
-
+            <div class="grid grid-cols-5 gap-1.5 max-h-[300px] p-2 overflow-y-scroll" id="pills-container">
+                @foreach ($questions_id as $key => $id)
+                    <button id="pill_{{ $id }}" onclick="fetchQuestion({{ $id }})"
+                        class="w-full aspect-square rounded-lg text-xs font-semibold flex items-center justify-center transition-all border border-border bg-primary/10 text-muted-foreground hover:border-primary/30 {{ $id == $question->id ? 'ring-2 ring-purple-600 ring-offset-2' : '' }} ">{{ $key + 1 }}</button>
+                @endforeach
             </div>
         </div>
 
@@ -155,7 +148,8 @@
                                         d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
                                         clip-rule="evenodd"></path>
                                 </svg>
-                                <span class="ml-1 text-sm font-bold text-foreground md:ml-2">{{ $school_name }}</span>
+                                <span
+                                    class="ml-1 text-sm font-bold text-foreground md:ml-2">{{ $school_name }}</span>
                             </div>
                         </li>
                     </ol>
@@ -261,7 +255,6 @@
                             @if ($choiceText)
                                 <div class="flex items-center gap-3">
 
-                                    <!-- LEFT SIDE (coverage values) -->
                                     <button id="choice{{ $letter }}"
                                         class="flex-grow text-left p-4 rounded-xl border-2 border-border bg-card hover:bg-muted/50 transition-all duration-200 flex items-start gap-3 group">
 
@@ -276,7 +269,6 @@
 
                                     </button>
 
-                                    <!-- RIGHT SIDE (dropdown with choices) -->
                                     <div class="relative w-5/12">
                                         <select id="rank{{ $letter }}" onchange="onSelectAnswer()"
                                             class="appearance-none w-full h-14 pl-3 pr-2 rounded-xl border-2 border-border bg-card text-foreground font-bold text-sm focus:border-primary focus:ring-2 focus:ring-primary outline-none transition-all cursor-pointer">
@@ -329,7 +321,6 @@
                             @if ($choiceText)
                                 <div class="flex items-center gap-3">
 
-                                    <!-- LEFT SIDE (coverage values) -->
                                     <button id="choice{{ $letter }}"
                                         class="flex-grow text-left p-4 rounded-xl border-2 border-border bg-card hover:bg-muted/50 transition-all duration-200 flex items-start gap-3 group">
 
@@ -344,7 +335,6 @@
 
                                     </button>
 
-                                    <!-- RIGHT SIDE (dropdown with choices) -->
                                     <div class="relative w-5/12">
                                         <select id="rank{{ $letter }}" onchange="onSelectAnswer()"
                                             class="appearance-none w-full h-14 pl-3 pr-2 rounded-xl border-2 border-border bg-card text-foreground font-bold text-sm focus:border-primary focus:ring-2 focus:ring-primary outline-none transition-all cursor-pointer">
@@ -506,8 +496,8 @@
                         <path d="m6 6 12 12"></path>
                     </svg></button>
                 <div id="wrong_card" class="hidden">
-                    <div id="wrong_card" class="flex items-center gap-3 mb-5"><svg xmlns="http://www.w3.org/2000/svg"
-                            width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    <div class="flex items-center gap-3 mb-5"><svg xmlns="http://www.w3.org/2000/svg" width="24"
+                            height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                             class="lucide lucide-circle-x w-9 h-9 text-red-500 shrink-0">
                             <circle cx="12" cy="12" r="10"></circle>
@@ -524,14 +514,12 @@
                             <p class="text-[11px] font-semibold text-red-400 uppercase tracking-wide mb-1">Your Answer
                             </p>
                             <p class="text-2xl font-extrabold text-red-500" id="user_answer"></p>
-                            {{-- <p class="text-xs text-red-400 mt-1 line-clamp-2">Race</p> --}}
                         </div>
-                        <div class="rounded-xl p-3 bg-green-50 border border-green-200 text-center">
+                        <div class="rounded-xl p-3 bg-green-200 border border-green-300 text-center">
                             <p class="text-[11px] font-semibold text-green-500 uppercase tracking-wide mb-1">Correct
                                 Answer
                             </p>
                             <p class="text-2xl font-extrabold text-green-600" id="correct_answer"></p>
-                            {{-- <p class="text-xs text-green-500 mt-1 line-clamp-2">Age</p> --}}
                         </div>
                     </div>
                 </div>
@@ -609,449 +597,488 @@
         </div>
 
 
-@push('scripts')
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-        let selectedAnswer;
-        let selectedAnswers = [];
-        let dragAndDropAnswers = [];
-        let imageSelected;
-        let selectOptionAnswer;
-        let answeredQuestions = 0;
-        let question_type = null;
-        let remianingQuestion = document.querySelector('.remaining_questions').innerText;
-        let submitButton = document.getElementById('submitButton');
-        let previousButton = document.getElementById('previousButton');
-        const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-        document.addEventListener('DOMContentLoaded', checkChoices());
-        const exam_id = document.querySelector('[id^="exam_id"]').id.replace('exam_id_', '');
+        @push('scripts')
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+            <script>
+                let selectedAnswer = null;
+                let selectedAnswers = [];
+                let dragAndDropAnswers = [];
+                let userAnsweredData = [@json($question)];
+                let answeredQuestions = 0;
+                const totalQuestionsCount = {{ $questions_count }};
+                let question_type = null;
 
-        function checkChoices() {
-            const options = document.querySelectorAll('[id^="choice"]');
-            options.forEach(option => {
-                option.addEventListener('click', function() {
-                    question_type = checkQuestionType()
-                    if (question_type == 'regular' || question_type == 'images') {
-                        options.forEach(opt => opt.classList.remove('bg-primary/5', 'border-2',
-                            'border-primary', 'text-black'));
-                        this.classList.add('bg-primary/5', 'border-2', 'border-primary', 'text-black');
-                        selectedAnswer = option.id.replace('choice', '');
-                    } else if (question_type == 'multiple_choice') {
-                        let choice = option.id.replace('choice', '')
+                let submitButton = document.getElementById('submitButton');
+                let previousButton = document.getElementById('previousButton');
+                const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+                const exam_id = document.querySelector('[id^="exam_id"]').id.replace('exam_id_', '');
 
-                        if (selectedAnswers != null && selectedAnswers.includes(choice)) {
-                            this.classList.remove('bg-primary/5', 'border-primary', 'text-black');
-                            selectedAnswers = selectedAnswers.filter(item => item !== choice);
-                        } else {
-                            this.classList.add('bg-primary/5', 'border-primary', 'border-2', 'text-black');
-                            selectedAnswers.push(choice);
-                        }
-                    } else if (question_type == 'drag_and_drop') {
-                        console.log('hello')
-                    }
-                    activateSubmitBtn()
+                document.addEventListener('DOMContentLoaded', function() {
+                    checkChoices();
+                    updateProgressCounters();
                 });
 
-            });
-        }
-
-        function clearChoices() {
-            const options = document.querySelectorAll('[id^="choice"]');
-
-            options.forEach(opt => opt.classList.remove('bg-primary/5', 'border-2',
-                'border-primary', 'text-black'));
-
-
-        }
-
-        function checkQuestionType() {
-            let classes = document.getElementById('question_type').classList
-            if (classes.contains('multiple_choice')) {
-                question_type = 'multiple_choice'
-                return 'multiple_choice'
-            } else if (classes.contains('regular')) {
-                question_type = 'regular'
-                return 'regular'
-            } else if (classes.contains('drag_and_drop')) {
-                question_type = 'drag_and_drop'
-                return 'drag_and_drop'
-            } else if (classes.contains('images')) {
-                question_type = 'regular'
-                return 'regular'
-            } else if (classes.contains('selection')) {
-                question_type = 'selection'
-                return 'selection'
-            } else if (classes.contains('list_selection')) {
-                question_type = 'list_selection'
-                return 'list_selection'
-            }
-        }
-
-
-        function submitAnswer() {
-            let qid = document.querySelector('.question').id.replace('q_id_', '')
-            submitButton.disabled = true;
-            document.getElementById('submitButton').classList.add('hidden')
-            document.getElementById('nextButton').classList.remove('hidden')
-            let user_answer;
-            console.log(question_type)
-            if (question_type == 'regular') {
-                user_answer = selectedAnswer
-            } else if (question_type == 'multiple_choice') {
-                user_answer = selectedAnswers.join(" ")
-            } else if (question_type == 'drag_and_drop') {
-                dragAndDropAnswers = Array.from(document.querySelectorAll(".sortable-item"))
-                    .map(el => el.getAttribute("data-value"));
-                user_answer = dragAndDropAnswers.join(", ")
-            } else if (question_type == 'selection') {
-                user_answer = null;
-                const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
-                const userSelections = {};
-
-                letters.forEach(letter => {
-                    const selectEl = document.getElementById(`rank${letter}`);
-                    console.log(selectEl?.value)
-                    userSelections[letter] = selectEl?.value;
-                });
-
-                console.log(userSelections);
-                user_answer = Object.values(userSelections)
-                    .filter(v => v !== undefined)
-                    .join(',');
-
-            } else if (question_type == 'list_selection') {
-                user_answer = null;
-                const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
-                const userSelections = {};
-
-                letters.forEach(letter => {
-                    const selectEl = document.getElementById(`rank${letter}`);
-                    console.log(selectEl?.value)
-                    userSelections[letter] = selectEl?.value;
-                });
-                user_answer = Object.values(userSelections)
-                    .filter(v => v !== undefined)
-                    .join(',');
-                return
-            }
-            const postData = {
-                question_id: qid,
-                user_answer: user_answer,
-                exam_id: exam_id
-            };
-            fetch('/exam-question', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json',
-                        'X-CSRF-TOKEN': token,
-                    },
-                    body: JSON.stringify(postData)
-                })
-                .then(response => response.json())
-                .then(data => {
-                    remianingQuestion--
-                    document.querySelector('.remaining_questions').innerText = remianingQuestion
-                    document.getElementById('overlay').classList.remove('hidden')
-                    document.getElementById('rationale').innerHTML = data.rationale
-                    let p_id = Number(answeredQuestions) + 1
-                    let next_p_id = Number(answeredQuestions) + 2
-                    let pill_id = "pill_" + p_id
-                    let next_pill_id = "pill_" + next_p_id
-                    let pill = document.getElementById(pill_id)
-                    pill.classList.remove('bg-primary', 'text-muted-foreground')
-                    if (data.status == 'correct') {
-                        document.getElementById('correct_card').classList.remove('hidden')
-                        pill.classList.add('bg-green-700', 'text-white')
-                    } else if (data.status == 'wrong') {
-                        pill.classList.add('bg-red-700', 'text-white')
-                        document.getElementById('wrong_card').classList.remove('hidden')
-                        if (selectedAnswer) {
-                            document.getElementById('user_answer').innerText = selectedAnswer
-                        } else if (selectedAnswers.length != 0) {
-                            document.getElementById('user_answer').innerText = selectedAnswers.join(",")
-                        } else if (dragAndDropAnswers.length != 0) {
-                            document.getElementById('user_answer').innerText = dragAndDropAnswers
-                        }
-                        document.getElementById('correct_answer').innerText = data.correct_answer
-                    }
-
-                    document.getElementById(next_pill_id).classList.remove('bg-primary/30');
-                    document.getElementById(next_pill_id).classList.add('bg-primary');
-                    selectedAnswer = null;
-                    selectedAnswers = [];
-                    dragAndDropAnswers = [];
-                    clearChoices();
-                })
-                .catch(err => {
-                    console.error(err)
-                })
-        }
-
-        function nextQuestion() {
-            let qid = document.querySelector('.question').id.replace('q_id_', '')
-            activatePreviousBtn()
-            const postData = {
-                question_id: qid,
-            };
-            fetch('/next-question/' + qid)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.message == 'No more questions') {
-                        deactivatePreviousBtn()
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Congratulation!',
-                            text: "You have successfully reached the end of the exam, Try more questions to better yourself!.",
-                            confirmButtonColor: '#f0ad4e',
-                            footer: "<a href=\"library\">Library</a>"
-                        });
-
-                        return;
-                    }
-                    document.getElementById('submitButton').classList.remove('hidden')
-                    document.getElementById('nextButton').classList.add('hidden')
-                    document.getElementById('overlay').classList.add('hidden')
-                    document.getElementById('wrong_card').classList.add('hidden')
-                    document.getElementById('correct_card').classList.add('hidden')
-                    selectedAnswer = null
+                function checkChoices() {
                     const options = document.querySelectorAll('[id^="choice"]');
                     options.forEach(option => {
-                        option.classList.remove('bg-primary/5',
-                            'border-primary', 'text-black');
-                        option.classList.add('border-2');
-                    });
-                    // start
-                    updateQuestion(data)
+                        option.addEventListener('click', function() {
+                            let qid = document.querySelector('.question').id.replace('q_id_', '');
+                            const matchesCompleted = userAnsweredData.find(el => el.id == qid && el.status !==
+                                undefined);
+                            if (matchesCompleted) return; // Freeze clicks if already submitted
 
-                    // end
+                            question_type = checkQuestionType();
+                            if (question_type == 'regular' || question_type == 'images') {
+                                options.forEach(opt => opt.classList.remove('bg-primary/5', 'border-2',
+                                    'border-primary', 'text-black'));
+                                this.classList.add('bg-primary/5', 'border-2', 'border-primary', 'text-black');
+                                selectedAnswer = option.id.replace('choice', '');
+                            } else if (question_type == 'multiple_choice') {
+                                let choice = option.id.replace('choice', '')
 
-
-                })
-                .catch(err => {
-                    console.error(err)
-                })
-        }
-
-        function closeOverLay() {
-            document.getElementById('overlay').classList.add('hidden')
-        }
-
-        function renderDragAndDrop(items) {
-
-            document.getElementById('regular_container')?.classList.add('hidden')
-            document.getElementById('dd_container')?.remove()
-            const container = document.getElementById('drag-drop-container');
-
-            const choices = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
-
-            let html = `<ul id="sortable-list" class="space-y-3">`;
-
-            items.forEach((item, index) => {
-                if (!item) return;
-
-                html += `
-        <li 
-            class="sortable-item group flex items-center p-4 bg-background border-2 border-border rounded-lg cursor-grab"
-            draggable="true"
-            data-value="${choices[index]}"
-            ondragstart="dragStart(event)"
-            ondragover="dragOver(event)"
-            ondragleave="dragLeave(event)"
-            ondrop="drop(event)"
-        >
-            <div class="w-8 h-8 rounded-full bg-muted text-primary font-bold text-sm mr-4 flex items-center justify-center">
-                ${choices[index]}
-            </div>
-
-            <span class="flex-grow font-medium">${item}</span>
-        </li>
-        `;
-            });
-
-            html += `</ul>`;
-
-            container.innerHTML = html;
-        }
-
-        function activateSubmitBtn() {
-            submitButton.removeAttribute('disabled');
-        }
-
-        function deactivateSubmitBtn() {
-            submitButton.setAttribute('disabled', true);
-        }
-
-        function activatePreviousBtn() {
-            previousButton.removeAttribute('disabled');
-        }
-
-        function deactivatePreviousBtn() {
-            previousButton.setAttribute('disabled', true);
-        }
-
-        function onSelectAnswer() {
-            activateSubmitBtn()
-            checkQuestionType()
-        }
-
-        let draggedItem = null;
-
-        function dragStart(event) {
-            question_type = checkQuestionType()
-            submitButton.removeAttribute('disabled');
-            draggedItem = event.currentTarget;
-            event.dataTransfer.effectAllowed = "move";
-            // Timeout ensures the visual "ghost" image is created before we dim the element
-            setTimeout(() => draggedItem.classList.add('dragging'), 0);
-        }
-
-        function dragOver(event) {
-            event.preventDefault();
-            const target = event.currentTarget;
-
-            if (target && target !== draggedItem) {
-                const bounding = target.getBoundingClientRect();
-                const offset = bounding.y + (bounding.height / 2);
-
-                // Clear previous indicators
-                target.classList.remove('drag-over-top', 'drag-over-bottom');
-
-                if (event.clientY - offset > 0) {
-                    target.classList.add('drag-over-bottom');
-                } else {
-                    target.classList.add('drag-over-top');
-                }
-            }
-        }
-
-        function dragLeave(event) {
-            event.currentTarget.classList.remove('drag-over-top', 'drag-over-bottom');
-        }
-
-        function drop(event) {
-            event.preventDefault();
-            const target = event.currentTarget;
-
-            if (target && target !== draggedItem) {
-                const bounding = target.getBoundingClientRect();
-                const offset = bounding.y + (bounding.height / 2);
-
-                if (event.clientY - offset > 0) {
-                    target.after(draggedItem);
-                } else {
-                    target.before(draggedItem);
-                }
-            }
-            cleanup();
-        }
-
-        function cleanup() {
-            document.querySelectorAll(".sortable-item").forEach(el => {
-                el.classList.remove('dragging', 'drag-over-top', 'drag-over-bottom');
-            });
-        }
-
-        function checkOrder() {
-
-        }
-
-        function previousQuestion() {
-            let qid = document.querySelector('.question').id.replace('q_id_', '')
-            const postData = {
-                question_id: qid,
-                exam_id: exam_id
-            };
-
-            let url = '/previous-question/' + exam_id + '/' + qid
-
-
-            fetch(url)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.message == 'No more questions') {
-                        deactivatePreviousBtn()
-                        Swal.fire({
-                            icon: 'info',
-                            title: 'Oops!',
-                            text: "Sorry, that was the last questions.",
-                            confirmButtonColor: '#f0ad4e'
+                                if (selectedAnswers != null && selectedAnswers.includes(choice)) {
+                                    this.classList.remove('bg-primary/5', 'border-primary', 'text-black');
+                                    selectedAnswers = selectedAnswers.filter(item => item !== choice);
+                                } else {
+                                    this.classList.add('bg-primary/5', 'border-primary', 'border-2', 'text-black');
+                                    selectedAnswers.push(choice);
+                                }
+                            }
+                            activateSubmitBtn();
                         });
+                    });
+                }
 
+                function clearChoices() {
+                    const options = document.querySelectorAll('[id^="choice"]');
+                    options.forEach(opt => {
+                        opt.classList.remove(
+                            'bg-primary/5', 'border-primary', 'text-black',
+                            'bg-green-200', 'border-green-300', 'bg-red-50', 'border-red-200'
+                        );
+                        opt.classList.add('border-2');
+                    });
+                }
+
+                function checkQuestionType() {
+                    let classes = document.getElementById('question_type').classList;
+                    if (classes.contains('multiple_choice')) {
+                        return 'multiple_choice';
+                    } else if (classes.contains('regular')) {
+                        return 'regular';
+                    } else if (classes.contains('drag_and_drop')) {
+                        return 'drag_and_drop';
+                    } else if (classes.contains('images')) {
+                        return 'images';
+                    } else if (classes.contains('selection')) {
+                        return 'selection';
+                    } else if (classes.contains('list_selection')) {
+                        return 'list_selection';
+                    }
+                }
+
+                function updateProgressCounters() {
+                    answeredQuestions = userAnsweredData.filter(el => el.status !== undefined).length;
+                    let remainingQuestions = totalQuestionsCount - answeredQuestions;
+
+                    document.querySelectorAll('.answered_questions').forEach(el => el.innerText = answeredQuestions);
+                    let sideAnswered = document.getElementById('answered_questions');
+                    if (sideAnswered) sideAnswered.innerText = answeredQuestions;
+
+                    document.querySelectorAll('.remaining_questions').forEach(el => el.innerText = remainingQuestions);
+
+                    let percentage = (answeredQuestions / totalQuestionsCount) * 100;
+                    let progressBar = document.getElementById('progressBar');
+                    if (progressBar) progressBar.style.width = percentage + '%';
+                }
+
+                function updateActivePillHighlight(currentId) {
+                    document.querySelectorAll('[id^="pill_"]').forEach(pill => {
+                        pill.classList.remove('ring-2', 'ring-purple-600', 'ring-offset-2');
+                    });
+                    let currentPill = document.getElementById('pill_' + currentId);
+                    if (currentPill) {
+                        currentPill.classList.add('ring-2', 'ring-purple-600', 'ring-offset-2');
+                    }
+                }
+
+                function submitAnswer() {
+                    let qid = document.querySelector('.question').id.replace('q_id_', '');
+                    submitButton.disabled = true;
+
+                    let user_answer;
+                    question_type = checkQuestionType();
+
+                    if (question_type == 'regular' || question_type == 'images') {
+                        user_answer = selectedAnswer;
+                    } else if (question_type == 'multiple_choice') {
+                        user_answer = selectedAnswers.join(" ");
+                    } else if (question_type == 'drag_and_drop') {
+                        dragAndDropAnswers = Array.from(document.querySelectorAll(".sortable-item"))
+                            .map(el => el.getAttribute("data-value"));
+                        user_answer = dragAndDropAnswers.join(", ");
+                    } else if (question_type == 'selection' || question_type == 'list_selection') {
+                        const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
+                        const userSelections = {};
+                        letters.forEach(letter => {
+                            const selectEl = document.getElementById(`rank${letter}`);
+                            if (selectEl) userSelections[letter] = selectEl.value;
+                        });
+                        user_answer = Object.values(userSelections).filter(v => v !== undefined).join(',');
+                    }
+
+                    const postData = {
+                        question_id: qid,
+                        user_answer: user_answer,
+                        exam_id: exam_id
+                    };
+
+                    fetch('/exam-question', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Accept': 'application/json',
+                                'X-CSRF-TOKEN': token,
+                            },
+                            body: JSON.stringify(postData)
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            document.getElementById('submitButton').classList.add('hidden');
+                            document.getElementById('nextButton').classList.remove('hidden');
+                            document.getElementById('overlay').classList.remove('hidden');
+                            document.getElementById('rationale').innerHTML = data.rationale;
+
+                            let pill = document.getElementById("pill_" + qid);
+                            if (pill) {
+                                pill.classList.remove('bg-primary/10', 'bg-primary/30', 'text-muted-foreground');
+                                if (data.status == 'correct') {
+                                    document.getElementById('correct_card').classList.remove('hidden');
+                                    pill.classList.add('bg-green-700', 'text-white');
+                                } else {
+                                    document.getElementById('wrong_card').classList.remove('hidden');
+                                    pill.classList.add('bg-red-700', 'text-white');
+
+                                    document.getElementById('user_answer').innerText = user_answer || 'None';
+                                    document.getElementById('correct_answer').innerText = data.correct_answer;
+                                }
+                            }
+
+                            let foundElement = userAnsweredData.find(el => el.id == qid);
+                            if (foundElement) {
+                                foundElement.user_answer = user_answer;
+                                foundElement.correct_answer = data.correct_answer;
+                                foundElement.status = data.status;
+                                foundElement.rationale = data.rationale;
+                            } else {
+                                userAnsweredData.push({
+                                    id: qid,
+                                    user_answer: user_answer,
+                                    correct_answer: data.correct_answer,
+                                    status: data.status,
+                                    rationale: data.rationale
+                                });
+                            }
+
+                            updateProgressCounters();
+                            highlightSubmittedAnswers(qid);
+                        })
+                        .catch(err => console.error(err));
+                }
+
+                function nextQuestion(qid = null) {
+                    if (!qid) {
+                        const activeQuestion = document.querySelector('.question');
+                        if (activeQuestion) {
+                            qid = activeQuestion.id.replace('q_id_', '');
+                        } else {
+                            alert("Could not find an active question, reload the page!!");
+                            return;
+                        }
+                    }
+
+                    activatePreviousBtn();
+                    fetch('/next-question/' + qid)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.message == 'No more questions') {
+                                deactivatePreviousBtn();
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Congratulations!',
+                                    text: "You have successfully reached the end of the exam!",
+                                    confirmButtonColor: '#f0ad4e',
+                                    footer: "<a href=\"/library\">Library</a>"
+                                });
+                                return;
+                            }
+
+                            document.getElementById('overlay').classList.add('hidden');
+                            document.getElementById('wrong_card').classList.add('hidden');
+                            document.getElementById('correct_card').classList.add('hidden');
+
+                            selectedAnswer = null;
+                            selectedAnswers = [];
+                            dragAndDropAnswers = [];
+
+                            updateQuestion(data);
+                        })
+                        .catch(err => console.error(err));
+                }
+
+                function previousQuestion() {
+                    let qid = document.querySelector('.question').id.replace('q_id_', '');
+                    let url = '/previous-question/' + exam_id + '/' + qid;
+
+                    fetch(url)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.message == 'No more questions') {
+                                deactivatePreviousBtn();
+                                Swal.fire({
+                                    icon: 'info',
+                                    title: 'Oops!',
+                                    text: "Sorry, that was the first question.",
+                                    confirmButtonColor: '#f0ad4e'
+                                });
+                                return;
+                            }
+
+                            document.getElementById('overlay').classList.add('hidden');
+                            document.getElementById('wrong_card').classList.add('hidden');
+                            document.getElementById('correct_card').classList.add('hidden');
+
+                            updateQuestion(data);
+                        })
+                        .catch(err => console.log(err));
+                }
+
+                function highlightSubmittedAnswers(qid) {
+                    clearChoices();
+                    const completed = userAnsweredData.find(el => el.id == qid);
+                    if (completed && completed.status !== undefined) {
+                        document.getElementById('submitButton').classList.add('hidden');
+                        document.getElementById('nextButton').classList.remove('hidden');
+                        deactivateSubmitBtn();
+
+                        if (completed.status === 'wrong') {
+                            let correctOpt = document.getElementById(`choice${completed.correct_answer}`);
+                            if (correctOpt) correctOpt.classList.add('bg-green-200', 'border-green-300');
+
+                            let userOpt = document.getElementById(`choice${completed.user_answer}`);
+                            if (userOpt) userOpt.classList.add('bg-red-50', 'border-red-200');
+                        } else if (completed.status === 'correct') {
+                            // let correctOpt = document.getElementById(`choice${completed.correct_answer}`);
+                            // if (correctOpt) correctOpt.classList.add('bg-green-200', 'border-green-300');
+
+                            let correctOpt = document.getElementById(`choice${completed.correct_answer || completed.user_answer}`);
+                            if (correctOpt) correctOpt.classList.add('bg-green-200', 'border-green-300');
+                        }
+                    } else {
+                        document.getElementById('submitButton').classList.remove('hidden');
+                        document.getElementById('nextButton').classList.add('hidden');
+                        deactivateSubmitBtn();
+                    }
+                }
+
+                function updateQuestion(data) {
+                    clearChoices();
+
+                    // Fixed Typo bug: changed data.extact to data.extract
+                    if (data.extract) {
+                        document.getElementById('extarct').innerText = data.extract;
+                    } else if (data.extact) {
+                        document.getElementById('extarct').innerText = data.extact;
+                    }
+
+                    document.querySelector('.question').innerText = data.question;
+                    document.querySelector('.question').id = "q_id_" + data.id;
+
+                    updateActivePillHighlight(data.id);
+
+                    let dynamicTypeContainer = document.getElementById('question_type');
+                    let oldTypeClass = checkQuestionType();
+                    dynamicTypeContainer.classList.remove(oldTypeClass);
+
+                    if (data.question_type === 'Drag and Drop') {
+                        dynamicTypeContainer.innerText = 'Drag and Drop';
+                        dynamicTypeContainer.classList.add('drag_and_drop');
+                        renderDragAndDrop([data.choiceA, data.choiceB, data.choiceC, data.choiceD, data.choiceE, data.choiceF, data
+                            .choiceG
+                        ]);
+                        highlightSubmittedAnswers(data.id);
                         return;
                     }
-                    updateQuestion(data)
-                })
-                .catch(err => {
-                    console.log(err)
-                })
-        }
 
+                    document.getElementById('regular_container')?.classList.remove('hidden');
+                    document.getElementById('drag-drop-container').innerHTML = '';
 
-        function updateQuestion(data) {
-            if (data.extact) {
-                document.getElementById('extarct').innerText = data.extact
-            }
-            document.querySelector('.question').innerText = data.question
-            document.querySelector('.question').id = "q_id_" + data.id
-            answeredQuestions = answeredQuestions + 1
-            document.querySelector('.answered_questions').innerText = answeredQuestions
-            document.getElementById('answered_questions').innerText = answeredQuestions
-            if (data.question_type === 'Drag and Drop') {
-                document.getElementById('question_type').innerText = 'Drag and Drop'
-                document.getElementById('question_type').classList.remove(question_type)
-                document.getElementById('question_type').classList.add('drag_and_drop')
-                let items = [
-                    data.choiceA,
-                    data.choiceB,
-                    data.choiceC,
-                    data.choiceD,
-                    data.choiceE,
-                    data.choiceF,
-                    data.choiceG,
-                ];
+                    if (data.question_type === 'Multiple Choice') {
+                        dynamicTypeContainer.innerText = 'Multiple Choice';
+                        dynamicTypeContainer.classList.add('multiple_choice');
+                    } else if (data.question_type === 'Images') {
+                        dynamicTypeContainer.innerText = 'Images';
+                        dynamicTypeContainer.classList.add('images');
+                    } else {
+                        dynamicTypeContainer.innerText = 'Single Choice';
+                        dynamicTypeContainer.classList.add('regular');
+                    }
 
-                renderDragAndDrop(items);
-                return;
-            } else if (data.question_type === 'Multiple Choice') {
-                document.getElementById('question_type').innerText = 'Multiple Choice'
-                document.getElementById('question_type').classList.remove(question_type)
-                document.getElementById('question_type').classList.add('multiple_choice')
-                document.getElementById('regular_container')?.classList.remove('hidden')
-                document.getElementById('dd_container')?.remove()
-                document.getElementById('drag-drop-container').innerHTML = '';
-            } else {
-                document.getElementById('question_type').innerText = 'Single Choice'
-                document.getElementById('question_type').classList.remove(question_type)
-                document.getElementById('question_type').classList.add('regular')
-                document.getElementById('regular_container')?.classList.remove('hidden')
-                document.getElementById('dd_container')?.remove()
-                document.getElementById('drag-drop-container').innerHTML = '';
-            }
-            document.getElementById('optionA').innerText = data.choiceA
-            document.getElementById('optionB').innerText = data.choiceB
-            document.getElementById('optionC').innerText = data.choiceC
-            document.getElementById('optionD').innerText = data.choiceD
-            if (data.choiceE) {
-                document.getElementById('choiceE').classList.remove('hidden')
-                document.getElementById('optionE').innerText = data.choiceE
-            } else {
-                document.getElementById('choiceE').classList.add('hidden')
-            }
-            if (data.choiceF) {
-                console.log(data.choiceF)
-                document.getElementById('choiceF').classList.remove('hidden')
-                document.getElementById('optionF').innerText = data.choiceF
-            } else {
-                document.getElementById('choiceF').classList.add('hidden')
-            }
-            if (data.choiceG) {
-                document.getElementById('choiceG').classList.remove('hidden')
-                document.getElementById('optionG').innerText = data.choiceG
-            } else {
-                document.getElementById('choiceG').classList.add('hidden')
-            }
-        }
-    </script>
-@endpush
+                    document.getElementById('optionA').innerText = data.choiceA;
+                    document.getElementById('optionB').innerText = data.choiceB;
+                    document.getElementById('optionC').innerText = data.choiceC;
+                    document.getElementById('optionD').innerText = data.choiceD;
+
+                    ['E', 'F', 'G'].forEach(letter => {
+                        let choiceEl = document.getElementById(`choice${letter}`);
+                        let optionEl = document.getElementById(`option${letter}`);
+                        if (choiceEl && optionEl) {
+                            if (data[`choice${letter}`]) {
+                                choiceEl.classList.remove('hidden');
+                                optionEl.innerText = data[`choice${letter}`];
+                            } else {
+                                choiceEl.classList.add('hidden');
+                            }
+                        }
+                    });
+
+                    const foundElement = userAnsweredData.find(el => el.id == data.id);
+                    if (!foundElement) {
+                        userAnsweredData.push(data);
+                    }
+
+                    highlightSubmittedAnswers(data.id);
+                }
+
+                function fetchQuestion(id) {
+                    updateActivePillHighlight(id);
+                    const foundElement = userAnsweredData.find(el => el.id == id);
+
+                    if (foundElement && foundElement.status !== undefined) {
+                        updateQuestion(foundElement);
+                        return;
+                    }
+
+                    fetch('/single-question/' + id)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.message == 'No more questions') {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Congratulations!',
+                                    text: "Exam reached the end loop.",
+                                    confirmButtonColor: '#f0ad4e'
+                                });
+                                return;
+                            }
+                            document.getElementById('wrong_card').classList.add('hidden');
+                            document.getElementById('correct_card').classList.add('hidden');
+
+                            selectedAnswer = null;
+                            selectedAnswers = [];
+
+                            updateQuestion(data);
+                        })
+                        .catch(err => console.error(err));
+                }
+
+                function closeOverLay() {
+                    document.getElementById('overlay').classList.add('hidden');
+                }
+
+                function activateSubmitBtn() {
+                    submitButton.removeAttribute('disabled');
+                }
+
+                function deactivateSubmitBtn() {
+                    submitButton.setAttribute('disabled', true);
+                }
+
+                function activatePreviousBtn() {
+                    previousButton.removeAttribute('disabled');
+                }
+
+                function deactivatePreviousBtn() {
+                    previousButton.setAttribute('disabled', true);
+                }
+
+                function onSelectAnswer() {
+                    activateSubmitBtn();
+                }
+
+                let draggedItem = null;
+
+                function dragStart(event) {
+                    let qid = document.querySelector('.question').id.replace('q_id_', '');
+                    if (userAnsweredData.find(el => el.id == qid && el.status !== undefined)) {
+                        event.preventDefault();
+                        return;
+                    }
+                    activateSubmitBtn();
+                    draggedItem = event.currentTarget;
+                    event.dataTransfer.effectAllowed = "move";
+                    setTimeout(() => draggedItem.classList.add('dragging'), 0);
+                }
+
+                function dragOver(event) {
+                    event.preventDefault();
+                    const target = event.currentTarget;
+                    if (target && target !== draggedItem) {
+                        const bounding = target.getBoundingClientRect();
+                        const offset = bounding.y + (bounding.height / 2);
+                        target.classList.remove('drag-over-top', 'drag-over-bottom');
+                        if (event.clientY - offset > 0) {
+                            target.classList.add('drag-over-bottom');
+                        } else {
+                            target.classList.add('drag-over-top');
+                        }
+                    }
+                }
+
+                function dragLeave(event) {
+                    event.currentTarget.classList.remove('drag-over-top', 'drag-over-bottom');
+                }
+
+                function drop(event) {
+                    event.preventDefault();
+                    const target = event.currentTarget;
+                    if (target && target !== draggedItem) {
+                        const bounding = target.getBoundingClientRect();
+                        const offset = bounding.y + (bounding.height / 2);
+                        if (event.clientY - offset > 0) {
+                            target.after(draggedItem);
+                        } else {
+                            target.before(draggedItem);
+                        }
+                    }
+                    cleanup();
+                }
+
+                function cleanup() {
+                    document.querySelectorAll(".sortable-item").forEach(el => {
+                        el.classList.remove('dragging', 'drag-over-top', 'drag-over-bottom');
+                    });
+                }
+
+                function renderDragAndDrop(items) {
+                    document.getElementById('regular_container')?.classList.add('hidden');
+                    document.getElementById('dd_container')?.remove();
+                    const container = document.getElementById('drag-drop-container');
+                    const choices = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
+                    let html = `<ul id="sortable-list" class="space-y-3">`;
+
+                    items.forEach((item, index) => {
+                        if (!item) return;
+                        html += `
+                        <li class="sortable-item group flex items-center p-4 bg-background border-2 border-border rounded-lg cursor-grab"
+                            draggable="true" data-value="${choices[index]}" ondragstart="dragStart(event)" ondragover="dragOver(event)" ondragleave="dragLeave(event)" ondrop="drop(event)">
+                            <div class="w-8 h-8 rounded-full bg-muted text-primary font-bold text-sm mr-4 flex items-center justify-center">${choices[index]}</div>
+                            <span class="flex-grow font-medium">${item}</span>
+                        </li>`;
+                    });
+                    html += `</ul>`;
+                    container.innerHTML = html;
+                }
+            </script>
+        @endpush
 </x-library-layout>

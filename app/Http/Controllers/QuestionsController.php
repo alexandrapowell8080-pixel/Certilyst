@@ -36,6 +36,7 @@ class QuestionsController extends Controller
         }
 
         $questions_count = $query->count();
+        $questions_id = $query->pluck('id')->toArray();
 
         $currentExam = $examRecord;
 
@@ -59,6 +60,7 @@ class QuestionsController extends Controller
                 ->inRandomOrder()
                 ->first();
         })->filter();
+        
 
         $q_r = [];
         foreach ($questions as $key => $quiz) {
@@ -116,7 +118,7 @@ class QuestionsController extends Controller
         $responseTime = round((microtime(true) - $start) * 1000, 2);
         // logger('responseTime: '.$responseTime);
 
-        return view('library.exam.questions', compact('question', 'questions_count', 'subject_slug', 'school', 'school_name', 'subject_name', 'course_name', 'exam_name', 'school_slug', 'course_slug', 'exam_slug', 'schema'));
+        return view('library.exam.questions', compact('question', 'questions_count', 'subject_slug', 'school', 'school_name', 'subject_name', 'course_name', 'exam_name', 'school_slug', 'course_slug', 'exam_slug', 'schema','questions_id'));
     }
 
     public function examAnswers(Request $request): JsonResponse
@@ -183,6 +185,18 @@ class QuestionsController extends Controller
             return response()->json(['message' => 'No more questions'], 200);
         }
 
+        return response()->json($question);
+
+    }
+
+    public function singleQuestion(int $questionId)
+    {
+        // $current = Question::find($questionId);
+        $question = Question::where('id', $questionId)
+            ->first(['exam_id', 'extract', 'question', 'choiceA', 'choiceB', 'choiceC', 'choiceD', 'choiceE', 'choiceF', 'choiceG', 'rationale', 'question_type', 'image', 'url', 'id']);
+        if ($question == null) {
+            return response()->json(['message' => 'No more questions'], 200);
+        }
         return response()->json($question);
 
     }

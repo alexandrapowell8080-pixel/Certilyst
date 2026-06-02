@@ -18,22 +18,32 @@ class QuestionsController extends Controller
     public function questions(string $school, string $course, string $exam): View|RedirectResponse
     {
         $start = microtime(true);
-        $examRecord = Exam::where('slug', $exam)->first(['id', 'name', 'slug']);
+        $examRecord = Exam::with('subject.course.school')
+            ->where('slug', $exam)
+            ->first();
 
-        if ($examRecord == null) {
-            return redirect()->route('library')
-                ->with('exam_message', 'No such exam exists');
+        if (! $examRecord) {
+            abort(404);
         }
-        $query = Question::where('exam_id', $examRecord->id)->whereNot('question_type', 'List Selection');
 
-        if ($query->count() == 0) {
-            return back()->with('message', 'No questions available at the moment for '.$examRecord->name);
+        $query = Question::where('exam_id', $examRecord->id)
+            ->where('question_type', '!=', 'List Selection');
+
+        $question = (clone $query)->first();
+
+        if (! $question) {
+              abort(404);
         }
-        $question = $query->first();
+
         $questions_count = $query->count();
 
-        // Flashcard by exam
-        $currentExam = Exam::with('subject.course.school')->where('slug', $exam)->firstOrFail();
+        $currentExam = $examRecord;
+
+        $schoolId = $examRecord->subject->course->school->id;
+
+        $exams = Exam::whereHas('subject.course', function ($q) use ($schoolId) {
+            $q->where('school_id', $schoolId);
+        })->pluck('id');
 
         $subject_slug = $currentExam->subject->slug;
         $school_name = $currentExam->subject->course->school->name;
@@ -43,13 +53,6 @@ class QuestionsController extends Controller
         $course_slug = $currentExam->subject->course->slug;
         $exam_name = $examRecord->name;
         $exam_slug = $examRecord->slug;
-
-        $exam = Exam::with('subject.course.school')->findOrFail($examRecord->id);
-
-        $exams = Exam::whereHas('subject.course.school', function ($q) use ($exam) {
-            $q->where('id', $exam->subject->course->school->id);
-        })
-            ->pluck('id');
 
         $questions = $exams->map(function ($id) {
             return Question::where('exam_id', $id)
@@ -111,7 +114,7 @@ class QuestionsController extends Controller
             'relatedLink' => $q_r,
         ];
         $responseTime = round((microtime(true) - $start) * 1000, 2);
-        //logger('responseTime: '.$responseTime);
+        // logger('responseTime: '.$responseTime);
 
         return view('library.exam.questions', compact('question', 'questions_count', 'subject_slug', 'school', 'school_name', 'subject_name', 'course_name', 'exam_name', 'school_slug', 'course_slug', 'exam_slug', 'schema'));
     }

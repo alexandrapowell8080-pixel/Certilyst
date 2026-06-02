@@ -27,7 +27,7 @@ class LibraryController extends Controller
             ])->get();
 
         $responseTime = round((microtime(true) - $start) * 1000, 2);
-        logger('responseTime: '.$responseTime);
+        // logger('responseTime: '.$responseTime);
         // dd($schools);
         return view('library.index', compact('schools'));
     }

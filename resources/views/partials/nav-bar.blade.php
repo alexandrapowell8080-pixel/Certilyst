@@ -6,7 +6,7 @@
                     <span class="text-white font-poppins font-bold text-sm"><img src="{{ asset('images/logo-1.png') }}"
                             alt="Certilyst"> </span>
                 </div>
-                <span class="font-poppins font-bold text-xl text-foreground">Cerilyst</span>
+                <span class="font-poppins font-bold text-xl text-foreground">Certilyst</span>
             </a>
 
             <div class="hidden md:flex items-center gap-8">
@@ -31,7 +31,7 @@
                 </a>
             </div>
 
-            <div class="hidden md:flex items-center gap-3">
+            {{-- <div class="hidden md:flex items-center gap-3">
                 <a href="#">
                     <button
                         class="inline-flex items-center justify-center h-8 rounded-md px-3 text-sm font-medium hover:bg-accent">Log
@@ -42,7 +42,7 @@
                         class="bg-primary text-primary-foreground h-8 rounded-md px-5 text-sm font-medium hover:bg-primary/90">Sign
                         Up Free</button>
                 </a>
-            </div>
+            </div> --}}
 
             <button id="mobile-menu-button" class="md:hidden p-2 text-foreground" aria-label="Toggle menu">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"

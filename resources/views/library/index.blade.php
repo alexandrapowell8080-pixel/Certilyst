@@ -1,17 +1,16 @@
 <x-library-layout>
     @php
         $sch = [];
-
         foreach ($schools as $key => $school) {
             $sch[] = $school->name;
         }
     @endphp
-    @section('title', 'Cerilyst Learning Library')
+    @section('title', 'Certilyst Learning Library')
     @section('description',
         'Access our prep materials ranging from Business and Finance, IT, Real estate, Insurance,
         Praxis, Nursing, Medical & Allied health and Project management')
     @section('keywords', implode(',', $sch))
-    @section('canonical', env('app_url') . '/library/')
+    @section('canonical', env('APP_URL') . '/library/')
 
     @push('schema')
         <script type="application/ld+json">
@@ -64,14 +63,14 @@
 
                 <div class="space-y-2">
                     <h1 class=" font-bold text-3xl sm:text-4xl tracking-tight text-foreground">
-                        Cerilyst <span class="text-primary">Learning Library</span>
+                        Certilyst <span class="text-primary">Learning Library</span>
                     </h1>
                     <p class="text-lg text-muted-foreground max-w-2xl">
                         Browse our schools and find the perfect certification prep for your career.
                     </p>
                 </div>
 
-                <div class="relative w-full md:max-w-md group">
+                {{-- <div class="relative w-full md:max-w-md group">
                     <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
                             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -91,14 +90,17 @@
                         <span
                             class="text-[10px] font-bold text-muted-foreground bg-muted px-1.5 py-0.5 rounded border border-border">/</span>
                     </div>
-                </div>
+                </div> --}}
 
             </div>
         </div>
     </div>
 
+    {{-- CHANGED: Initialize activeSchool from URL hash --}}
     <div class="sm:w-10/12 w-11/12 mb-5 mx-auto mt-4 sn-pro-400" x-data="{
-        activeSchool: 'all',
+        activeSchool: window.location.hash.substring(1)
+            ? ({{ Js::from(collect($schools)->pluck('id', 'slug')->toArray()) }})[window.location.hash.substring(1)] || 'all'
+            : 'all',
         moveToFront(id) {
             this.activeSchool = id;
         }
@@ -140,13 +142,15 @@
         <div class="space-y-4">
 
             @foreach ($schools as $school)
-                <div x-show="activeSchool === 'all' || activeSchool === '{{ $school->id }}'"
+                {{-- CHANGED: Added id for scrolling --}}
+                <div id="school-{{ $school->slug }}" x-show="activeSchool === 'all' || activeSchool === '{{ $school->id }}'"
                     x-transition:enter="transition ease-out duration-300"
                     x-transition:enter-start="opacity-0 transform translate-y-2"
                     x-transition:enter-end="opacity-100 transform translate-y-0">
 
                     {{-- SCHOOL CARD --}}
-                    <details
+                    {{-- CHANGED: Added id for targeting --}}
+                    <details id="details-{{ $school->slug }}"
                         class="group bg-card border border-border rounded-2xl overflow-hidden shadow-sm transition-all duration-200 open:ring-1 open:ring-emerald-500/20">
                         <summary
                             class="flex items-center justify-between p-5 cursor-pointer hover:bg-muted/30 transition-colors list-none">
@@ -275,6 +279,7 @@
                                                                         Master {{ $subject->name }}</p>
                                                                 </div>
                                                             </div>
+                                                            
                                                             <a href="{{ route('flashcards', ['school' => $school->slug, 'subject' => $subject->slug]) }}"
                                                                 class="text-[11px] font-bold w-full sm:w-fit px-4 py-1.5 rounded-lg bg-emerald-600 text-white hover:bg-emerald-700 shadow-md shadow-emerald-200 transition-all">
                                                                 START
@@ -284,31 +289,6 @@
                                                         {{-- Exam Tags --}}
                                                         <div class="flex flex-wrap gap-2">
                                                             @foreach ($subject->exam as $exam)
-                                                                {{-- <a href="{{ route('exam-questions', ['school' => $school->slug, 'course' => $course->slug, 'exam' => $exam->slug]) }}"
-                                                                    class="group/item flex items-center gap-2 bg-white border border-border/80 rounded-lg px-3 py-2 text-xs font-medium text-foreground hover:border-emerald-500/50 hover:bg-emerald-50/50 transition-all shadow-sm">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                                                        width="12" height="12"
-                                                                        viewBox="0 0 24 24" fill="none"
-                                                                        stroke="currentColor" stroke-width="2"
-                                                                        stroke-linecap="round" stroke-linejoin="round"
-                                                                        class="text-emerald-500/70">
-                                                                        <path
-                                                                            d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z">
-                                                                        </path>
-                                                                        <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
-                                                                    </svg>
-                                                                    <span>{{ $exam->name }}</span>
-                                                                    <span>{{ $exam->questions_count }}</span>
-                                                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                                                        width="10" height="10"
-                                                                        viewBox="0 0 24 24" fill="none"
-                                                                        stroke="currentColor" stroke-width="3"
-                                                                        stroke-linecap="round" stroke-linejoin="round"
-                                                                        class="ml-1 opacity-0 -translate-x-1 group-hover/item:opacity-100 group-hover/item:translate-x-0 transition-all text-emerald-600">
-                                                                        <path d="m9 18 6-6-6-6"></path>
-                                                                    </svg>
-                                                                </a> --}}
-
                                                                 <a href="{{ route('exam-questions', ['school' => $school->slug, 'course' => $course->slug, 'exam' => $exam->slug]) }}"
                                                                     class="group/item sm:flex items-center justify-between gap-3 bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm font-medium text-gray-800 hover:border-emerald-400 hover:bg-emerald-50 transition-all duration-200 shadow-sm hover:shadow-md">
 
@@ -334,6 +314,9 @@
                                                                             class="sm:truncate">{{ $exam->name }}</span>
                                                                     </div>
 
+                                                                    @if ( $exam->questions_count)
+                                                                        
+                                                                    
                                                                     <!-- Right Section -->
                                                                     <div class="flex items-center gap-2">
 
@@ -343,6 +326,7 @@
                                                                             {{ $exam->questions_count }} Qs
                                                                         </span>
                                                                     </div>
+                                                                    @endif
                                                                 </a>
                                                             @endforeach
                                                         </div>
@@ -363,25 +347,51 @@
     </div>
 
 </x-library-layout>
-<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+@push('scripts')
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
-
-<style>
-    /* Hide scrollbar but keep scrolling */
-    .no-scrollbar::-webkit-scrollbar {
-        display: none;
+<script>
+document.addEventListener('alpine:initialized', () => {
+    const hash = window.location.hash.substring(1); // removes the #
+    if (hash) {
+        const details = document.getElementById('details-' + hash);
+        const wrapper = document.getElementById('school-' + hash);
+        if (details && wrapper) {
+            details.setAttribute('open', 'true');
+            setTimeout(() => {
+                wrapper.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                details.classList.add('highlight-section');
+            }, 300);
+        }
     }
+});
+</script>
 
-    .no-scrollbar {
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-    }
+    <style>
+        /* Hide scrollbar but keep scrolling */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
 
-    summary {
-        list-style: none;
-    }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        summary {
+            list-style: none;
+        }
 
     summary::-webkit-details-marker {
         display: none;
+    }
+    
+    .highlight-section {
+        animation: highlightPulse 2s ease-in-out;
+    }
+    @keyframes highlightPulse {
+        0% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.7); }
+        70% { box-shadow: 0 0 0 10px rgba(139, 92, 246, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0); }
     }
 </style>

@@ -7,8 +7,23 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Question extends Model
 {
-    public function exam():BelongsTo
+    protected $appends = ['question_url'];
+
+    public function exam(): BelongsTo
     {
-        return $this->belongsTo(Exam::class);
+        return $this->belongsTo(Exam::class,'exam_id');
+    }
+
+    public function getQuestionUrlAttribute()
+    {
+        $school = $this->exam->subject->course->school->slug;
+        $course = $this->exam->subject->course->slug;
+        $exam = $this->exam->slug;
+
+        if (! $school || ! $course || ! $exam) {
+            return 'null';
+        }
+
+        return url("$school/$course/$exam");
     }
 }

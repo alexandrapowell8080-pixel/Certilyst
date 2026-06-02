@@ -1,13 +1,13 @@
 <footer id="contact" class="bg-foreground text-background">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
             <div class="lg:col-span-1">
                 <div class="flex items-center gap-2 mb-4">
                     <div
-                        class="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
+                        class="w-8 h-8 rounded-lg bg-white flex items-center justify-center">
                         <span class="text-white font-poppins font-bold text-sm"><img src="{{ asset('images/logo-1.png') }}"
                             alt="Certilyst"></span></div><span
-                        class="font-poppins font-bold text-xl">Cerilyst</span>
+                        class="font-poppins font-bold text-xl">Certilyst</span>
                 </div>
                 <p class="text-background/60 text-sm leading-relaxed mb-6">Expert-led certification prep across Real
                     Estate, Insurance, IT, Education, and more. Master your exams with confidence.</p>
@@ -23,10 +23,10 @@
                             href="/library">Library</a></li>
                     <li><a class="text-sm text-background/60 hover:text-background transition-colors"
                             href="/about">About</a></li>
-                    <li><a class="text-sm text-background/60 hover:text-background transition-colors"
+                    {{-- <li><a class="text-sm text-background/60 hover:text-background transition-colors"
                             href="/">Pricing</a></li>
                     <li><a class="text-sm text-background/60 hover:text-background transition-colors"
-                            href="/">Blog</a></li>
+                            href="/">Blog</a></li> --}}
                 </ul>
             </div>
             <div>
@@ -47,7 +47,7 @@
                             href="/library">Nursing &amp; Health</a></li>
                 </ul>
             </div>
-            <div>
+            {{-- <div>
                 <h4 class="font-poppins font-semibold text-sm mb-4 uppercase tracking-wider text-background/80">Stay
                     Updated</h4>
                 <p class="text-sm text-background/60 mb-4">Get study tips and new course alerts delivered to your inbox.
@@ -71,11 +71,11 @@
                         </svg></button>
                 </div>
                 <p class="text-xs text-background/40 mt-3">No spam. Unsubscribe anytime.</p>
-            </div>
+            </div> --}}
         </div>
         <div
             class="mt-12 pt-8 border-t border-background/10 flex flex-col sm:flex-row justify-between items-center gap-4">
-            <p class="text-sm text-background/50">© 2026 Cerilyst. All rights reserved.</p>
+            <p class="text-sm text-background/50">© 2026 Certilyst. All rights reserved.</p>
             <div class="flex gap-6"><a href="#"
                     class="text-xs text-background/50 hover:text-background/80 transition-colors">Privacy Policy</a><a
                     href="#" class="text-xs text-background/50 hover:text-background/80 transition-colors">Terms

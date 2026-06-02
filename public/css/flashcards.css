@@ -429,7 +429,7 @@ svg.icon-sm {
 /* Ultra Small Screens */
 @media (max-width: 380px) {
     html {
-        font-size: 13px;
+        font-size: 15px;
     }
     .content-container {
         padding: 5rem 0.5rem 2rem 0.5rem;
@@ -453,10 +453,10 @@ svg.icon-sm {
     }
 }
 
-/* Standard Mobile & Tablets   */
+/* Standard Mobile & Tablets */
 @media (max-width: 768px) {
     html {
-        font-size: 14px;
+        font-size: 16px; 
     }
     .mode-selectors {
         flex-wrap: wrap;
@@ -467,7 +467,7 @@ svg.icon-sm {
     }
 }
 
-/*  Standard Desktops */
+/* Standard Desktops */
 @media (min-width: 1024px) {
     html {
         font-size: 16px;
@@ -481,22 +481,63 @@ svg.icon-sm {
     }
 }
 
-/* Large Screens */
+/* Large Screens (TVs) */
 @media (min-width: 1920px) {
     html {
-        font-size: 22px;
+        font-size: 24px; 
     }
     .content-container {
         max-width: 48rem;
     }
 }
 
-/*  Ultrawide */
+/* Ultrawide / Billboards */
 @media (min-width: 3000px) {
     html {
-        font-size: 32px;
+        font-size: 36px; 
     }
     .content-container {
         max-width: 60rem;
     }
+}
+.related-flashcards-container {
+    margin-top: 50px;
+    padding: 20px;
+    background: #f9fafb;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+}
+
+.related-flashcards-container h3 {
+    font-family: "Sniglet", cursive;
+    margin-bottom: 15px;
+    color: #111827;
+}
+
+.related-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.related-list li a {
+    text-decoration: none;
+    color: #3b82f6;
+    font-weight: 500;
+    line-height: 1.4;
+    display: block;
+    padding: 10px;
+    background: #fff;
+    border-radius: 6px;
+    border: 1px solid #e5e7eb;
+    transition: all 0.2s ease-in-out;
+}
+
+.related-list li a:hover {
+    background: #eff6ff;
+    color: #1d4ed8;
+    border-color: #bfdbfe;
 }

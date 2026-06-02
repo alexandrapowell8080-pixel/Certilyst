@@ -78,10 +78,10 @@
         </div>
         <div
             class="mt-12 pt-8 border-t border-background/10 flex flex-col sm:flex-row justify-between items-center gap-4">
-            <p class="text-sm text-white">© {{ date('Y') }} Certilyst. All rights reserved.</p>
-            <div class="flex gap-6"><a href="/privacy-policy"
-                    class="text-xs text-background/50 hover:text-background/80 transition-colors">Privacy Policy</a>
-                    <a href="/terms-of-service" class="text-xs text-background/50 hover:text-background/80 transition-colors">Terms
+            <p class="text-sm text-white">© 2026 Certilyst. All rights reserved.</p>
+            <div class="flex gap-6"><a href="{{ route('privacy.policy') }}"
+   class="text-xs text-background/50 hover:text-background/80 transition-colors">Privacy Policy</a><a
+                    href="/terms-of-service" class="text-xs text-background/50 hover:text-background/80 transition-colors">Terms
                     of Service</a>
             </div>
         </div>

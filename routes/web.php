@@ -15,6 +15,10 @@ Route::get('/about', function () {
     return view('about');
 });
 
+Route::get('/terms-of-service', function () {
+    return view('terms');
+});
+
 /*
 |--------------------------------------------------------------------------
 | Admin Content Manager

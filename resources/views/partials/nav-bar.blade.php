@@ -25,10 +25,10 @@
                     Library
                 </a>
 
-                <a class="text-sm font-medium transition-colors hover:text-primary {{ request()->is('#faq') ? 'text-primary' : 'text-foreground/80' }}"
+                {{-- <a class="text-sm font-medium transition-colors hover:text-primary {{ request()->is('#faq') ? 'text-primary' : 'text-foreground/80' }}"
                     href="/#faq">
                     FAQ
-                </a>
+                </a> --}}
             </div>
 
             {{-- <div class="hidden md:flex items-center gap-3">
@@ -77,15 +77,15 @@
                 Library
             </a>
 
-            <a href="/#pricing" class="{{ $base }} {{ $inactive }}">
+            {{-- <a href="/#pricing" class="{{ $base }} {{ $inactive }}">
                 Pricing
             </a>
 
             <a href="/#faq" class="{{ $base }} {{ $inactive }}">
                 FAQ
-            </a>
+            </a> --}}
 
-            <div class="pt-4 flex flex-col gap-2">
+            {{-- <div class="pt-4 flex flex-col gap-2">
                 <a href="/auth"
                     class="w-full text-center py-2 text-sm font-medium border border-input rounded-md hover:bg-accent">
                     Log In
@@ -95,7 +95,7 @@
                     class="w-full text-center py-2 text-sm font-medium bg-primary text-primary-foreground rounded-md">
                     Sign Up Free
                 </a>
-            </div>
+            </div> --}}
         </div>
     </div>
 </nav>

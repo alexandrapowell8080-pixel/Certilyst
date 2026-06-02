@@ -20,7 +20,7 @@
     <section class="hero-section about-hero">
         <div class="section-container">
             <h1 class="hero-title">About <span class="text-gradient">Certilyst</span></h1>
-            <p class="hero-subtitle">We're on a mission to help every student pass their professional certification exam on the first try — with smart, adaptive practice that actually works.</p>
+            <p class="hero-subtitle">We're on a mission to help every student pass their professional certification exam on the first try with smart, adaptive practice that actually works.</p>
         </div>
     </section>
 
@@ -144,9 +144,6 @@
     </section>
 
     <script src="{{ asset('js/app.js') }}" defer></script>
-    
-    {{-- Footer --}}
     @include('partials.footer')
-    
 </body>
 </html>

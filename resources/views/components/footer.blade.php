@@ -8,10 +8,9 @@
                         <span class="text-white font-poppins font-bold text-sm"><img src="{{ asset('images/logo-1.png') }}"
                             alt="Certilyst"></span></div><span
                         class="font-poppins font-bold text-xl">Certilyst</span>
-                </div>
+                    </div>
                 <p class="text-background/60 text-sm leading-relaxed mb-6">Expert-led certification prep across Real
                     Estate, Insurance, IT, Education, and more. Master your exams with confidence.</p>
-               
             </div>
             <div>
                 <h4 class="font-poppins font-semibold text-sm mb-4 uppercase tracking-wider text-background/80">Quick

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Flashcards;
 
 use App\Http\Controllers\Controller;
+use App\Models\Flashcard;
 use App\Models\Subject;
 
 class FlashcardsController extends Controller

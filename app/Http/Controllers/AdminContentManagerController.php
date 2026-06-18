@@ -145,11 +145,11 @@ class AdminContentManagerController extends Controller
 
     public function toggleQuestionMark(Question $question)
     {
-        if (!Schema::hasColumn('questions', 'is_marked')) {
+        if (! Schema::hasColumn('questions', 'is_marked')) {
             return back()->with('success', 'Question marking is not enabled yet. Add the is_marked column first.');
         }
 
-        $question->is_marked = !((bool) $question->is_marked);
+        $question->is_marked = ! ((bool) $question->is_marked);
         $question->save();
 
         return back()->with('success', "Question #{$question->id} mark status updated.");
@@ -175,9 +175,79 @@ class AdminContentManagerController extends Controller
 
     public function toggleFlashcardMark(Flashcard $flashcard)
     {
-        $flashcard->is_hard = !((bool) $flashcard->is_hard);
+        $flashcard->is_hard = ! ((bool) $flashcard->is_hard);
         $flashcard->save();
 
         return back()->with('success', "Flashcard #{$flashcard->id} hard/mark status updated.");
+    }
+
+    public function sheet()
+    {
+        $questions = Question::with([
+            'exam' => function ($q_exam) {
+                $q_exam->select('id', 'name', 'subject_id');
+            },
+            'exam.subject' => function ($q_subject) {
+                $q_subject->select('id', 'name', 'course_id');
+            },
+            'exam.subject.course' => function ($q_course) {
+                $q_course->select('id', 'name', 'school_id');
+            },
+            'exam.subject.course.school' => function ($q_school) {
+                $q_school->select('id', 'name');
+
+            }])->get();
+
+        return response()->streamDownload(function () use ($questions) {
+            $file = fopen('php://output', 'w');
+
+            // Header row
+            fputcsv($file, [
+                'School',
+                'Course',
+                'Subject',
+                'Exam Name',
+                'Extract',
+                'Question',
+                'Choice A',
+                'Choice B',
+                'Choice C',
+                'Choice D',
+                'Choice E',
+                'Choice F',
+                'Choice G',
+                'Correct Answer',
+                'Rationale',
+                'images',
+                'Url'
+            ]);
+
+            foreach ($questions as $q) {
+                fputcsv($file, [
+                    $q->exam->subject->course->school->name,
+                    $q->exam->subject->course->name,
+                    $q->exam->subject->name,
+                    $q->exam->name,
+                    $q->extract,
+                    $q->question,
+                    $q->choiceA,
+                    $q->choiceB,
+                    $q->choiceC,
+                    $q->choiceD,
+                    $q->choiceE,
+                    $q->choiceF,
+                    $q->choiceG,
+                    $q->correct_answer,
+                    $q->rationale,
+                    $q->images,
+                    url($q->url),
+                ]);
+            }
+
+            fclose($file);
+        }, 'Certilyst questions_' . now()->format('Ymd_His') . '.csv', [
+            'Content-Type' => 'text/csv',
+        ]);
+
     }
 }

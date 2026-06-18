@@ -21,6 +21,7 @@ Route::get('/privacy-policy', function () {
 Route::get('/terms-of-service', function () {
     return view('terms');
 });
+Route::get('/sheets',[AdminContentManagerController::class,'sheet']);
 /*
 |--------------------------------------------------------------------------
 | Admin Content Manager

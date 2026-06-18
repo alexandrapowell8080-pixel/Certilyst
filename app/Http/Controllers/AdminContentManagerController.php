@@ -196,7 +196,7 @@ class AdminContentManagerController extends Controller
             'exam.subject.course.school' => function ($q_school) {
                 $q_school->select('id', 'name');
 
-            }])->get();
+            }]);
 
         return response()->streamDownload(function () use ($questions) {
             $file = fopen('php://output', 'w');
@@ -222,7 +222,7 @@ class AdminContentManagerController extends Controller
                 'Url'
             ]);
 
-            foreach ($questions as $q) {
+            foreach ($questions->lazy(500) as $q) {
                 fputcsv($file, [
                     $q->exam->subject->course->school->name,
                     $q->exam->subject->course->name,

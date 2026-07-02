@@ -4,12 +4,12 @@
     @section('keywords', $school_name . ',' . $exam_name.','.$question->question)
     @section('canonical', url($question->url))
 
-    {{-- @push('schema')
-        <meta name="robots" content="noindex" />
+     @push('schema')
+      
         <script type="application/ld+json">
 {!! json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
 </script>
-    @endpush --}}
+    @endpush 
     {{-- CONTENT --}}
     <div class="flex sm:flex-row flex-col justify-between sm:max-h-screen">
         {{-- left bar --}}
